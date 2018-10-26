@@ -1,16 +1,14 @@
 {
   "name": "telesur-videos-graphql-wrapper",
   "version": "1.0.0",
-  "description": "",
+  "description": "teleSUR Videos REST API GraphQL wrapper",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "David Regla <dreglad@gmail.com>",
   "dependencies": {
     "graphql-yoga": "^1.16.7",
     "node-fetch": "^2.2.0"
