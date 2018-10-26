@@ -1,5 +1,5 @@
 const { toQueryString } = require('./utils')
-const { mapClip, mapSerie, mapClipType } = require('./mappers')
+const { mapClip, mapSerie, mapGenre, mapCategory } = require('./mappers')
 const fetch = require('node-fetch')
 
 const services = [
@@ -34,11 +34,11 @@ const Query = {
     return new Promise((resolve, reject) => {
       restFetch(args, '/clip/', {
         detalle: 'completo',
-        limit: args.first || 10,
+        limit: args.first,
         offset: args.offset || 0,
-        tipo: args.clipType,
+        tipo: args.genre,
         programa: args.serie,
-        category: args.categoria
+        categoria: args.category
       }).then(res => {
         res.json().catch(reject).then(clips => { resolve(clips.map(mapClip)) })
       }).catch(reject)
@@ -51,33 +51,50 @@ const Query = {
       })
     })
   },
-
   series: (_, args) => {
     return new Promise((resolve, reject) => {
-      fetch(`${getURL(args.service)}/programa/`).then(res => {
+      const params = { limit: args.first, offset: args.offset || 0 }
+      restFetch(args, `/programa/`, params).catch(reject).then(res => {
         res.json().then(programas => { resolve(programas.map(mapSerie)) }).catch(reject)
       })
     })
   },
   serie: (_, { service, id }) => {
     return new Promise((resolve, reject) => {
-      fetch(`${getURL(service)}/programa/${id}/`).catch(reject).then(res => {
+      restFetch({ service }, `/programa/${id}/`).catch(reject).then(res => {
         res.json().then(programa => { resolve(mapSerie(programa)) }).catch(() => { resolve(null) })
       })
     })
   },
 
-  clipTypes: (_, args) => {
+  genres: (_, args) => {
     return new Promise((resolve, reject) => {
-      fetch(`${getURL(args.service)}/tipo_clip/`).then(res => {
-        res.json().then(tipos => { resolve(tipos.map(mapClipType)) }).catch(reject)
+      const params = { limit: args.first, offset: args.offset || 0 }
+      restFetch(args, `/tipo_clip/`, params).catch(reject).then(res => {
+        res.json().then(tipos => { resolve(tipos.map(mapGenre)) }).catch(reject)
       })
     })
   },
-  clipType: (_, { service, id }) => {
+  genre: (_, { service, id }) => {
     return new Promise((resolve, reject) => {
-      fetch(`${getURL(service)}/tipo_clip/${id}/`).catch(reject).then(res => {
-        res.json().then(tipo => { resolve(mapClipType(tipo)) }).catch(() => { resolve(null) })
+      restFetch({ service }, `/tipo_clip/${id}/`).catch(reject).then(res => {
+        res.json().then(tipo => { resolve(mapGenre(tipo)) }).catch(() => { resolve(null) })
+      })
+    })
+  },
+
+  categories: (_, args) => {
+    return new Promise((resolve, reject) => {
+      const params = { limit: args.first, offset: args.offset || 0 }
+      restFetch(args, `/categoria/`, params).catch(reject).then(res => {
+        res.json().then(categorias => { resolve(categorias.map(mapCategory)) }).catch(reject)
+      })
+    })
+  },
+  category: (_, { service, id }) => {
+    return new Promise((resolve, reject) => {
+      restFetch({ service }, `/categoria/${id}/`).catch(reject).then(res => {
+        res.json().then(categoria => { resolve(mapCategory(categoria)) }).catch(() => { resolve(null) })
       })
     })
   }
@@ -85,15 +102,24 @@ const Query = {
 
 const typeResolvers = {
   Service: {
-    clips: (service, args) => {
-      return Query.clips(service, { service: service.id, ...args })
-    }
+    clips: (service, args) => Query.clips(service, { service: service.id, ...args }),
+    series: (service, args) => Query.series(service, { service: service.id, ...args }),
+    genres: (service, args) => Query.genres(service, { service: service.id, ...args }),
+    categories: (service, args) => Query.categories(service, { service: service.id, ...args }),
   },
 
   Clip: {
-    clipType: ({ tipo }) => mapClipType(tipo),
-    serie: ({ programa }) => mapSerie(programa),
-    service: ({ idioma_original }) => services.find(s => s.language === idioma_original)
+    service: ({ idioma_original }) => services.find(s => s.language === idioma_original),
+    genre: clip => mapGenre(clip),
+    serie: clip => mapSerie(clip)
+  },
+
+  Genre: {
+    clips: ({ id }, args) => Query.clips(id, { genre: id, ...args })
+  },
+
+  Category: {
+    clips: ({ id }, args) => Query.clips(id, { category: id, ...args })
   }
 }
 

@@ -6,24 +6,24 @@ type Query {
   service(id: ID!): Service
 
   """Retrieve a paginated list of video clips"""
-  clips(service: String, clipType: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  clips(service: String, genre: ID, serie: ID, category: ID, first: Int = 0, offset: Int = 0): [Clip!]!
   """Retreive a single clip"""
   clip(service: String, id: ID!): Clip
 
   """Retrieve a paginated list of series"""
-  series(service: String): [Serie!]!
+  series(service: String, first: Int = 0, offset: Int = 0): [Serie!]!
   """Retreive a single series"""
   serie(service: String, id: ID!): Serie
 
   """Retrieve a paginated list of categories"""
-  categories(service: String): [Category!]!
+  categories(service: String, first: Int = 0, offset: Int = 0): [Category!]!
   """Retreive a single category"""
   category(service: String, id: ID!): Category
 
-  """Retrieve a paginated list of video clip types"""
-  clipTypes(service: String): [ClipType!]!
-  """Retreive a single clip type"""
-  clipType(service: String, id: ID!): ClipType
+  """Retrieve a paginated list of video genres"""
+  genres(service: String, first: Int = 0, offset: Int = 0): [Genre!]!
+  """Retreive a single Genre"""
+  genre(service: String, id: ID!): Genre
 }
 
 """Available Service"""
@@ -32,7 +32,10 @@ type Service {
   name: String!
   language: String!
   url: String
-  clips(clipType: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  clips(genre: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  series: [Serie!]!
+  categories: [Category!]!
+  genres: [Genre!]!
 }
 
 """Video clip"""
@@ -50,12 +53,12 @@ type Clip {
   thumbnailSmall: String!
   service: Service!
   serie: Serie
-  clipType: ClipType
+  genre: Genre
   category: Category
 }
 
-"""Video clip type"""
-type ClipType {
+"""Video genre"""
+type Genre {
   id: ID!
   """Singular name"""
   name: String!
@@ -63,14 +66,14 @@ type ClipType {
   plural: String!
   description: String
   downloadable: Boolean!
+  clips(serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
 }
 
 """Video clip category"""
 type Category {
   id: ID!
   name: String!
-  description: String
-  poster: String
+  clips(genre: ID, serie: ID, first: Int, offset: Int): [Clip!]!
 }
 
 """Shows or Series"""
@@ -80,5 +83,6 @@ type Serie {
   poster: String
   description: String
   serieType: String
+  clips(genre: ID, category: ID, first: Int, offset: Int): [Clip!]!
 }
 

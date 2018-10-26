@@ -16,7 +16,7 @@ const mapSerie = (programa = {}) => ({
   poster: programa.imagen_url
 })
 
-const mapClipType = (tipo = {}) => ({
+const mapGenre = (tipo = {}) => ({
   ...tipo,
   id: tipo.slug,
   name: tipo.nombre,
@@ -25,8 +25,16 @@ const mapClipType = (tipo = {}) => ({
   downloadable: tipo.descargable
 })
 
+const mapCategory = (categoria = {}) => ({
+  ...categoria,
+  id: categoria.slug,
+  name: categoria.nombre,
+  description: categoria.descripcion
+})
+
 module.exports = {
   mapClip,
   mapSerie,
-  mapClipType
+  mapGenre,
+  mapCategory
 }
