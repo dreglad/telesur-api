@@ -3,7 +3,9 @@ const mapClip = clip => ({
   id: clip.slug,
   title: clip.titulo,
   description: clip.descripcion,
-  service: clip.idioma_original === 'en' ? 'telesur-en' : 'telesur'
+  image: clip.thumbnail_gigante,
+  thumbnail: clip.thumbnail_grande,
+  thumbnailSmall: clip.thumbnail_pequeno
 })
 
 const mapSerie = programa => ({

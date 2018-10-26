@@ -35,9 +35,9 @@ type Clip {
   """When abailable, the URL of the playlist for HLS playback (Apple HTTP Live Streaming)."""
   hls_url: String
   mp4_url: String!
-  thumbnail_big: String!
-  thumbnail_medium: String!
-  thumbnail_small: String!
+  image: String!
+  thumbnail: String!
+  thumbnailSmall: String!
   service: String!
   serie: Serie
   clipType: ClipType
