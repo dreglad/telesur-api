@@ -1,4 +1,4 @@
-const mapClip = clip => ({
+const mapClip = (clip = {}) => ({
   ...clip,
   id: clip.slug,
   title: clip.titulo,
@@ -8,7 +8,7 @@ const mapClip = clip => ({
   thumbnailSmall: clip.thumbnail_pequeno
 })
 
-const mapSerie = programa => ({
+const mapSerie = (programa = {}) => ({
   ...programa,
   id: programa.slug,
   name: programa.nombre,
@@ -16,7 +16,7 @@ const mapSerie = programa => ({
   poster: programa.imagen_url
 })
 
-const mapClipType = tipo => ({
+const mapClipType = (tipo = {}) => ({
   ...tipo,
   id: tipo.slug,
   name: tipo.nombre,
