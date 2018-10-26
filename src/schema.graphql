@@ -2,28 +2,26 @@
 type Query {
   """Get a list of available services"""
   services: [Service!]!
+  """Retreive a single service"""
+  service(id: ID!): Service
 
   """Retrieve a paginated list of video clips"""
-  clips(service: String, clipType: ID, first: Int, offset: Int): [Clip!]!
-
+  clips(service: String, clipType: ID, series: ID, category: ID, first: Int, offset: Int): [Clip!]!
   """Retreive a single clip"""
   clip(service: String, id: ID!): Clip
 
   """Retrieve a paginated list of series"""
   series(service: String): [Serie!]!
-
   """Retreive a single series"""
   serie(service: String, id: ID!): Serie
 
   """Retrieve a paginated list of categories"""
   categories(service: String): [Category!]!
-
   """Retreive a single category"""
   category(service: String, id: ID!): Category
 
   """Retrieve a paginated list of video clip types"""
   clipTypes(service: String): [ClipType!]!
-
   """Retreive a single clip type"""
   clipType(service: String, id: ID!): ClipType
 }
@@ -34,6 +32,7 @@ type Service {
   name: String!
   language: String!
   url: String
+  clips(clipType: ID, series: ID, category: ID, first: Int, offset: Int): [Clip!]!
 }
 
 """Video clip"""

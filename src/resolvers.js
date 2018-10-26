@@ -26,68 +26,67 @@ const restFetch = ({ service }, path, params) => {
     : Promise.reject(new Error('Invalid service'))
 }
 
-const resolvers = {
-  Query: {
-    services: () => services,
+const Query = {
+  services: () => services,
+  service: (_, { id }) => services.find(service => service.id === id),
 
-    clips: (_, args) => {
-      return new Promise((resolve, reject) => {
-        restFetch(args, '/clip/', {
-          detalle: 'completo',
-          limit: args.first || 10,
-          offset: args.offset || 0,
-          slug: args.id,
-          tipo: args.clipType
-        }).then(res => {
-          res.json().catch(reject).then(clips => { resolve(clips.map(mapClip)) })
-        }).catch(reject)
+  clips: (_, args) => {
+    return new Promise((resolve, reject) => {
+      restFetch(args, '/clip/', {
+        detalle: 'completo',
+        limit: args.first || 10,
+        offset: args.offset || 0,
+        tipo: args.clipType,
+        programa: args.serie,
+        category: args.categoria
+      }).then(res => {
+        res.json().catch(reject).then(clips => { resolve(clips.map(mapClip)) })
+      }).catch(reject)
+    })
+  },
+  clip: (_, { service, id }) => {
+    return new Promise((resolve, reject) => {
+      restFetch({ service }, `/clip/${id}/`, { detalle: 'completo' }).catch(reject).then(res => {
+        res.json().then(clip => { resolve(mapClip(clip)) }).catch(() => { resolve(null) })
       })
-    },
+    })
+  },
 
-    clip: (_, { service, id }) => {
-      return new Promise((resolve, reject) => {
-        restFetch({ service }, `/clip/${id}/`, { detalle: 'completo' }).catch(reject).then(res => {
-          res.json()
-            .then(clip => { resolve(mapClip(clip)) })
-            .catch(() => { resolve(null) })
-        })
+  series: (_, args) => {
+    return new Promise((resolve, reject) => {
+      fetch(`${getURL(args.service)}/programa/`).then(res => {
+        res.json().then(programas => { resolve(programas.map(mapSerie)) }).catch(reject)
       })
-    },
+    })
+  },
+  serie: (_, { service, id }) => {
+    return new Promise((resolve, reject) => {
+      fetch(`${getURL(service)}/programa/${id}/`).catch(reject).then(res => {
+        res.json().then(programa => { resolve(mapSerie(programa)) }).catch(() => { resolve(null) })
+      })
+    })
+  },
 
-    series: (_, args) => {
-      return new Promise((resolve, reject) => {
-        fetch(`${getURL(args.service)}/programa/`).then(res => {
-          res.json().then(programas => { resolve(programas.map(mapSerie)) }).catch(reject)
-        })
+  clipTypes: (_, args) => {
+    return new Promise((resolve, reject) => {
+      fetch(`${getURL(args.service)}/tipo_clip/`).then(res => {
+        res.json().then(tipos => { resolve(tipos.map(mapClipType)) }).catch(reject)
       })
-    },
+    })
+  },
+  clipType: (_, { service, id }) => {
+    return new Promise((resolve, reject) => {
+      fetch(`${getURL(service)}/tipo_clip/${id}/`).catch(reject).then(res => {
+        res.json().then(tipo => { resolve(mapClipType(tipo)) }).catch(() => { resolve(null) })
+      })
+    })
+  }
+}
 
-    serie: (_, { service, id }) => {
-      return new Promise((resolve, reject) => {
-        fetch(`${getURL(service)}/programa/${id}/`).catch(reject).then(res => {
-          res.json()
-            .then(programa => { resolve(mapSerie(programa)) })
-            .catch(() => { resolve(null) })
-        })
-      })
-    },
-
-    clipTypes: (_, args) => {
-      return new Promise((resolve, reject) => {
-        fetch(`${getURL(args.service)}/tipo_clip/`).then(res => {
-          res.json().then(tipos => { resolve(tipos.map(mapClipType)) }).catch(reject)
-        })
-      })
-    },
-
-    clipType: (_, { service, id }) => {
-      return new Promise((resolve, reject) => {
-        fetch(`${getURL(service)}/tipo_clip/${id}/`).catch(reject).then(res => {
-          res.json()
-            .then(tipo => { resolve(mapClipType(tipo)) })
-            .catch(() => { resolve(null) })
-        })
-      })
+const typeResolvers = {
+  Service: {
+    clips: (service, { args }) => {
+      return Query.clips(service, { service: service.id, ...args })
     }
   },
 
@@ -102,4 +101,7 @@ const resolvers = {
   }
 }
 
-module.exports = resolvers
+module.exports = {
+  Query,
+  ...typeResolvers
+}
