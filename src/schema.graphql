@@ -46,14 +46,17 @@ type Clip {
   """Publication date formatted in ISO 8601"""
   date: String!
   """When abailable, the URL of the playlist for HLS playback (Apple HTTP Live Streaming)."""
-  hls_url: String
-  mp4_url: String!
-  image: String!
+  mp4: String!
+  url: String
+  hls: String
   thumbnail: String!
   thumbnailSmall: String!
+  thumbnails: String
+  width: Int
+  height: Int
   service: Service!
-  serie: Serie
   genre: Genre
+  serie: Serie
   category: Category
 }
 
@@ -83,6 +86,6 @@ type Serie {
   poster: String
   description: String
   serieType: String
-  clips(genre: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  episodes(first: Int, offset: Int): [Clip!]!
 }
 

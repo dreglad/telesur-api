@@ -51,6 +51,7 @@ const Query = {
       })
     })
   },
+
   series: (_, args) => {
     return new Promise((resolve, reject) => {
       const params = { limit: args.first, offset: args.offset || 0 }
@@ -102,10 +103,14 @@ const Query = {
 
 const typeResolvers = {
   Service: {
-    clips: (service, args) => Query.clips(service, { service: service.id, ...args }),
-    series: (service, args) => Query.series(service, { service: service.id, ...args }),
-    genres: (service, args) => Query.genres(service, { service: service.id, ...args }),
-    categories: (service, args) => Query.categories(service, { service: service.id, ...args }),
+    clips: ({ id }, args) => Query.clips(id, { service: id, ...args }),
+    series: ({ id }, args) => Query.series(id, { service: id, ...args }),
+    genres: ({ id }, args) => Query.genres(id, { service: id, ...args }),
+    categories: ({ id }, args) => Query.categories(id, { service: id, ...args }),
+  },
+
+  Serie: {
+    episodes: ({ id }, args) => Query.clips(id, { serie: id, genre: 'programa', ...args }),
   },
 
   Clip: {

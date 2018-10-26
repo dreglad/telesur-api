@@ -3,9 +3,15 @@ const mapClip = (clip = {}) => ({
   id: clip.slug,
   title: clip.titulo,
   description: clip.descripcion,
+  date: clip.utc_date,
   image: clip.thumbnail_gigante,
   thumbnail: clip.thumbnail_grande,
-  thumbnailSmall: clip.thumbnail_pequeno
+  thumbnailSmall: clip.thumbnail_pequeno,
+  thumbnails: clip.vtt_url,
+  url: clip.navegador_url,
+  hls: clip.hls_url,
+  mp4: clip.archivo_url,
+  duration: clip.duracion
 })
 
 const mapSerie = (programa = {}) => ({
