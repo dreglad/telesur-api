@@ -1,0 +1,46 @@
+type Query {
+  clips(service: String, clipType: ID, first: Int, offset: Int): [Clip!]!
+  clip(id: ID!): Clip
+  series(service: String): [Serie!]!
+  serie(id: ID!): Serie
+  categories(service: String): Category
+  category(id: ID!): Category
+  clipTypes(service: String): [ClipType!]!
+  clipType(id: ID!): ClipType
+}
+
+type Clip {
+  id: ID!
+  title: String!
+  description: String!
+  date: String!
+  hls_url: String
+  mp4_url: String!
+  thumbnail_big: String!
+  thumbnail_medium: String!
+  thumbnail_small: String!
+  service: String!
+  serie: Serie
+  clipType: ClipType
+  category: Category
+}
+
+type ClipType {
+  id: ID!
+  name: String!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String
+  poster: String
+}
+
+type Serie {
+  id: ID!
+  name: String
+  poster: String
+  description: String
+  serieType: String
+}
