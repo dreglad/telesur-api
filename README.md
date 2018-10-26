@@ -11,5 +11,4 @@ yarn start
 
 ## Live API
 
- - Endpoint: [telesur-video-api.omedia.io](https://telesur-video-api.omedia.io)
- - Playground examples: [graphqlbin.com/v2/Jqz0tB](https://graphqlbin.com/v2/Jqz0tB)
+Endpoint: [telesur-video-api.omedia.io](https://telesur-video-api.omedia.io) ([examples playground](https://graphqlbin.com/v2/Jqz0tB))
