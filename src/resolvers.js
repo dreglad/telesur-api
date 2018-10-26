@@ -1,5 +1,5 @@
 const { toQueryString } = require('./utils')
-const { mapClip, mapSerie } = require('./mappers')
+const { mapClip, mapSerie, mapClipType } = require('./mappers')
 const fetch = require('node-fetch')
 
 const baseURL = `https://multimedia.telesurtv.net`
@@ -45,6 +45,24 @@ const resolvers = {
         fetch(`${getURL()}/programa/${id}/`).catch(reject).then(res => {
           res.json()
             .then(programa => { resolve(mapSerie(programa)) })
+            .catch(() => { resolve(null) })
+        })
+      })
+    },
+
+    clipTypes: (_, args) => {
+      return new Promise((resolve, reject) => {
+        fetch(`${getURL(args.service)}/tipo_clip/`).then(res => {
+          res.json().then(tipos => { console.log(tipos); resolve(tipos.map(mapClipType)) }).catch(reject)
+        })
+      })
+    },
+
+    clipType: (_, { id }) => {
+      return new Promise((resolve, reject) => {
+        fetch(`${getURL(args.service)}/tipo_clip/${id}/`).catch(reject).then(res => {
+          res.json()
+            .then(tipo => { resolve(mapClipType(tipo)) })
             .catch(() => { resolve(null) })
         })
       })

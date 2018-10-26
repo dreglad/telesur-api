@@ -14,4 +14,17 @@ const mapSerie = programa => ({
   poster: programa.imagen_url
 })
 
-module.exports = { mapClip, mapSerie }
+const mapClipType = tipo => ({
+  ...tipo,
+  id: tipo.slug,
+  name: tipo.nombre,
+  plural: tipo.nombre_plural,
+  description: tipo.descripcion,
+  downloadable: tipo.descargable
+})
+
+module.exports = {
+  mapClip,
+  mapSerie,
+  mapClipType
+}

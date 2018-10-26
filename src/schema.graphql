@@ -28,6 +28,9 @@ type Clip {
 type ClipType {
   id: ID!
   name: String!
+  plural: String!
+  description: String
+  downloadable: Boolean!
 }
 
 type Category {
