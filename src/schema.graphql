@@ -6,7 +6,7 @@ type Query {
   service(id: ID!): Service
 
   """Retrieve a paginated list of video clips"""
-  clips(service: String, clipType: ID, series: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  clips(service: String, clipType: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
   """Retreive a single clip"""
   clip(service: String, id: ID!): Clip
 
@@ -32,7 +32,7 @@ type Service {
   name: String!
   language: String!
   url: String
-  clips(clipType: ID, series: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  clips(clipType: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
 }
 
 """Video clip"""
@@ -48,7 +48,7 @@ type Clip {
   image: String!
   thumbnail: String!
   thumbnailSmall: String!
-  service: String!
+  service: Service!
   serie: Serie
   clipType: ClipType
   category: Category

@@ -91,13 +91,9 @@ const typeResolvers = {
   },
 
   Clip: {
-    clipType: ({ tipo }) => ({
-      id: tipo.slug,
-      name: tipo.nombre
-    }),
-    service: ({ idioma_original }) => {
-      return services.find(service => service.language === idioma_original)
-    }
+    clipType: ({ tipo }) => mapClipType(tipo),
+    serie: ({ programa }) => mapSerie(programa),
+    service: ({ idioma_original }) => services.find(s => s.language === idioma_original)
   }
 }
 
