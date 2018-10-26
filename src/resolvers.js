@@ -22,9 +22,9 @@ const resolvers = {
       })
     },
 
-    clip: (_, { id }) => {
+    clip: (_, { service, id }) => {
       return new Promise((resolve, reject) => {
-        fetch(`${getURL()}/clip/${id}/?detalle=completo`).catch(reject).then(res => {
+        fetch(`${getURL(service)}/clip/${id}/?detalle=completo`).catch(reject).then(res => {
           res.json()
             .then(clip => { resolve(mapClip(clip)) })
             .catch(() => { resolve(null) })
@@ -40,9 +40,9 @@ const resolvers = {
       })
     },
 
-    serie: (_, { id }) => {
+    serie: (_, { service, id }) => {
       return new Promise((resolve, reject) => {
-        fetch(`${getURL()}/programa/${id}/`).catch(reject).then(res => {
+        fetch(`${getURL(service)}/programa/${id}/`).catch(reject).then(res => {
           res.json()
             .then(programa => { resolve(mapSerie(programa)) })
             .catch(() => { resolve(null) })
@@ -53,14 +53,14 @@ const resolvers = {
     clipTypes: (_, args) => {
       return new Promise((resolve, reject) => {
         fetch(`${getURL(args.service)}/tipo_clip/`).then(res => {
-          res.json().then(tipos => { console.log(tipos); resolve(tipos.map(mapClipType)) }).catch(reject)
+          res.json().then(tipos => { resolve(tipos.map(mapClipType)) }).catch(reject)
         })
       })
     },
 
-    clipType: (_, { id }) => {
+    clipType: (_, { service, id }) => {
       return new Promise((resolve, reject) => {
-        fetch(`${getURL(args.service)}/tipo_clip/${id}/`).catch(reject).then(res => {
+        fetch(`${getURL(service)}/tipo_clip/${id}/`).catch(reject).then(res => {
           res.json()
             .then(tipo => { resolve(mapClipType(tipo)) })
             .catch(() => { resolve(null) })
