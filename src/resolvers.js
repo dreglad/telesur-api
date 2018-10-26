@@ -85,7 +85,7 @@ const Query = {
 
 const typeResolvers = {
   Service: {
-    clips: (service, { args }) => {
+    clips: (service, args) => {
       return Query.clips(service, { service: service.id, ...args })
     }
   },
