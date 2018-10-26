@@ -1,4 +1,4 @@
-const toQueryString = obj => {
+const toQueryString = (obj = {}) => {
   let str = [];
   for (var p in obj)
     if (obj.hasOwnProperty(p) && !!obj[p]) {

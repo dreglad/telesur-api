@@ -1,5 +1,8 @@
 """Available queries"""
 type Query {
+  """Get a list of available services"""
+  services: [Service!]!
+
   """Retrieve a paginated list of video clips"""
   clips(service: String, clipType: ID, first: Int, offset: Int): [Clip!]!
 
@@ -25,7 +28,15 @@ type Query {
   clipType(service: String, id: ID!): ClipType
 }
 
-"""Video clips"""
+"""Available Service"""
+type Service {
+  id: String!
+  name: String!
+  language: String!
+  url: String
+}
+
+"""Video clip"""
 type Clip {
   id: ID!
   title: String!
@@ -44,7 +55,7 @@ type Clip {
   category: Category
 }
 
-"""Video clip types"""
+"""Video clip type"""
 type ClipType {
   id: ID!
   """Singular name"""
@@ -55,7 +66,7 @@ type ClipType {
   downloadable: Boolean!
 }
 
-"""Video clip categories"""
+"""Video clip category"""
 type Category {
   id: ID!
   name: String!

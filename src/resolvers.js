@@ -2,29 +2,51 @@ const { toQueryString } = require('./utils')
 const { mapClip, mapSerie, mapClipType } = require('./mappers')
 const fetch = require('node-fetch')
 
-const baseURL = `https://multimedia.telesurtv.net`
-const getURL = service => service === 'telesur-en' ? `${baseURL}/en/api`: `${baseURL}/api`
+const services = [
+  {
+    id: 'telesur',
+    name: 'teleSUR',
+    language: 'es',
+    url: 'https://videos.telesurtv.net/',
+    apiUrl: `${process.env.REST_URL}/api`
+  },
+  {
+    id: 'telesur-en',
+    name: 'teleSUR English',
+    language: 'en',
+    url: 'https://videosenglish.telesurtv.net/',
+    apiUrl: `${process.env.REST_URL}/en/api`
+  }
+]
+
+const restFetch = ({ service }, path, params) => {
+  service = services.find(serv => serv.id === (service || 'telesur'))
+  return !!service
+    ? fetch(`${service.apiUrl}${path}/?${toQueryString(params)}`)
+    : Promise.reject(new Error('Invalid service'))
+}
 
 const resolvers = {
   Query: {
+    services: () => services,
+
     clips: (_, args) => {
-      const qs = toQueryString({
-        detalle: 'completo',
-        limit: args.first || 10,
-        offset: args.offset || 0,
-        slug: args.id,
-        tipo: args.clipType
-      })
       return new Promise((resolve, reject) => {
-        fetch(`${getURL(args.service)}/clip/?${qs}`).catch(reject).then(res => {
-          res.json().then(clips => { resolve(clips.map(mapClip)) }).catch(reject)
-        })
+        restFetch(args, '/clip/', {
+          detalle: 'completo',
+          limit: args.first || 10,
+          offset: args.offset || 0,
+          slug: args.id,
+          tipo: args.clipType
+        }).then(res => {
+          res.json().catch(reject).then(clips => { resolve(clips.map(mapClip)) })
+        }).catch(reject)
       })
     },
 
     clip: (_, { service, id }) => {
       return new Promise((resolve, reject) => {
-        fetch(`${getURL(service)}/clip/${id}/?detalle=completo`).catch(reject).then(res => {
+        restFetch({ service }, `/clip/${id}/`, { detalle: 'completo' }).catch(reject).then(res => {
           res.json()
             .then(clip => { resolve(mapClip(clip)) })
             .catch(() => { resolve(null) })
@@ -73,7 +95,10 @@ const resolvers = {
     clipType: ({ tipo }) => ({
       id: tipo.slug,
       name: tipo.nombre
-    })
+    }),
+    service: ({ idioma_original }) => {
+      return services.find(service => service.language === idioma_original)
+    }
   }
 }
 
