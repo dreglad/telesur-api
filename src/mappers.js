@@ -8,6 +8,7 @@ const mapClip = (clip = {}) => ({
   thumbnail: clip.thumbnail_grande,
   thumbnailSmall: clip.thumbnail_pequeno,
   thumbnails: clip.vtt_url,
+  aspectRatio: clip.aspectratio,
   url: clip.navegador_url,
   hls: clip.hls_url,
   mp4: clip.archivo_url,

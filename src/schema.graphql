@@ -33,7 +33,7 @@ type Service {
   language: String!
   url: String
   clips(genre: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
-  series: [Serie!]!
+  series(first: Int = 0, offset: Int = 0): [Serie!]!
   categories: [Category!]!
   genres: [Genre!]!
 }
@@ -45,15 +45,22 @@ type Clip {
   description: String!
   """Publication date formatted in ISO 8601"""
   date: String!
-  """When abailable, the URL of the playlist for HLS playback (Apple HTTP Live Streaming)."""
+  """HTML Embed code"""
+  embed: String
+  """Source MP4 file"""
   mp4: String!
-  url: String
+  """When available, the URL of the playlist for HLS playback (Apple HTTP Live Streaming)."""
   hls: String
+  url: String
   thumbnail: String!
   thumbnailSmall: String!
+  """When available, a WebVTT file containing a timed thumbnail map usefull for thumbnail previews on video player progress bar"""
   thumbnails: String
+  """Correpsonding uploaded YouTube ID, if available"""
+  youtube: String
   width: Int
   height: Int
+  aspectRatio: Float
   service: Service!
   genre: Genre
   serie: Serie
