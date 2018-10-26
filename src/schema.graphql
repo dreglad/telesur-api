@@ -1,19 +1,38 @@
+"""Available queries"""
 type Query {
+  """Retrieve a paginated list of video clips"""
   clips(service: String, clipType: ID, first: Int, offset: Int): [Clip!]!
+
+  """Retreive a single clip"""
   clip(service: String, id: ID!): Clip
+
+  """Retrieve a paginated list of series"""
   series(service: String): [Serie!]!
+
+  """Retreive a single series"""
   serie(service: String, id: ID!): Serie
-  categories(service: String): Category
+
+  """Retrieve a paginated list of categories"""
+  categories(service: String): [Category!]!
+
+  """Retreive a single category"""
   category(service: String, id: ID!): Category
+
+  """Retrieve a paginated list of video clip types"""
   clipTypes(service: String): [ClipType!]!
+
+  """Retreive a single clip type"""
   clipType(service: String, id: ID!): ClipType
 }
 
+"""Video clips"""
 type Clip {
   id: ID!
   title: String!
   description: String!
+  """Publication date formatted in ISO 8601"""
   date: String!
+  """When abailable, the URL of the playlist for HLS playback (Apple HTTP Live Streaming)."""
   hls_url: String
   mp4_url: String!
   thumbnail_big: String!
@@ -25,14 +44,18 @@ type Clip {
   category: Category
 }
 
+"""Video clip types"""
 type ClipType {
   id: ID!
+  """Singular name"""
   name: String!
+  """Plural name"""
   plural: String!
   description: String
   downloadable: Boolean!
 }
 
+"""Video clip categories"""
 type Category {
   id: ID!
   name: String!
@@ -40,6 +63,7 @@ type Category {
   poster: String
 }
 
+"""Shows or Series"""
 type Serie {
   id: ID!
   name: String
@@ -47,3 +71,4 @@ type Serie {
   description: String
   serieType: String
 }
+
