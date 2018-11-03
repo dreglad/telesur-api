@@ -6,7 +6,7 @@ query Servicios_Disponibles {
   }
 }
 
-# Título y descrición de los 10 clips
+# Título y descripción de los 10 clips
 # más recientes de cada servicio
 query Clips_Recientes_De_Cada_Servicio {
   services {
@@ -38,7 +38,7 @@ query Temas {
   }
 }
 
-# Todos los progrmas de teleSUR
+# Todos los progrmas de teleSUR English
 query Programas_De_Telesur_English {
   service(id: "telesur-en") {
     series {
@@ -52,7 +52,7 @@ query Programas_De_Telesur_English {
 
 # Nombre, cuenta de Twitter y código embed del último video
 # de todos los Corresponsales en EE.UU.
-query CorresponsalesGringos {
+query Corresponsales_Gringos {
   correspondents(country: "US") {
     name
     twitter
