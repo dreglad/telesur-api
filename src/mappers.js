@@ -9,10 +9,11 @@ const mapClip = (clip = {}) => ({
   thumbnailSmall: clip.thumbnail_pequeno,
   thumbnails: clip.vtt_url,
   aspectRatio: clip.aspectratio,
+  country: clip.country_code,
   url: clip.navegador_url,
   hls: clip.hls_url,
   mp4: clip.archivo_url,
-  duration: clip.duracion
+  duration: clip.duracion,
 })
 
 const mapSerie = (programa = {}) => ({
@@ -39,9 +40,27 @@ const mapCategory = (categoria = {}) => ({
   description: categoria.descripcion
 })
 
+const mapCorrespondent = (corresponsal = {}) => ({
+  ...corresponsal,
+  id: corresponsal.slug,
+  name: corresponsal.nombre,
+  description: corresponsal.descripcion,
+  twitter: corresponsal.twitter,
+  country: corresponsal.pais && corresponsal.pais.codigo
+})
+
+const mapTopic = (tema = {}) => ({
+  ...tema,
+  id: tema.slug,
+  name: tema.nombre,
+  description: tema.descripcion
+})
+
 module.exports = {
   mapClip,
   mapSerie,
   mapGenre,
-  mapCategory
+  mapCategory,
+  mapCorrespondent,
+  mapTopic
 }

@@ -1,5 +1,12 @@
 const { toQueryString } = require('./utils')
-const { mapClip, mapSerie, mapGenre, mapCategory } = require('./mappers')
+const {
+  mapClip,
+  mapSerie,
+  mapGenre,
+  mapCategory,
+  mapCorrespondent,
+  mapTopic
+} = require('./mappers')
 const fetch = require('node-fetch')
 
 const services = [
@@ -31,6 +38,10 @@ const Query = {
   service: (_, { id }) => services.find(service => service.id === id),
 
   clips: (_, args) => {
+    const relation = (rel, isNull) =>
+      typeof isNull !== 'undefined'
+        ? isNull && 'es_nulo' || 'no_es_nulo'
+        : rel
     return new Promise((resolve, reject) => {
       restFetch(args, '/clip/', {
         detalle: 'completo',
@@ -38,7 +49,10 @@ const Query = {
         offset: args.offset || 0,
         tipo: args.genre,
         programa: args.serie,
-        categoria: args.category
+        country_code: args.country,
+        categoria: relation(args.category, args.categoryIsNull),
+        corresponsal: relation(args.correspondent, args.correspondentIsNull),
+        tema: relation(args.topic, args.topicIsNull)
       }).then(res => {
         res.json().catch(reject).then(clips => { resolve(clips.map(mapClip)) })
       }).catch(reject)
@@ -98,6 +112,38 @@ const Query = {
         res.json().then(categoria => { resolve(mapCategory(categoria)) }).catch(() => { resolve(null) })
       })
     })
+  },
+
+  correspondents: (_, args) => {
+    return new Promise((resolve, reject) => {
+      const params = { pais: args.country, limit: args.first, offset: args.offset || 0 }
+      restFetch(args, `/corresponsal/`, params).catch(reject).then(res => {
+        res.json().then(corresponsales => { resolve(corresponsales.map(mapCorrespondent)) }).catch(reject)
+      })
+    })
+  },
+  correspondent: (_, { service, id }) => {
+    return new Promise((resolve, reject) => {
+      restFetch({ service }, `/corresponsal/${id}/`).catch(reject).then(res => {
+        res.json().then(categoria => { resolve(mapCorrespondent(categoria)) }).catch(() => { resolve(null) })
+      })
+    })
+  },
+
+  topics: (_, args) => {
+    return new Promise((resolve, reject) => {
+      const params = { limit: args.first, offset: args.offset || 0 }
+      restFetch(args, `/tema/`, params).catch(reject).then(res => {
+        res.json().then(temas => { resolve(temas.map(mapTopic)) }).catch(reject)
+      })
+    })
+  },
+  topic: (_, { service, id }) => {
+    return new Promise((resolve, reject) => {
+      restFetch({ service }, `/tema/${id}/`).catch(reject).then(res => {
+        res.json().then(tema => { resolve(mapTopic(tema)) }).catch(() => { resolve(null) })
+      })
+    })
   }
 }
 
@@ -117,7 +163,9 @@ const typeResolvers = {
     service: ({ idioma_original }) => services.find(s => s.language === idioma_original),
     genre: clip => clip.tipo && mapGenre(clip.tipo),
     serie: clip => clip.programa && mapSerie(clip.programa),
-    category: clip => clip.categoria && mapCategory(clip.categoria)
+    category: clip => clip.categoria && mapCategory(clip.categoria),
+    correspondent: clip => clip.corresponsal && mapCorrespondent(clip.corresponsal),
+    topic: clip => clip.tema && mapTopic(clip.tema)
   },
 
   Genre: {
@@ -126,7 +174,15 @@ const typeResolvers = {
 
   Category: {
     clips: ({ id }, args) => Query.clips(id, { category: id, ...args })
-  }
+  },
+
+  Correspondent: {
+    clips: ({ id }, args) => Query.clips(id, { correspondent: id, ...args })
+  },
+
+  Topic: {
+    clips: ({ id }, args) => Query.clips(id, { topic: id, ...args })
+  },
 }
 
 module.exports = {

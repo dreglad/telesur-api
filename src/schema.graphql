@@ -6,24 +6,34 @@ type Query {
   service(id: ID!): Service
 
   """Retrieve a paginated list of video clips"""
-  clips(service: String, genre: ID, serie: ID, category: ID, first: Int = 0, offset: Int = 0): [Clip!]!
+  clips(service: ID, genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int = 0, offset: Int = 0): [Clip!]!
   """Retreive a single clip"""
-  clip(service: String, id: ID!): Clip
+  clip(service: ID, id: ID!): Clip
 
   """Retrieve a paginated list of series"""
-  series(service: String, first: Int = 0, offset: Int = 0): [Serie!]!
+  series(service: ID, first: Int = 0, offset: Int = 0): [Serie!]!
   """Retreive a single series"""
-  serie(service: String, id: ID!): Serie
+  serie(service: ID, id: ID!): Serie
 
   """Retrieve a paginated list of categories"""
-  categories(service: String, first: Int = 0, offset: Int = 0): [Category!]!
+  categories(service: ID, first: Int = 0, offset: Int = 0): [Category!]!
   """Retreive a single category"""
-  category(service: String, id: ID!): Category
+  category(service: ID, id: ID!): Category
 
-  """Retrieve a paginated list of video genres"""
-  genres(service: String, first: Int = 0, offset: Int = 0): [Genre!]!
-  """Retreive a single Genre"""
-  genre(service: String, id: ID!): Genre
+  """Retrieve a paginated list of genres"""
+  genres(service: ID, first: Int = 0, offset: Int = 0): [Genre!]!
+  """Retreive a single genre"""
+  genre(service: ID, id: ID!): Genre
+
+  """Retrieve a paginated list of correspondents"""
+  correspondents(service: ID, country: String, first: Int = 0, offset: Int = 0): [Correspondent!]!
+  """Retreive a single correspondent"""
+  correspondent(service: ID, id: ID!): Correspondent
+
+  """Retrieve a paginated list of topics"""
+  topics(service: ID, first: Int = 0, offset: Int = 0): [Topic!]!
+  """Retreive a single topic"""
+  topic(service: ID, id: ID!): Topic
 }
 
 """Available Service"""
@@ -32,7 +42,7 @@ type Service {
   name: String!
   language: String!
   url: String
-  clips(genre: ID, serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
   series(first: Int = 0, offset: Int = 0): [Serie!]!
   categories: [Category!]!
   genres: [Genre!]!
@@ -65,6 +75,8 @@ type Clip {
   genre: Genre
   serie: Serie
   category: Category
+  correspondent: Correspondent
+  topic: Topic
 }
 
 """Video genre"""
@@ -76,17 +88,17 @@ type Genre {
   plural: String!
   description: String
   downloadable: Boolean!
-  clips(serie: ID, category: ID, first: Int, offset: Int): [Clip!]!
+  clips(serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
 }
 
 """Video clip category"""
 type Category {
   id: ID!
   name: String!
-  clips(genre: ID, serie: ID, first: Int, offset: Int): [Clip!]!
+  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
 }
 
-"""Shows or Series"""
+"""Show or Serie"""
 type Serie {
   id: ID!
   name: String
@@ -96,3 +108,19 @@ type Serie {
   episodes(first: Int, offset: Int): [Clip!]!
 }
 
+"""Correspondent"""
+type Correspondent {
+  id: ID!
+  name: String!
+  twitter: String
+  country: String
+  clips(genre: ID, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
+}
+
+"""Topic"""
+type Topic {
+  id: ID!
+  name: String!
+  description: String
+  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
+}
