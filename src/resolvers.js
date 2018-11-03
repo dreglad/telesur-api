@@ -115,8 +115,9 @@ const typeResolvers = {
 
   Clip: {
     service: ({ idioma_original }) => services.find(s => s.language === idioma_original),
-    genre: clip => mapGenre(clip.tipo),
-    serie: clip => mapSerie(clip.programa)
+    genre: clip => clip.tipo && mapGenre(clip.tipo),
+    serie: clip => clip.programa && mapSerie(clip.programa),
+    category: clip => clip.categoria && mapCategory(clip.categoria)
   },
 
   Genre: {
