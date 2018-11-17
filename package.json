@@ -12,9 +12,11 @@
   "dependencies": {
     "dotenv": "^6.1.0",
     "graphql-yoga": "^1.16.7",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "parse-cache-control": "^1.0.1"
   },
   "devDependencies": {
+    "apollo-engine": "^1.1.2",
     "nodemon": "^1.18.5"
   }
 }
