@@ -1,14 +1,14 @@
-# teleSUR Videos GraphQL REST wrapper
+# teleSUR API Graphql Server
 
 ## Usage
 
 ```sh
-git clone git@github.com:dreglad/telesur-videos-graphql-rest-wrapper.git
-cd telesur-videos-graphql-rest-wrapper
+# Copy and edit as necessary
 cp .env.sample .env
+# Start sever
 yarn start
 ```
 
 ## Live API
 
-Endpoint: [telesur-video-api.omedia.io](https://telesur-video-api.omedia.io) ([examples playground](https://graphqlbin.com/v2/VPZOU0))
+Endpoint: [telesur-video-api.omedia.io](https://telesur-video-api.omedia.io)

@@ -1,7 +1,7 @@
 {
-  "name": "telesur-videos-graphql-wrapper",
-  "version": "1.0.0",
-  "description": "teleSUR Videos REST API GraphQL wrapper",
+  "name": "telesur-graphql-api",
+  "version": "1.0.1",
+  "description": "teleSUR GraphQL API Server",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
