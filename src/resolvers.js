@@ -21,7 +21,7 @@ const services = [
     id: 'telesur-en',
     name: 'teleSUR English',
     language: 'en',
-    url: 'https://videosenglish.telesurtv.net/',
+    url: 'https://videos.telesurenglish.net/',
     apiUrl: `${process.env.REST_URL}/en/api`
   }
 ]
