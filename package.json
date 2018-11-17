@@ -1,6 +1,6 @@
 {
   "name": "telesur-graphql-api",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "teleSUR GraphQL API Server",
   "main": "index.js",
   "license": "MIT",
