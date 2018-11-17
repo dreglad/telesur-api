@@ -1,4 +1,5 @@
-const { toQueryString } = require('./utils')
+const fetch = require('node-fetch')
+const { toQueryString, setCacheHintFromRes } = require('./utils')
 const {
   mapClip,
   mapSerie,
@@ -7,7 +8,6 @@ const {
   mapCorrespondent,
   mapTopic
 } = require('./mappers')
-const fetch = require('node-fetch')
 
 const services = [
   {
@@ -58,25 +58,28 @@ const Query = {
       }).catch(reject)
     })
   },
-  clip: (_, { service, id }) => {
+  clip: (_, { service, id }, ctx, { cacheControl }) => {
     return new Promise((resolve, reject) => {
       restFetch({ service }, `/clip/${id}/`, { detalle: 'completo' }).catch(reject).then(res => {
+        setCacheHintFromRes(res, cacheControl)
         res.json().then(clip => { resolve(mapClip(clip)) }).catch(() => { resolve(null) })
       })
     })
   },
 
-  series: (_, args) => {
+  series: (_, args, ctx, { cacheControl }) => {
     return new Promise((resolve, reject) => {
       const params = { limit: args.first, offset: args.offset || 0 }
       restFetch(args, `/programa/`, params).catch(reject).then(res => {
+        setCacheHintFromRes(res, cacheControl)
         res.json().then(programas => { resolve(programas.map(mapSerie)) }).catch(reject)
       })
     })
   },
-  serie: (_, { service, id }) => {
+  serie: (_, { service, id }, ctx, { cacheControl }) => {
     return new Promise((resolve, reject) => {
       restFetch({ service }, `/programa/${id}/`).catch(reject).then(res => {
+        setCacheHintFromRes(res, cacheControl)
         res.json().then(programa => { resolve(mapSerie(programa)) }).catch(() => { resolve(null) })
       })
     })
