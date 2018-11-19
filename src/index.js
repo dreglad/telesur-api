@@ -1,11 +1,33 @@
 require('dotenv').config()
-const { GraphQLServer } = require('graphql-yoga')
+const { GraphQLServer, PubSub } = require('graphql-yoga')
 const { ApolloEngine } = require('apollo-engine')
+const { Prisma } = require('../database/generated/prisma-client')
+const binding = require('prisma-binding')
 const resolvers = require('./resolvers')
 
+const db = new binding.Prisma({
+  typeDefs: 'database/generated/graphql-schema/prisma.graphql',
+  endpoint: process.env.PRISMA_ENDPOINT
+})
+
+/* prisma client */
+const prisma = new Prisma({
+  endpoint: process.env.PRISMA_ENDPOINT
+});
+
+const pubsub = new PubSub();
 const graphQLServer = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
-  resolvers
+  typeDefs: 'src/schema.graphql',
+  resolvers,
+  context: async req => ({
+    ...req,
+    db,
+    prisma,
+    pubsub,
+    service: await prisma.service({
+      name: req.request.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
+    })
+  })
 })
 
 if (!process.env.APOLLO_ENGINE_KEY) {

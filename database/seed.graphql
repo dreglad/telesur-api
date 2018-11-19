@@ -1,0 +1,24 @@
+mutation {
+
+  createTelesur: createService(data: {
+    name: "teleSUR"
+    language: ES
+    url: "https://www.telesurtv.net"
+    videoUrl: "http://videos.telesurtv.net"
+    videoRestUrl: "https://multimedia.telesurtv.net/api"
+    liveUrl: "https://streaming.openmultimedia.biz/blive/balta.stream/playlist.m3u8"
+  }) {
+    id
+  }
+
+  createTelesurEnglish: createService(data: {
+    name: "teleSUR English"
+    language: EN
+    url: "https://www.telesurenglish.net/"
+    videoUrl: "http://videos.telesurenglish.net"
+    videoRestUrl: "https://multimedia.telesurtv.net/en/api"
+    liveUrl: "https://streaming.openmultimedia.biz/blive/balta.stream/playlist.m3u8"
+  }) {
+    id
+  }
+}
