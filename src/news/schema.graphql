@@ -1,0 +1,14 @@
+# import Article from "../../database/generated/graphql-schema/prisma.graphql"
+
+"""Available queries"""
+type Query {
+  """Get a list of articles"""
+  articles: [Article!]!
+  """Retreive a single article"""
+  article(id: ID!): Article
+
+  """Get a list of article sections"""
+  articleSections: [ArticleSection!]!
+  """Retreive a single article section"""
+  articleSection(id: ID!): ArticleSection
+}
