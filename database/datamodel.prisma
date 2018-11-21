@@ -24,7 +24,6 @@ type Article {
   description: String
   datePublished: DateTime!
   body: String!
-  bodyMarkdown: String
   author: String
   tags: [String!]
   images: [String!]

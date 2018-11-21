@@ -12,14 +12,14 @@ type Query {
   """Retreive a single series"""
   serie(service: ID, id: ID!): Serie
 
-  """Retrieve a paginated list of categories"""
+  """Retrieve a paginated list of video categories"""
   categories(service: ID, first: Int = 0, offset: Int = 0): [Category!]!
-  """Retreive a single category"""
+  """Retreive a single video category"""
   category(service: ID, id: ID!): Category
 
-  """Retrieve a paginated list of genres"""
+  """Retrieve a paginated list of video genres"""
   genres(service: ID, first: Int = 0, offset: Int = 0): [Genre!]!
-  """Retreive a single genre"""
+  """Retreive a single video genre"""
   genre(service: ID, id: ID!): Genre
 
   """Retrieve a paginated list of correspondents"""
@@ -27,14 +27,13 @@ type Query {
   """Retreive a single correspondent"""
   correspondent(service: ID, id: ID!): Correspondent
 
-  """Retrieve a paginated list of topics"""
+  """Retrieve a paginated list of video topics"""
   topics(service: ID, first: Int = 0, offset: Int = 0): [Topic!]!
-  """Retreive a single topic"""
+  """Retreive a single video topic"""
   topic(service: ID, id: ID!): Topic
 }
 
 extend type Service {
-  # namePa: String
   genres: [Genre!]!
   clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
   series(first: Int = 0, offset: Int = 0): [Serie!]!

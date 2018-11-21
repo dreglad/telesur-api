@@ -152,19 +152,19 @@ const typeResolvers = {
   },
 
   Genre: {
-    clips: ({ id }, args) => Query.clips(id, { genre: id, ...args })
+    clips: ({ id }, args, ctx) => Query.clips(id, { genre: id, ...args }, ctx)
   },
 
   Category: {
-    clips: ({ id }, args) => Query.clips(id, { category: id, ...args })
+    clips: ({ id }, args, ctx) => Query.clips(id, { category: id, ...args }, ctx)
   },
 
   Correspondent: {
-    clips: ({ id }, args) => Query.clips(id, { correspondent: id, ...args })
+    clips: ({ id }, args, ctx) => Query.clips(id, { correspondent: id, ...args }, ctx)
   },
 
   Topic: {
-    clips: ({ id }, args) => Query.clips(id, { topic: id, ...args })
+    clips: ({ id }, args, ctx) => Query.clips(id, { topic: id, ...args }, ctx)
   },
 }
 

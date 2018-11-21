@@ -1,5 +1,5 @@
 {
-  "alias": "telesur-video-api.omedia.io",
+  "alias": "telesur-api.omedia.io",
   "dotenv": ".env",
   "public": true
 }

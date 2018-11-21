@@ -267,8 +267,6 @@ export type ArticleOrderByInput =
   | "datePublished_DESC"
   | "body_ASC"
   | "body_DESC"
-  | "bodyMarkdown_ASC"
-  | "bodyMarkdown_DESC"
   | "author_ASC"
   | "author_DESC"
   | "createdAt_ASC"
@@ -510,20 +508,6 @@ export interface ArticleWhereInput {
   body_not_starts_with?: String;
   body_ends_with?: String;
   body_not_ends_with?: String;
-  bodyMarkdown?: String;
-  bodyMarkdown_not?: String;
-  bodyMarkdown_in?: String[] | String;
-  bodyMarkdown_not_in?: String[] | String;
-  bodyMarkdown_lt?: String;
-  bodyMarkdown_lte?: String;
-  bodyMarkdown_gt?: String;
-  bodyMarkdown_gte?: String;
-  bodyMarkdown_contains?: String;
-  bodyMarkdown_not_contains?: String;
-  bodyMarkdown_starts_with?: String;
-  bodyMarkdown_not_starts_with?: String;
-  bodyMarkdown_ends_with?: String;
-  bodyMarkdown_not_ends_with?: String;
   author?: String;
   author_not?: String;
   author_in?: String[] | String;
@@ -594,7 +578,6 @@ export interface ArticleUpdateInput {
   description?: String;
   datePublished?: DateTimeInput;
   body?: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleUpdatetagsInput;
   images?: ArticleUpdateimagesInput;
@@ -806,7 +789,6 @@ export interface ArticleCreateWithoutServiceInput {
   description?: String;
   datePublished: DateTimeInput;
   body: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleCreatetagsInput;
   images?: ArticleCreateimagesInput;
@@ -893,7 +875,6 @@ export interface ArticleUpdateManyMutationInput {
   description?: String;
   datePublished?: DateTimeInput;
   body?: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleUpdatetagsInput;
   images?: ArticleUpdateimagesInput;
@@ -935,7 +916,6 @@ export interface ArticleUpdateWithoutServiceDataInput {
   description?: String;
   datePublished?: DateTimeInput;
   body?: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleUpdatetagsInput;
   images?: ArticleUpdateimagesInput;
@@ -953,7 +933,6 @@ export interface ArticleCreateInput {
   description?: String;
   datePublished: DateTimeInput;
   body: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleCreatetagsInput;
   images?: ArticleCreateimagesInput;
@@ -978,7 +957,6 @@ export interface ArticleCreateWithoutSectionsInput {
   description?: String;
   datePublished: DateTimeInput;
   body: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleCreatetagsInput;
   images?: ArticleCreateimagesInput;
@@ -1012,7 +990,6 @@ export interface ArticleUpdateWithoutSectionsDataInput {
   description?: String;
   datePublished?: DateTimeInput;
   body?: String;
-  bodyMarkdown?: String;
   author?: String;
   tags?: ArticleUpdatetagsInput;
   images?: ArticleUpdateimagesInput;
@@ -1382,7 +1359,6 @@ export interface Article {
   description?: String;
   datePublished: DateTimeOutput;
   body: String;
-  bodyMarkdown?: String;
   author?: String;
   tags: String[];
   images: String[];
@@ -1395,7 +1371,6 @@ export interface ArticlePromise extends Promise<Article>, Fragmentable {
   description: () => Promise<String>;
   datePublished: () => Promise<DateTimeOutput>;
   body: () => Promise<String>;
-  bodyMarkdown: () => Promise<String>;
   author: () => Promise<String>;
   tags: () => Promise<String[]>;
   images: () => Promise<String[]>;
@@ -1422,7 +1397,6 @@ export interface ArticleSubscription
   description: () => Promise<AsyncIterator<String>>;
   datePublished: () => Promise<AsyncIterator<DateTimeOutput>>;
   body: () => Promise<AsyncIterator<String>>;
-  bodyMarkdown: () => Promise<AsyncIterator<String>>;
   author: () => Promise<AsyncIterator<String>>;
   tags: () => Promise<AsyncIterator<String[]>>;
   images: () => Promise<AsyncIterator<String[]>>;
@@ -1665,7 +1639,6 @@ export interface ArticlePreviousValues {
   description?: String;
   datePublished: DateTimeOutput;
   body: String;
-  bodyMarkdown?: String;
   author?: String;
   tags: String[];
   images: String[];
@@ -1680,7 +1653,6 @@ export interface ArticlePreviousValuesPromise
   description: () => Promise<String>;
   datePublished: () => Promise<DateTimeOutput>;
   body: () => Promise<String>;
-  bodyMarkdown: () => Promise<String>;
   author: () => Promise<String>;
   tags: () => Promise<String[]>;
   images: () => Promise<String[]>;
@@ -1695,7 +1667,6 @@ export interface ArticlePreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
   datePublished: () => Promise<AsyncIterator<DateTimeOutput>>;
   body: () => Promise<AsyncIterator<String>>;
-  bodyMarkdown: () => Promise<AsyncIterator<String>>;
   author: () => Promise<AsyncIterator<String>>;
   tags: () => Promise<AsyncIterator<String[]>>;
   images: () => Promise<AsyncIterator<String[]>>;

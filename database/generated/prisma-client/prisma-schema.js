@@ -22,7 +22,6 @@ type Article {
   description: String
   datePublished: DateTime!
   body: String!
-  bodyMarkdown: String
   author: String
   tags: [String!]!
   images: [String!]!
@@ -46,7 +45,6 @@ input ArticleCreateInput {
   description: String
   datePublished: DateTime!
   body: String!
-  bodyMarkdown: String
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
@@ -74,7 +72,6 @@ input ArticleCreateWithoutSectionsInput {
   description: String
   datePublished: DateTime!
   body: String!
-  bodyMarkdown: String
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
@@ -87,7 +84,6 @@ input ArticleCreateWithoutServiceInput {
   description: String
   datePublished: DateTime!
   body: String!
-  bodyMarkdown: String
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
@@ -112,8 +108,6 @@ enum ArticleOrderByInput {
   datePublished_DESC
   body_ASC
   body_DESC
-  bodyMarkdown_ASC
-  bodyMarkdown_DESC
   author_ASC
   author_DESC
   createdAt_ASC
@@ -129,7 +123,6 @@ type ArticlePreviousValues {
   description: String
   datePublished: DateTime!
   body: String!
-  bodyMarkdown: String
   author: String
   tags: [String!]!
   images: [String!]!
@@ -303,7 +296,6 @@ input ArticleUpdateInput {
   description: String
   datePublished: DateTime
   body: String
-  bodyMarkdown: String
   author: String
   tags: ArticleUpdatetagsInput
   images: ArticleUpdateimagesInput
@@ -317,7 +309,6 @@ input ArticleUpdateManyMutationInput {
   description: String
   datePublished: DateTime
   body: String
-  bodyMarkdown: String
   author: String
   tags: ArticleUpdatetagsInput
   images: ArticleUpdateimagesInput
@@ -351,7 +342,6 @@ input ArticleUpdateWithoutSectionsDataInput {
   description: String
   datePublished: DateTime
   body: String
-  bodyMarkdown: String
   author: String
   tags: ArticleUpdatetagsInput
   images: ArticleUpdateimagesInput
@@ -364,7 +354,6 @@ input ArticleUpdateWithoutServiceDataInput {
   description: String
   datePublished: DateTime
   body: String
-  bodyMarkdown: String
   author: String
   tags: ArticleUpdatetagsInput
   images: ArticleUpdateimagesInput
@@ -472,20 +461,6 @@ input ArticleWhereInput {
   body_not_starts_with: String
   body_ends_with: String
   body_not_ends_with: String
-  bodyMarkdown: String
-  bodyMarkdown_not: String
-  bodyMarkdown_in: [String!]
-  bodyMarkdown_not_in: [String!]
-  bodyMarkdown_lt: String
-  bodyMarkdown_lte: String
-  bodyMarkdown_gt: String
-  bodyMarkdown_gte: String
-  bodyMarkdown_contains: String
-  bodyMarkdown_not_contains: String
-  bodyMarkdown_starts_with: String
-  bodyMarkdown_not_starts_with: String
-  bodyMarkdown_ends_with: String
-  bodyMarkdown_not_ends_with: String
   author: String
   author_not: String
   author_in: [String!]
