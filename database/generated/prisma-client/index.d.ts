@@ -255,8 +255,6 @@ export type ArticleOrderByInput =
   | "description_DESC"
   | "datePublished_ASC"
   | "datePublished_DESC"
-  | "bodySource_ASC"
-  | "bodySource_DESC"
   | "body_ASC"
   | "body_DESC"
   | "bodyMarkdown_ASC"
@@ -312,14 +310,9 @@ export type ArticleSectionOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface ServiceUpdateWithoutArticlesDataInput {
-  name?: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  users?: UserUpdateManyWithoutServicesInput;
+export interface ArticleSectionUpsertWithoutArticlesInput {
+  update: ArticleSectionUpdateWithoutArticlesDataInput;
+  create: ArticleSectionCreateWithoutArticlesInput;
 }
 
 export type ArticleWhereUniqueInput = AtLeastOne<{
@@ -327,10 +320,9 @@ export type ArticleWhereUniqueInput = AtLeastOne<{
   url?: String;
 }>;
 
-export interface UserUpsertWithWhereUniqueWithoutServicesInput {
+export interface UserUpdateWithWhereUniqueWithoutServicesInput {
   where: UserWhereUniqueInput;
-  update: UserUpdateWithoutServicesDataInput;
-  create: UserCreateWithoutServicesInput;
+  data: UserUpdateWithoutServicesDataInput;
 }
 
 export interface ServiceWhereInput {
@@ -433,9 +425,9 @@ export interface ServiceWhereInput {
   NOT?: ServiceWhereInput[] | ServiceWhereInput;
 }
 
-export interface ServiceUpsertWithoutArticlesInput {
-  update: ServiceUpdateWithoutArticlesDataInput;
-  create: ServiceCreateWithoutArticlesInput;
+export interface UserUpdateWithoutServicesDataInput {
+  email?: String;
+  name?: String;
 }
 
 export interface UserWhereInput {
@@ -508,15 +500,10 @@ export interface ServiceCreateWithoutArticlesInput {
   users?: UserCreateManyWithoutServicesInput;
 }
 
-export interface ArticleUpdateManyMutationInput {
-  url?: String;
-  headline?: String;
-  description?: String;
-  datePublished?: DateTimeInput;
-  bodySource?: String;
-  body?: String;
-  bodyMarkdown?: String;
-  author?: String;
+export interface UserUpsertWithWhereUniqueWithoutServicesInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutServicesDataInput;
+  create: UserCreateWithoutServicesInput;
 }
 
 export interface UserCreateManyWithoutServicesInput {
@@ -556,10 +543,11 @@ export interface ArticleUpdateInput {
   headline?: String;
   description?: String;
   datePublished?: DateTimeInput;
-  bodySource?: String;
   body?: String;
   bodyMarkdown?: String;
   author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
   section?: ArticleSectionUpdateOneWithoutArticlesInput;
   service?: ServiceUpdateOneRequiredWithoutArticlesInput;
 }
@@ -570,13 +558,8 @@ export interface ServiceUpsertWithWhereUniqueWithoutUsersInput {
   create: ServiceCreateWithoutUsersInput;
 }
 
-export interface ArticleSectionUpdateOneWithoutArticlesInput {
-  create?: ArticleSectionCreateWithoutArticlesInput;
-  update?: ArticleSectionUpdateWithoutArticlesDataInput;
-  upsert?: ArticleSectionUpsertWithoutArticlesInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: ArticleSectionWhereUniqueInput;
+export interface ArticleUpdatetagsInput {
+  set?: String[] | String;
 }
 
 export interface ServiceUpdateWithWhereUniqueWithoutUsersInput {
@@ -584,8 +567,8 @@ export interface ServiceUpdateWithWhereUniqueWithoutUsersInput {
   data: ServiceUpdateWithoutUsersDataInput;
 }
 
-export interface ArticleSectionUpdateWithoutArticlesDataInput {
-  name?: String;
+export interface ArticleUpdateimagesInput {
+  set?: String[] | String;
 }
 
 export interface ServiceUpdateManyWithoutUsersInput {
@@ -601,9 +584,13 @@ export interface ServiceUpdateManyWithoutUsersInput {
     | ServiceUpsertWithWhereUniqueWithoutUsersInput;
 }
 
-export interface ArticleSectionUpsertWithoutArticlesInput {
-  update: ArticleSectionUpdateWithoutArticlesDataInput;
-  create: ArticleSectionCreateWithoutArticlesInput;
+export interface ArticleSectionUpdateOneWithoutArticlesInput {
+  create?: ArticleSectionCreateWithoutArticlesInput;
+  update?: ArticleSectionUpdateWithoutArticlesDataInput;
+  upsert?: ArticleSectionUpsertWithoutArticlesInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: ArticleSectionWhereUniqueInput;
 }
 
 export interface ServiceCreateWithoutUsersInput {
@@ -616,11 +603,8 @@ export interface ServiceCreateWithoutUsersInput {
   articles?: ArticleCreateManyWithoutServiceInput;
 }
 
-export interface ServiceUpdateOneRequiredWithoutArticlesInput {
-  create?: ServiceCreateWithoutArticlesInput;
-  update?: ServiceUpdateWithoutArticlesDataInput;
-  upsert?: ServiceUpsertWithoutArticlesInput;
-  connect?: ServiceWhereUniqueInput;
+export interface ArticleSectionUpdateWithoutArticlesDataInput {
+  name?: String;
 }
 
 export type ServiceWhereUniqueInput = AtLeastOne<{
@@ -648,6 +632,33 @@ export interface ServiceUpdateManyMutationInput {
   videoRestUrl?: String;
 }
 
+export interface ServiceUpdateOneRequiredWithoutArticlesInput {
+  create?: ServiceCreateWithoutArticlesInput;
+  update?: ServiceUpdateWithoutArticlesDataInput;
+  upsert?: ServiceUpsertWithoutArticlesInput;
+  connect?: ServiceWhereUniqueInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface ServiceUpdateWithoutArticlesDataInput {
+  name?: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  users?: UserUpdateManyWithoutServicesInput;
+}
+
+export interface ArticleUpdateWithWhereUniqueWithoutServiceInput {
+  where: ArticleWhereUniqueInput;
+  data: ArticleUpdateWithoutServiceDataInput;
+}
+
 export interface UserUpdateManyWithoutServicesInput {
   create?: UserCreateWithoutServicesInput[] | UserCreateWithoutServicesInput;
   delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
@@ -661,29 +672,8 @@ export interface UserUpdateManyWithoutServicesInput {
     | UserUpsertWithWhereUniqueWithoutServicesInput;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export interface UserUpdateWithWhereUniqueWithoutServicesInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutServicesDataInput;
-}
-
-export interface ArticleUpdateWithWhereUniqueWithoutServiceInput {
-  where: ArticleWhereUniqueInput;
-  data: ArticleUpdateWithoutServiceDataInput;
-}
-
-export interface UserUpdateWithoutServicesDataInput {
-  email?: String;
-  name?: String;
-}
-
-export interface ArticleSectionCreateOneWithoutArticlesInput {
-  create?: ArticleSectionCreateWithoutArticlesInput;
-  connect?: ArticleSectionWhereUniqueInput;
+export interface ArticleCreatetagsInput {
+  set?: String[] | String;
 }
 
 export interface ArticleSectionWhereInput {
@@ -723,15 +713,9 @@ export interface ArticleSectionWhereInput {
   NOT?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+export interface ArticleSectionCreateOneWithoutArticlesInput {
+  create?: ArticleSectionCreateWithoutArticlesInput;
+  connect?: ArticleSectionWhereUniqueInput;
 }
 
 export interface ArticleWhereInput {
@@ -799,20 +783,6 @@ export interface ArticleWhereInput {
   datePublished_lte?: DateTimeInput;
   datePublished_gt?: DateTimeInput;
   datePublished_gte?: DateTimeInput;
-  bodySource?: String;
-  bodySource_not?: String;
-  bodySource_in?: String[] | String;
-  bodySource_not_in?: String[] | String;
-  bodySource_lt?: String;
-  bodySource_lte?: String;
-  bodySource_gt?: String;
-  bodySource_gte?: String;
-  bodySource_contains?: String;
-  bodySource_not_contains?: String;
-  bodySource_starts_with?: String;
-  bodySource_not_starts_with?: String;
-  bodySource_ends_with?: String;
-  bodySource_not_ends_with?: String;
   body?: String;
   body_not?: String;
   body_in?: String[] | String;
@@ -862,9 +832,15 @@ export interface ArticleWhereInput {
   NOT?: ArticleWhereInput[] | ArticleWhereInput;
 }
 
-export interface UserUpdateManyMutationInput {
-  email?: String;
-  name?: String;
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
 export interface ArticleCreateWithoutServiceInput {
@@ -872,17 +848,45 @@ export interface ArticleCreateWithoutServiceInput {
   headline: String;
   description?: String;
   datePublished: DateTimeInput;
-  bodySource: String;
-  body?: String;
+  body: String;
   bodyMarkdown?: String;
   author?: String;
+  tags?: ArticleCreatetagsInput;
+  images?: ArticleCreateimagesInput;
   section?: ArticleSectionCreateOneWithoutArticlesInput;
+}
+
+export interface UserUpdateManyMutationInput {
+  email?: String;
+  name?: String;
+}
+
+export interface ServiceUpsertWithoutArticlesInput {
+  update: ServiceUpdateWithoutArticlesDataInput;
+  create: ServiceCreateWithoutArticlesInput;
 }
 
 export type ArticleSectionWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   name?: String;
 }>;
+
+export interface ArticleUpdateManyMutationInput {
+  url?: String;
+  headline?: String;
+  description?: String;
+  datePublished?: DateTimeInput;
+  body?: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
+}
+
+export interface ServiceCreateManyWithoutUsersInput {
+  create?: ServiceCreateWithoutUsersInput[] | ServiceCreateWithoutUsersInput;
+  connect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
+}
 
 export interface ArticleCreateManyWithoutServiceInput {
   create?:
@@ -891,9 +895,10 @@ export interface ArticleCreateManyWithoutServiceInput {
   connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
 }
 
-export interface ServiceCreateManyWithoutUsersInput {
-  create?: ServiceCreateWithoutUsersInput[] | ServiceCreateWithoutUsersInput;
-  connect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
+export interface ArticleUpsertWithWhereUniqueWithoutServiceInput {
+  where: ArticleWhereUniqueInput;
+  update: ArticleUpdateWithoutServiceDataInput;
+  create: ArticleCreateWithoutServiceInput;
 }
 
 export interface ServiceCreateInput {
@@ -905,17 +910,6 @@ export interface ServiceCreateInput {
   videoRestUrl?: String;
   articles?: ArticleCreateManyWithoutServiceInput;
   users?: UserCreateManyWithoutServicesInput;
-}
-
-export interface ArticleUpsertWithWhereUniqueWithoutServiceInput {
-  where: ArticleWhereUniqueInput;
-  update: ArticleUpdateWithoutServiceDataInput;
-  create: ArticleCreateWithoutServiceInput;
-}
-
-export interface ArticleSectionCreateInput {
-  name: String;
-  articles?: ArticleCreateManyWithoutSectionInput;
 }
 
 export interface ArticleUpdateManyWithoutServiceInput {
@@ -933,6 +927,15 @@ export interface ArticleUpdateManyWithoutServiceInput {
     | ArticleUpsertWithWhereUniqueWithoutServiceInput;
 }
 
+export interface ArticleSectionCreateInput {
+  name: String;
+  articles?: ArticleCreateManyWithoutSectionInput;
+}
+
+export interface ArticleCreateimagesInput {
+  set?: String[] | String;
+}
+
 export interface ArticleCreateManyWithoutSectionInput {
   create?:
     | ArticleCreateWithoutSectionInput[]
@@ -940,8 +943,21 @@ export interface ArticleCreateManyWithoutSectionInput {
   connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
 }
 
-export interface ArticleSectionCreateWithoutArticlesInput {
-  name: String;
+export interface ArticleSectionSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ArticleSectionWhereInput;
+  AND?:
+    | ArticleSectionSubscriptionWhereInput[]
+    | ArticleSectionSubscriptionWhereInput;
+  OR?:
+    | ArticleSectionSubscriptionWhereInput[]
+    | ArticleSectionSubscriptionWhereInput;
+  NOT?:
+    | ArticleSectionSubscriptionWhereInput[]
+    | ArticleSectionSubscriptionWhereInput;
 }
 
 export interface ArticleCreateWithoutSectionInput {
@@ -949,21 +965,18 @@ export interface ArticleCreateWithoutSectionInput {
   headline: String;
   description?: String;
   datePublished: DateTimeInput;
-  bodySource: String;
-  body?: String;
+  body: String;
   bodyMarkdown?: String;
   author?: String;
+  tags?: ArticleCreatetagsInput;
+  images?: ArticleCreateimagesInput;
   service: ServiceCreateOneWithoutArticlesInput;
 }
 
-export interface ServiceUpdateWithoutUsersDataInput {
-  name?: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  articles?: ArticleUpdateManyWithoutServiceInput;
+export interface UserUpdateInput {
+  email?: String;
+  name?: String;
+  services?: ServiceUpdateManyWithoutUsersInput;
 }
 
 export interface ArticleSectionUpdateInput {
@@ -971,10 +984,17 @@ export interface ArticleSectionUpdateInput {
   articles?: ArticleUpdateManyWithoutSectionInput;
 }
 
-export interface UserCreateInput {
-  email: String;
-  name?: String;
-  services?: ServiceCreateManyWithoutUsersInput;
+export interface ArticleUpdateWithoutServiceDataInput {
+  url?: String;
+  headline?: String;
+  description?: String;
+  datePublished?: DateTimeInput;
+  body?: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
+  section?: ArticleSectionUpdateOneWithoutArticlesInput;
 }
 
 export interface ArticleUpsertWithWhereUniqueWithoutSectionInput {
@@ -988,10 +1008,11 @@ export interface ArticleUpdateWithoutSectionDataInput {
   headline?: String;
   description?: String;
   datePublished?: DateTimeInput;
-  bodySource?: String;
   body?: String;
   bodyMarkdown?: String;
   author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
   service?: ServiceUpdateOneRequiredWithoutArticlesInput;
 }
 
@@ -1015,52 +1036,38 @@ export interface ArticleUpdateManyWithoutSectionInput {
     | ArticleUpsertWithWhereUniqueWithoutSectionInput;
 }
 
-export interface ArticleUpdateWithoutServiceDataInput {
-  url?: String;
-  headline?: String;
-  description?: String;
-  datePublished?: DateTimeInput;
-  bodySource?: String;
-  body?: String;
-  bodyMarkdown?: String;
-  author?: String;
-  section?: ArticleSectionUpdateOneWithoutArticlesInput;
-}
-
-export interface UserUpdateInput {
-  email?: String;
-  name?: String;
-  services?: ServiceUpdateManyWithoutUsersInput;
-}
-
-export interface ArticleSectionSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: ArticleSectionWhereInput;
-  AND?:
-    | ArticleSectionSubscriptionWhereInput[]
-    | ArticleSectionSubscriptionWhereInput;
-  OR?:
-    | ArticleSectionSubscriptionWhereInput[]
-    | ArticleSectionSubscriptionWhereInput;
-  NOT?:
-    | ArticleSectionSubscriptionWhereInput[]
-    | ArticleSectionSubscriptionWhereInput;
-}
-
 export interface ArticleCreateInput {
   url: String;
   headline: String;
   description?: String;
   datePublished: DateTimeInput;
-  bodySource: String;
-  body?: String;
+  body: String;
   bodyMarkdown?: String;
   author?: String;
+  tags?: ArticleCreatetagsInput;
+  images?: ArticleCreateimagesInput;
   section?: ArticleSectionCreateOneWithoutArticlesInput;
   service: ServiceCreateOneWithoutArticlesInput;
+}
+
+export interface UserCreateInput {
+  email: String;
+  name?: String;
+  services?: ServiceCreateManyWithoutUsersInput;
+}
+
+export interface ServiceUpdateWithoutUsersDataInput {
+  name?: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  articles?: ArticleUpdateManyWithoutServiceInput;
+}
+
+export interface ArticleSectionCreateWithoutArticlesInput {
+  name: String;
 }
 
 export interface NodeNode {
@@ -1095,10 +1102,11 @@ export interface Article {
   headline: String;
   description?: String;
   datePublished: DateTimeOutput;
-  bodySource: String;
-  body?: String;
+  body: String;
   bodyMarkdown?: String;
   author?: String;
+  tags: String[];
+  images: String[];
 }
 
 export interface ArticlePromise extends Promise<Article>, Fragmentable {
@@ -1107,10 +1115,11 @@ export interface ArticlePromise extends Promise<Article>, Fragmentable {
   headline: () => Promise<String>;
   description: () => Promise<String>;
   datePublished: () => Promise<DateTimeOutput>;
-  bodySource: () => Promise<String>;
   body: () => Promise<String>;
   bodyMarkdown: () => Promise<String>;
   author: () => Promise<String>;
+  tags: () => Promise<String[]>;
+  images: () => Promise<String[]>;
   section: <T = ArticleSectionPromise>() => T;
   service: <T = ServicePromise>() => T;
 }
@@ -1123,10 +1132,11 @@ export interface ArticleSubscription
   headline: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   datePublished: () => Promise<AsyncIterator<DateTimeOutput>>;
-  bodySource: () => Promise<AsyncIterator<String>>;
   body: () => Promise<AsyncIterator<String>>;
   bodyMarkdown: () => Promise<AsyncIterator<String>>;
   author: () => Promise<AsyncIterator<String>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
+  images: () => Promise<AsyncIterator<String[]>>;
   section: <T = ArticleSectionSubscription>() => T;
   service: <T = ServiceSubscription>() => T;
 }
@@ -1616,10 +1626,11 @@ export interface ArticlePreviousValues {
   headline: String;
   description?: String;
   datePublished: DateTimeOutput;
-  bodySource: String;
-  body?: String;
+  body: String;
   bodyMarkdown?: String;
   author?: String;
+  tags: String[];
+  images: String[];
 }
 
 export interface ArticlePreviousValuesPromise
@@ -1630,10 +1641,11 @@ export interface ArticlePreviousValuesPromise
   headline: () => Promise<String>;
   description: () => Promise<String>;
   datePublished: () => Promise<DateTimeOutput>;
-  bodySource: () => Promise<String>;
   body: () => Promise<String>;
   bodyMarkdown: () => Promise<String>;
   author: () => Promise<String>;
+  tags: () => Promise<String[]>;
+  images: () => Promise<String[]>;
 }
 
 export interface ArticlePreviousValuesSubscription
@@ -1644,10 +1656,11 @@ export interface ArticlePreviousValuesSubscription
   headline: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   datePublished: () => Promise<AsyncIterator<DateTimeOutput>>;
-  bodySource: () => Promise<AsyncIterator<String>>;
   body: () => Promise<AsyncIterator<String>>;
   bodyMarkdown: () => Promise<AsyncIterator<String>>;
   author: () => Promise<AsyncIterator<String>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
+  images: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface ServiceEdge {

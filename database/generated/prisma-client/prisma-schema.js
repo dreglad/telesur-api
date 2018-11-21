@@ -21,10 +21,11 @@ type Article {
   headline: String!
   description: String
   datePublished: DateTime!
-  bodySource: String!
-  body: String
+  body: String!
   bodyMarkdown: String
   author: String
+  tags: [String!]!
+  images: [String!]!
   section: ArticleSection
   service: Service!
 }
@@ -35,15 +36,20 @@ type ArticleConnection {
   aggregate: AggregateArticle!
 }
 
+input ArticleCreateimagesInput {
+  set: [String!]
+}
+
 input ArticleCreateInput {
   url: String!
   headline: String!
   description: String
   datePublished: DateTime!
-  bodySource: String!
-  body: String
+  body: String!
   bodyMarkdown: String
   author: String
+  tags: ArticleCreatetagsInput
+  images: ArticleCreateimagesInput
   section: ArticleSectionCreateOneWithoutArticlesInput
   service: ServiceCreateOneWithoutArticlesInput!
 }
@@ -58,15 +64,20 @@ input ArticleCreateManyWithoutServiceInput {
   connect: [ArticleWhereUniqueInput!]
 }
 
+input ArticleCreatetagsInput {
+  set: [String!]
+}
+
 input ArticleCreateWithoutSectionInput {
   url: String!
   headline: String!
   description: String
   datePublished: DateTime!
-  bodySource: String!
-  body: String
+  body: String!
   bodyMarkdown: String
   author: String
+  tags: ArticleCreatetagsInput
+  images: ArticleCreateimagesInput
   service: ServiceCreateOneWithoutArticlesInput!
 }
 
@@ -75,10 +86,11 @@ input ArticleCreateWithoutServiceInput {
   headline: String!
   description: String
   datePublished: DateTime!
-  bodySource: String!
-  body: String
+  body: String!
   bodyMarkdown: String
   author: String
+  tags: ArticleCreatetagsInput
+  images: ArticleCreateimagesInput
   section: ArticleSectionCreateOneWithoutArticlesInput
 }
 
@@ -98,8 +110,6 @@ enum ArticleOrderByInput {
   description_DESC
   datePublished_ASC
   datePublished_DESC
-  bodySource_ASC
-  bodySource_DESC
   body_ASC
   body_DESC
   bodyMarkdown_ASC
@@ -118,10 +128,11 @@ type ArticlePreviousValues {
   headline: String!
   description: String
   datePublished: DateTime!
-  bodySource: String!
-  body: String
+  body: String!
   bodyMarkdown: String
   author: String
+  tags: [String!]!
+  images: [String!]!
 }
 
 type ArticleSection {
@@ -276,15 +287,20 @@ input ArticleSubscriptionWhereInput {
   NOT: [ArticleSubscriptionWhereInput!]
 }
 
+input ArticleUpdateimagesInput {
+  set: [String!]
+}
+
 input ArticleUpdateInput {
   url: String
   headline: String
   description: String
   datePublished: DateTime
-  bodySource: String
   body: String
   bodyMarkdown: String
   author: String
+  tags: ArticleUpdatetagsInput
+  images: ArticleUpdateimagesInput
   section: ArticleSectionUpdateOneWithoutArticlesInput
   service: ServiceUpdateOneRequiredWithoutArticlesInput
 }
@@ -294,10 +310,11 @@ input ArticleUpdateManyMutationInput {
   headline: String
   description: String
   datePublished: DateTime
-  bodySource: String
   body: String
   bodyMarkdown: String
   author: String
+  tags: ArticleUpdatetagsInput
+  images: ArticleUpdateimagesInput
 }
 
 input ArticleUpdateManyWithoutSectionInput {
@@ -318,15 +335,20 @@ input ArticleUpdateManyWithoutServiceInput {
   upsert: [ArticleUpsertWithWhereUniqueWithoutServiceInput!]
 }
 
+input ArticleUpdatetagsInput {
+  set: [String!]
+}
+
 input ArticleUpdateWithoutSectionDataInput {
   url: String
   headline: String
   description: String
   datePublished: DateTime
-  bodySource: String
   body: String
   bodyMarkdown: String
   author: String
+  tags: ArticleUpdatetagsInput
+  images: ArticleUpdateimagesInput
   service: ServiceUpdateOneRequiredWithoutArticlesInput
 }
 
@@ -335,10 +357,11 @@ input ArticleUpdateWithoutServiceDataInput {
   headline: String
   description: String
   datePublished: DateTime
-  bodySource: String
   body: String
   bodyMarkdown: String
   author: String
+  tags: ArticleUpdatetagsInput
+  images: ArticleUpdateimagesInput
   section: ArticleSectionUpdateOneWithoutArticlesInput
 }
 
@@ -429,20 +452,6 @@ input ArticleWhereInput {
   datePublished_lte: DateTime
   datePublished_gt: DateTime
   datePublished_gte: DateTime
-  bodySource: String
-  bodySource_not: String
-  bodySource_in: [String!]
-  bodySource_not_in: [String!]
-  bodySource_lt: String
-  bodySource_lte: String
-  bodySource_gt: String
-  bodySource_gte: String
-  bodySource_contains: String
-  bodySource_not_contains: String
-  bodySource_starts_with: String
-  bodySource_not_starts_with: String
-  bodySource_ends_with: String
-  bodySource_not_ends_with: String
   body: String
   body_not: String
   body_in: [String!]

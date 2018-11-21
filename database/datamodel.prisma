@@ -23,10 +23,11 @@ type Article {
   headline: String!
   description: String
   datePublished: DateTime!
-  bodySource: String!
-  body: String
+  body: String!
   bodyMarkdown: String
   author: String
+  tags: [String!]
+  images: [String!]
   section: ArticleSection
   service: Service!
 }
