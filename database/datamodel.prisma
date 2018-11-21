@@ -28,7 +28,7 @@ type Article {
   author: String
   tags: [String!]
   images: [String!]
-  section: ArticleSection
+  sections: [ArticleSection!]!
   service: Service!
 }
 

@@ -26,7 +26,7 @@ type Article {
   author: String
   tags: [String!]!
   images: [String!]!
-  section: ArticleSection
+  sections(where: ArticleSectionWhereInput, orderBy: ArticleSectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ArticleSection!]
   service: Service!
 }
 
@@ -50,12 +50,12 @@ input ArticleCreateInput {
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
-  section: ArticleSectionCreateOneWithoutArticlesInput
+  sections: ArticleSectionCreateManyWithoutArticlesInput
   service: ServiceCreateOneWithoutArticlesInput!
 }
 
-input ArticleCreateManyWithoutSectionInput {
-  create: [ArticleCreateWithoutSectionInput!]
+input ArticleCreateManyWithoutSectionsInput {
+  create: [ArticleCreateWithoutSectionsInput!]
   connect: [ArticleWhereUniqueInput!]
 }
 
@@ -68,7 +68,7 @@ input ArticleCreatetagsInput {
   set: [String!]
 }
 
-input ArticleCreateWithoutSectionInput {
+input ArticleCreateWithoutSectionsInput {
   url: String!
   headline: String!
   description: String
@@ -91,7 +91,7 @@ input ArticleCreateWithoutServiceInput {
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
-  section: ArticleSectionCreateOneWithoutArticlesInput
+  sections: ArticleSectionCreateManyWithoutArticlesInput
 }
 
 type ArticleEdge {
@@ -149,12 +149,12 @@ type ArticleSectionConnection {
 
 input ArticleSectionCreateInput {
   name: String!
-  articles: ArticleCreateManyWithoutSectionInput
+  articles: ArticleCreateManyWithoutSectionsInput
 }
 
-input ArticleSectionCreateOneWithoutArticlesInput {
-  create: ArticleSectionCreateWithoutArticlesInput
-  connect: ArticleSectionWhereUniqueInput
+input ArticleSectionCreateManyWithoutArticlesInput {
+  create: [ArticleSectionCreateWithoutArticlesInput!]
+  connect: [ArticleSectionWhereUniqueInput!]
 }
 
 input ArticleSectionCreateWithoutArticlesInput {
@@ -202,27 +202,33 @@ input ArticleSectionSubscriptionWhereInput {
 
 input ArticleSectionUpdateInput {
   name: String
-  articles: ArticleUpdateManyWithoutSectionInput
+  articles: ArticleUpdateManyWithoutSectionsInput
 }
 
 input ArticleSectionUpdateManyMutationInput {
   name: String
 }
 
-input ArticleSectionUpdateOneWithoutArticlesInput {
-  create: ArticleSectionCreateWithoutArticlesInput
-  update: ArticleSectionUpdateWithoutArticlesDataInput
-  upsert: ArticleSectionUpsertWithoutArticlesInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: ArticleSectionWhereUniqueInput
+input ArticleSectionUpdateManyWithoutArticlesInput {
+  create: [ArticleSectionCreateWithoutArticlesInput!]
+  delete: [ArticleSectionWhereUniqueInput!]
+  connect: [ArticleSectionWhereUniqueInput!]
+  disconnect: [ArticleSectionWhereUniqueInput!]
+  update: [ArticleSectionUpdateWithWhereUniqueWithoutArticlesInput!]
+  upsert: [ArticleSectionUpsertWithWhereUniqueWithoutArticlesInput!]
 }
 
 input ArticleSectionUpdateWithoutArticlesDataInput {
   name: String
 }
 
-input ArticleSectionUpsertWithoutArticlesInput {
+input ArticleSectionUpdateWithWhereUniqueWithoutArticlesInput {
+  where: ArticleSectionWhereUniqueInput!
+  data: ArticleSectionUpdateWithoutArticlesDataInput!
+}
+
+input ArticleSectionUpsertWithWhereUniqueWithoutArticlesInput {
+  where: ArticleSectionWhereUniqueInput!
   update: ArticleSectionUpdateWithoutArticlesDataInput!
   create: ArticleSectionCreateWithoutArticlesInput!
 }
@@ -301,7 +307,7 @@ input ArticleUpdateInput {
   author: String
   tags: ArticleUpdatetagsInput
   images: ArticleUpdateimagesInput
-  section: ArticleSectionUpdateOneWithoutArticlesInput
+  sections: ArticleSectionUpdateManyWithoutArticlesInput
   service: ServiceUpdateOneRequiredWithoutArticlesInput
 }
 
@@ -317,13 +323,13 @@ input ArticleUpdateManyMutationInput {
   images: ArticleUpdateimagesInput
 }
 
-input ArticleUpdateManyWithoutSectionInput {
-  create: [ArticleCreateWithoutSectionInput!]
+input ArticleUpdateManyWithoutSectionsInput {
+  create: [ArticleCreateWithoutSectionsInput!]
   delete: [ArticleWhereUniqueInput!]
   connect: [ArticleWhereUniqueInput!]
   disconnect: [ArticleWhereUniqueInput!]
-  update: [ArticleUpdateWithWhereUniqueWithoutSectionInput!]
-  upsert: [ArticleUpsertWithWhereUniqueWithoutSectionInput!]
+  update: [ArticleUpdateWithWhereUniqueWithoutSectionsInput!]
+  upsert: [ArticleUpsertWithWhereUniqueWithoutSectionsInput!]
 }
 
 input ArticleUpdateManyWithoutServiceInput {
@@ -339,7 +345,7 @@ input ArticleUpdatetagsInput {
   set: [String!]
 }
 
-input ArticleUpdateWithoutSectionDataInput {
+input ArticleUpdateWithoutSectionsDataInput {
   url: String
   headline: String
   description: String
@@ -362,12 +368,12 @@ input ArticleUpdateWithoutServiceDataInput {
   author: String
   tags: ArticleUpdatetagsInput
   images: ArticleUpdateimagesInput
-  section: ArticleSectionUpdateOneWithoutArticlesInput
+  sections: ArticleSectionUpdateManyWithoutArticlesInput
 }
 
-input ArticleUpdateWithWhereUniqueWithoutSectionInput {
+input ArticleUpdateWithWhereUniqueWithoutSectionsInput {
   where: ArticleWhereUniqueInput!
-  data: ArticleUpdateWithoutSectionDataInput!
+  data: ArticleUpdateWithoutSectionsDataInput!
 }
 
 input ArticleUpdateWithWhereUniqueWithoutServiceInput {
@@ -375,10 +381,10 @@ input ArticleUpdateWithWhereUniqueWithoutServiceInput {
   data: ArticleUpdateWithoutServiceDataInput!
 }
 
-input ArticleUpsertWithWhereUniqueWithoutSectionInput {
+input ArticleUpsertWithWhereUniqueWithoutSectionsInput {
   where: ArticleWhereUniqueInput!
-  update: ArticleUpdateWithoutSectionDataInput!
-  create: ArticleCreateWithoutSectionInput!
+  update: ArticleUpdateWithoutSectionsDataInput!
+  create: ArticleCreateWithoutSectionsInput!
 }
 
 input ArticleUpsertWithWhereUniqueWithoutServiceInput {
@@ -494,7 +500,9 @@ input ArticleWhereInput {
   author_not_starts_with: String
   author_ends_with: String
   author_not_ends_with: String
-  section: ArticleSectionWhereInput
+  sections_every: ArticleSectionWhereInput
+  sections_some: ArticleSectionWhereInput
+  sections_none: ArticleSectionWhereInput
   service: ServiceWhereInput
   AND: [ArticleWhereInput!]
   OR: [ArticleWhereInput!]

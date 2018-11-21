@@ -244,6 +244,16 @@ export interface ClientConstructor<T> {
 
 export type LANGUAGE = "ES" | "EN";
 
+export type ArticleSectionOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type ArticleOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -298,19 +308,10 @@ export type ServiceOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type ArticleSectionOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
-
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface ArticleSectionUpsertWithoutArticlesInput {
+export interface ArticleSectionUpsertWithWhereUniqueWithoutArticlesInput {
+  where: ArticleSectionWhereUniqueInput;
   update: ArticleSectionUpdateWithoutArticlesDataInput;
   create: ArticleSectionCreateWithoutArticlesInput;
 }
@@ -430,294 +431,6 @@ export interface UserUpdateWithoutServicesDataInput {
   name?: String;
 }
 
-export interface UserWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  services_every?: ServiceWhereInput;
-  services_some?: ServiceWhereInput;
-  services_none?: ServiceWhereInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
-}
-
-export interface ServiceCreateOneWithoutArticlesInput {
-  create?: ServiceCreateWithoutArticlesInput;
-  connect?: ServiceWhereUniqueInput;
-}
-
-export interface ArticleSectionUpdateManyMutationInput {
-  name?: String;
-}
-
-export interface ServiceCreateWithoutArticlesInput {
-  name: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  users?: UserCreateManyWithoutServicesInput;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutServicesInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutServicesDataInput;
-  create: UserCreateWithoutServicesInput;
-}
-
-export interface UserCreateManyWithoutServicesInput {
-  create?: UserCreateWithoutServicesInput[] | UserCreateWithoutServicesInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-}
-
-export interface ServiceSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: ServiceWhereInput;
-  AND?: ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput;
-  OR?: ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput;
-  NOT?: ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput;
-}
-
-export interface UserCreateWithoutServicesInput {
-  email: String;
-  name?: String;
-}
-
-export interface ArticleSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: ArticleWhereInput;
-  AND?: ArticleSubscriptionWhereInput[] | ArticleSubscriptionWhereInput;
-  OR?: ArticleSubscriptionWhereInput[] | ArticleSubscriptionWhereInput;
-  NOT?: ArticleSubscriptionWhereInput[] | ArticleSubscriptionWhereInput;
-}
-
-export interface ArticleUpdateInput {
-  url?: String;
-  headline?: String;
-  description?: String;
-  datePublished?: DateTimeInput;
-  body?: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags?: ArticleUpdatetagsInput;
-  images?: ArticleUpdateimagesInput;
-  section?: ArticleSectionUpdateOneWithoutArticlesInput;
-  service?: ServiceUpdateOneRequiredWithoutArticlesInput;
-}
-
-export interface ServiceUpsertWithWhereUniqueWithoutUsersInput {
-  where: ServiceWhereUniqueInput;
-  update: ServiceUpdateWithoutUsersDataInput;
-  create: ServiceCreateWithoutUsersInput;
-}
-
-export interface ArticleUpdatetagsInput {
-  set?: String[] | String;
-}
-
-export interface ServiceUpdateWithWhereUniqueWithoutUsersInput {
-  where: ServiceWhereUniqueInput;
-  data: ServiceUpdateWithoutUsersDataInput;
-}
-
-export interface ArticleUpdateimagesInput {
-  set?: String[] | String;
-}
-
-export interface ServiceUpdateManyWithoutUsersInput {
-  create?: ServiceCreateWithoutUsersInput[] | ServiceCreateWithoutUsersInput;
-  delete?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
-  connect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
-  disconnect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
-  update?:
-    | ServiceUpdateWithWhereUniqueWithoutUsersInput[]
-    | ServiceUpdateWithWhereUniqueWithoutUsersInput;
-  upsert?:
-    | ServiceUpsertWithWhereUniqueWithoutUsersInput[]
-    | ServiceUpsertWithWhereUniqueWithoutUsersInput;
-}
-
-export interface ArticleSectionUpdateOneWithoutArticlesInput {
-  create?: ArticleSectionCreateWithoutArticlesInput;
-  update?: ArticleSectionUpdateWithoutArticlesDataInput;
-  upsert?: ArticleSectionUpsertWithoutArticlesInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: ArticleSectionWhereUniqueInput;
-}
-
-export interface ServiceCreateWithoutUsersInput {
-  name: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  articles?: ArticleCreateManyWithoutServiceInput;
-}
-
-export interface ArticleSectionUpdateWithoutArticlesDataInput {
-  name?: String;
-}
-
-export type ServiceWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  name?: ID_Input;
-}>;
-
-export interface ServiceUpdateInput {
-  name?: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  articles?: ArticleUpdateManyWithoutServiceInput;
-  users?: UserUpdateManyWithoutServicesInput;
-}
-
-export interface ServiceUpdateManyMutationInput {
-  name?: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-}
-
-export interface ServiceUpdateOneRequiredWithoutArticlesInput {
-  create?: ServiceCreateWithoutArticlesInput;
-  update?: ServiceUpdateWithoutArticlesDataInput;
-  upsert?: ServiceUpsertWithoutArticlesInput;
-  connect?: ServiceWhereUniqueInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  email?: String;
-}>;
-
-export interface ServiceUpdateWithoutArticlesDataInput {
-  name?: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  users?: UserUpdateManyWithoutServicesInput;
-}
-
-export interface ArticleUpdateWithWhereUniqueWithoutServiceInput {
-  where: ArticleWhereUniqueInput;
-  data: ArticleUpdateWithoutServiceDataInput;
-}
-
-export interface UserUpdateManyWithoutServicesInput {
-  create?: UserCreateWithoutServicesInput[] | UserCreateWithoutServicesInput;
-  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  update?:
-    | UserUpdateWithWhereUniqueWithoutServicesInput[]
-    | UserUpdateWithWhereUniqueWithoutServicesInput;
-  upsert?:
-    | UserUpsertWithWhereUniqueWithoutServicesInput[]
-    | UserUpsertWithWhereUniqueWithoutServicesInput;
-}
-
-export interface ArticleCreatetagsInput {
-  set?: String[] | String;
-}
-
-export interface ArticleSectionWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  articles_every?: ArticleWhereInput;
-  articles_some?: ArticleWhereInput;
-  articles_none?: ArticleWhereInput;
-  AND?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
-  OR?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
-  NOT?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
-}
-
-export interface ArticleSectionCreateOneWithoutArticlesInput {
-  create?: ArticleSectionCreateWithoutArticlesInput;
-  connect?: ArticleSectionWhereUniqueInput;
-}
-
 export interface ArticleWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
@@ -825,22 +538,266 @@ export interface ArticleWhereInput {
   author_not_starts_with?: String;
   author_ends_with?: String;
   author_not_ends_with?: String;
-  section?: ArticleSectionWhereInput;
+  sections_every?: ArticleSectionWhereInput;
+  sections_some?: ArticleSectionWhereInput;
+  sections_none?: ArticleSectionWhereInput;
   service?: ServiceWhereInput;
   AND?: ArticleWhereInput[] | ArticleWhereInput;
   OR?: ArticleWhereInput[] | ArticleWhereInput;
   NOT?: ArticleWhereInput[] | ArticleWhereInput;
 }
 
-export interface UserSubscriptionWhereInput {
+export interface ServiceCreateWithoutArticlesInput {
+  name: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  users?: UserCreateManyWithoutServicesInput;
+}
+
+export interface ArticleSectionUpdateManyMutationInput {
+  name?: String;
+}
+
+export interface UserCreateManyWithoutServicesInput {
+  create?: UserCreateWithoutServicesInput[] | UserCreateWithoutServicesInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutServicesInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutServicesDataInput;
+  create: UserCreateWithoutServicesInput;
+}
+
+export interface UserCreateWithoutServicesInput {
+  email: String;
+  name?: String;
+}
+
+export interface ServiceSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  node?: ServiceWhereInput;
+  AND?: ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput;
+  OR?: ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput;
+  NOT?: ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput;
+}
+
+export interface ArticleUpdateInput {
+  url?: String;
+  headline?: String;
+  description?: String;
+  datePublished?: DateTimeInput;
+  body?: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
+  sections?: ArticleSectionUpdateManyWithoutArticlesInput;
+  service?: ServiceUpdateOneRequiredWithoutArticlesInput;
+}
+
+export interface ArticleSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ArticleWhereInput;
+  AND?: ArticleSubscriptionWhereInput[] | ArticleSubscriptionWhereInput;
+  OR?: ArticleSubscriptionWhereInput[] | ArticleSubscriptionWhereInput;
+  NOT?: ArticleSubscriptionWhereInput[] | ArticleSubscriptionWhereInput;
+}
+
+export interface ArticleUpdatetagsInput {
+  set?: String[] | String;
+}
+
+export interface ServiceUpsertWithWhereUniqueWithoutUsersInput {
+  where: ServiceWhereUniqueInput;
+  update: ServiceUpdateWithoutUsersDataInput;
+  create: ServiceCreateWithoutUsersInput;
+}
+
+export interface ArticleUpdateimagesInput {
+  set?: String[] | String;
+}
+
+export interface ServiceUpdateWithWhereUniqueWithoutUsersInput {
+  where: ServiceWhereUniqueInput;
+  data: ServiceUpdateWithoutUsersDataInput;
+}
+
+export interface ArticleSectionUpdateManyWithoutArticlesInput {
+  create?:
+    | ArticleSectionCreateWithoutArticlesInput[]
+    | ArticleSectionCreateWithoutArticlesInput;
+  delete?: ArticleSectionWhereUniqueInput[] | ArticleSectionWhereUniqueInput;
+  connect?: ArticleSectionWhereUniqueInput[] | ArticleSectionWhereUniqueInput;
+  disconnect?:
+    | ArticleSectionWhereUniqueInput[]
+    | ArticleSectionWhereUniqueInput;
+  update?:
+    | ArticleSectionUpdateWithWhereUniqueWithoutArticlesInput[]
+    | ArticleSectionUpdateWithWhereUniqueWithoutArticlesInput;
+  upsert?:
+    | ArticleSectionUpsertWithWhereUniqueWithoutArticlesInput[]
+    | ArticleSectionUpsertWithWhereUniqueWithoutArticlesInput;
+}
+
+export type ArticleSectionWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  name?: String;
+}>;
+
+export interface ArticleSectionUpdateWithWhereUniqueWithoutArticlesInput {
+  where: ArticleSectionWhereUniqueInput;
+  data: ArticleSectionUpdateWithoutArticlesDataInput;
+}
+
+export interface ServiceCreateWithoutUsersInput {
+  name: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  articles?: ArticleCreateManyWithoutServiceInput;
+}
+
+export interface ArticleSectionUpdateWithoutArticlesDataInput {
+  name?: String;
+}
+
+export type ServiceWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  name?: ID_Input;
+}>;
+
+export interface ServiceUpdateInput {
+  name?: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  articles?: ArticleUpdateManyWithoutServiceInput;
+  users?: UserUpdateManyWithoutServicesInput;
+}
+
+export interface ServiceUpdateManyMutationInput {
+  name?: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+}
+
+export interface ServiceUpdateOneRequiredWithoutArticlesInput {
+  create?: ServiceCreateWithoutArticlesInput;
+  update?: ServiceUpdateWithoutArticlesDataInput;
+  upsert?: ServiceUpsertWithoutArticlesInput;
+  connect?: ServiceWhereUniqueInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+}>;
+
+export interface ServiceUpdateWithoutArticlesDataInput {
+  name?: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  users?: UserUpdateManyWithoutServicesInput;
+}
+
+export interface ArticleUpdateWithWhereUniqueWithoutServiceInput {
+  where: ArticleWhereUniqueInput;
+  data: ArticleUpdateWithoutServiceDataInput;
+}
+
+export interface UserUpdateManyWithoutServicesInput {
+  create?: UserCreateWithoutServicesInput[] | UserCreateWithoutServicesInput;
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  update?:
+    | UserUpdateWithWhereUniqueWithoutServicesInput[]
+    | UserUpdateWithWhereUniqueWithoutServicesInput;
+  upsert?:
+    | UserUpsertWithWhereUniqueWithoutServicesInput[]
+    | UserUpsertWithWhereUniqueWithoutServicesInput;
+}
+
+export interface ArticleCreatetagsInput {
+  set?: String[] | String;
+}
+
+export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  services_every?: ServiceWhereInput;
+  services_some?: ServiceWhereInput;
+  services_none?: ServiceWhereInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export interface ArticleSectionCreateManyWithoutArticlesInput {
+  create?:
+    | ArticleSectionCreateWithoutArticlesInput[]
+    | ArticleSectionCreateWithoutArticlesInput;
+  connect?: ArticleSectionWhereUniqueInput[] | ArticleSectionWhereUniqueInput;
 }
 
 export interface ArticleCreateWithoutServiceInput {
@@ -853,94 +810,49 @@ export interface ArticleCreateWithoutServiceInput {
   author?: String;
   tags?: ArticleCreatetagsInput;
   images?: ArticleCreateimagesInput;
-  section?: ArticleSectionCreateOneWithoutArticlesInput;
+  sections?: ArticleSectionCreateManyWithoutArticlesInput;
 }
 
-export interface UserUpdateManyMutationInput {
-  email?: String;
+export interface ServiceCreateOneWithoutArticlesInput {
+  create?: ServiceCreateWithoutArticlesInput;
+  connect?: ServiceWhereUniqueInput;
+}
+
+export interface ArticleSectionWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
   name?: String;
-}
-
-export interface ServiceUpsertWithoutArticlesInput {
-  update: ServiceUpdateWithoutArticlesDataInput;
-  create: ServiceCreateWithoutArticlesInput;
-}
-
-export type ArticleSectionWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-  name?: String;
-}>;
-
-export interface ArticleUpdateManyMutationInput {
-  url?: String;
-  headline?: String;
-  description?: String;
-  datePublished?: DateTimeInput;
-  body?: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags?: ArticleUpdatetagsInput;
-  images?: ArticleUpdateimagesInput;
-}
-
-export interface ServiceCreateManyWithoutUsersInput {
-  create?: ServiceCreateWithoutUsersInput[] | ServiceCreateWithoutUsersInput;
-  connect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
-}
-
-export interface ArticleCreateManyWithoutServiceInput {
-  create?:
-    | ArticleCreateWithoutServiceInput[]
-    | ArticleCreateWithoutServiceInput;
-  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-}
-
-export interface ArticleUpsertWithWhereUniqueWithoutServiceInput {
-  where: ArticleWhereUniqueInput;
-  update: ArticleUpdateWithoutServiceDataInput;
-  create: ArticleCreateWithoutServiceInput;
-}
-
-export interface ServiceCreateInput {
-  name: ID_Input;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
-  articles?: ArticleCreateManyWithoutServiceInput;
-  users?: UserCreateManyWithoutServicesInput;
-}
-
-export interface ArticleUpdateManyWithoutServiceInput {
-  create?:
-    | ArticleCreateWithoutServiceInput[]
-    | ArticleCreateWithoutServiceInput;
-  delete?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-  disconnect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-  update?:
-    | ArticleUpdateWithWhereUniqueWithoutServiceInput[]
-    | ArticleUpdateWithWhereUniqueWithoutServiceInput;
-  upsert?:
-    | ArticleUpsertWithWhereUniqueWithoutServiceInput[]
-    | ArticleUpsertWithWhereUniqueWithoutServiceInput;
-}
-
-export interface ArticleSectionCreateInput {
-  name: String;
-  articles?: ArticleCreateManyWithoutSectionInput;
-}
-
-export interface ArticleCreateimagesInput {
-  set?: String[] | String;
-}
-
-export interface ArticleCreateManyWithoutSectionInput {
-  create?:
-    | ArticleCreateWithoutSectionInput[]
-    | ArticleCreateWithoutSectionInput;
-  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  articles_every?: ArticleWhereInput;
+  articles_some?: ArticleWhereInput;
+  articles_none?: ArticleWhereInput;
+  AND?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
+  OR?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
+  NOT?: ArticleSectionWhereInput[] | ArticleSectionWhereInput;
 }
 
 export interface ArticleSectionSubscriptionWhereInput {
@@ -960,100 +872,9 @@ export interface ArticleSectionSubscriptionWhereInput {
     | ArticleSectionSubscriptionWhereInput;
 }
 
-export interface ArticleCreateWithoutSectionInput {
-  url: String;
-  headline: String;
-  description?: String;
-  datePublished: DateTimeInput;
-  body: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags?: ArticleCreatetagsInput;
-  images?: ArticleCreateimagesInput;
-  service: ServiceCreateOneWithoutArticlesInput;
-}
-
-export interface UserUpdateInput {
-  email?: String;
-  name?: String;
-  services?: ServiceUpdateManyWithoutUsersInput;
-}
-
-export interface ArticleSectionUpdateInput {
-  name?: String;
-  articles?: ArticleUpdateManyWithoutSectionInput;
-}
-
-export interface ArticleUpdateWithoutServiceDataInput {
-  url?: String;
-  headline?: String;
-  description?: String;
-  datePublished?: DateTimeInput;
-  body?: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags?: ArticleUpdatetagsInput;
-  images?: ArticleUpdateimagesInput;
-  section?: ArticleSectionUpdateOneWithoutArticlesInput;
-}
-
-export interface ArticleUpsertWithWhereUniqueWithoutSectionInput {
-  where: ArticleWhereUniqueInput;
-  update: ArticleUpdateWithoutSectionDataInput;
-  create: ArticleCreateWithoutSectionInput;
-}
-
-export interface ArticleUpdateWithoutSectionDataInput {
-  url?: String;
-  headline?: String;
-  description?: String;
-  datePublished?: DateTimeInput;
-  body?: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags?: ArticleUpdatetagsInput;
-  images?: ArticleUpdateimagesInput;
-  service?: ServiceUpdateOneRequiredWithoutArticlesInput;
-}
-
-export interface ArticleUpdateWithWhereUniqueWithoutSectionInput {
-  where: ArticleWhereUniqueInput;
-  data: ArticleUpdateWithoutSectionDataInput;
-}
-
-export interface ArticleUpdateManyWithoutSectionInput {
-  create?:
-    | ArticleCreateWithoutSectionInput[]
-    | ArticleCreateWithoutSectionInput;
-  delete?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-  disconnect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
-  update?:
-    | ArticleUpdateWithWhereUniqueWithoutSectionInput[]
-    | ArticleUpdateWithWhereUniqueWithoutSectionInput;
-  upsert?:
-    | ArticleUpsertWithWhereUniqueWithoutSectionInput[]
-    | ArticleUpsertWithWhereUniqueWithoutSectionInput;
-}
-
-export interface ArticleCreateInput {
-  url: String;
-  headline: String;
-  description?: String;
-  datePublished: DateTimeInput;
-  body: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags?: ArticleCreatetagsInput;
-  images?: ArticleCreateimagesInput;
-  section?: ArticleSectionCreateOneWithoutArticlesInput;
-  service: ServiceCreateOneWithoutArticlesInput;
-}
-
-export interface UserCreateInput {
-  email: String;
-  name?: String;
-  services?: ServiceCreateManyWithoutUsersInput;
+export interface ServiceUpsertWithoutArticlesInput {
+  update: ServiceUpdateWithoutArticlesDataInput;
+  create: ServiceCreateWithoutArticlesInput;
 }
 
 export interface ServiceUpdateWithoutUsersDataInput {
@@ -1066,8 +887,205 @@ export interface ServiceUpdateWithoutUsersDataInput {
   articles?: ArticleUpdateManyWithoutServiceInput;
 }
 
+export interface ArticleUpdateManyMutationInput {
+  url?: String;
+  headline?: String;
+  description?: String;
+  datePublished?: DateTimeInput;
+  body?: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
+}
+
+export interface UserUpdateInput {
+  email?: String;
+  name?: String;
+  services?: ServiceUpdateManyWithoutUsersInput;
+}
+
+export interface ArticleCreateManyWithoutServiceInput {
+  create?:
+    | ArticleCreateWithoutServiceInput[]
+    | ArticleCreateWithoutServiceInput;
+  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+}
+
+export interface UserCreateInput {
+  email: String;
+  name?: String;
+  services?: ServiceCreateManyWithoutUsersInput;
+}
+
+export interface ServiceCreateInput {
+  name: ID_Input;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+  articles?: ArticleCreateManyWithoutServiceInput;
+  users?: UserCreateManyWithoutServicesInput;
+}
+
+export interface ArticleUpdateWithoutServiceDataInput {
+  url?: String;
+  headline?: String;
+  description?: String;
+  datePublished?: DateTimeInput;
+  body?: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
+  sections?: ArticleSectionUpdateManyWithoutArticlesInput;
+}
+
+export interface ArticleSectionCreateInput {
+  name: String;
+  articles?: ArticleCreateManyWithoutSectionsInput;
+}
+
+export interface ArticleCreateInput {
+  url: String;
+  headline: String;
+  description?: String;
+  datePublished: DateTimeInput;
+  body: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleCreatetagsInput;
+  images?: ArticleCreateimagesInput;
+  sections?: ArticleSectionCreateManyWithoutArticlesInput;
+  service: ServiceCreateOneWithoutArticlesInput;
+}
+
+export interface ArticleCreateManyWithoutSectionsInput {
+  create?:
+    | ArticleCreateWithoutSectionsInput[]
+    | ArticleCreateWithoutSectionsInput;
+  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+}
+
 export interface ArticleSectionCreateWithoutArticlesInput {
   name: String;
+}
+
+export interface ArticleCreateWithoutSectionsInput {
+  url: String;
+  headline: String;
+  description?: String;
+  datePublished: DateTimeInput;
+  body: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleCreatetagsInput;
+  images?: ArticleCreateimagesInput;
+  service: ServiceCreateOneWithoutArticlesInput;
+}
+
+export interface UserUpdateManyMutationInput {
+  email?: String;
+  name?: String;
+}
+
+export interface ArticleSectionUpdateInput {
+  name?: String;
+  articles?: ArticleUpdateManyWithoutSectionsInput;
+}
+
+export interface ServiceCreateManyWithoutUsersInput {
+  create?: ServiceCreateWithoutUsersInput[] | ServiceCreateWithoutUsersInput;
+  connect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
+}
+
+export interface ArticleUpsertWithWhereUniqueWithoutSectionsInput {
+  where: ArticleWhereUniqueInput;
+  update: ArticleUpdateWithoutSectionsDataInput;
+  create: ArticleCreateWithoutSectionsInput;
+}
+
+export interface ArticleUpdateWithoutSectionsDataInput {
+  url?: String;
+  headline?: String;
+  description?: String;
+  datePublished?: DateTimeInput;
+  body?: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags?: ArticleUpdatetagsInput;
+  images?: ArticleUpdateimagesInput;
+  service?: ServiceUpdateOneRequiredWithoutArticlesInput;
+}
+
+export interface ArticleUpdateWithWhereUniqueWithoutSectionsInput {
+  where: ArticleWhereUniqueInput;
+  data: ArticleUpdateWithoutSectionsDataInput;
+}
+
+export interface ArticleUpdateManyWithoutSectionsInput {
+  create?:
+    | ArticleCreateWithoutSectionsInput[]
+    | ArticleCreateWithoutSectionsInput;
+  delete?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  disconnect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  update?:
+    | ArticleUpdateWithWhereUniqueWithoutSectionsInput[]
+    | ArticleUpdateWithWhereUniqueWithoutSectionsInput;
+  upsert?:
+    | ArticleUpsertWithWhereUniqueWithoutSectionsInput[]
+    | ArticleUpsertWithWhereUniqueWithoutSectionsInput;
+}
+
+export interface ArticleUpsertWithWhereUniqueWithoutServiceInput {
+  where: ArticleWhereUniqueInput;
+  update: ArticleUpdateWithoutServiceDataInput;
+  create: ArticleCreateWithoutServiceInput;
+}
+
+export interface ServiceUpdateManyWithoutUsersInput {
+  create?: ServiceCreateWithoutUsersInput[] | ServiceCreateWithoutUsersInput;
+  delete?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
+  connect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
+  disconnect?: ServiceWhereUniqueInput[] | ServiceWhereUniqueInput;
+  update?:
+    | ServiceUpdateWithWhereUniqueWithoutUsersInput[]
+    | ServiceUpdateWithWhereUniqueWithoutUsersInput;
+  upsert?:
+    | ServiceUpsertWithWhereUniqueWithoutUsersInput[]
+    | ServiceUpsertWithWhereUniqueWithoutUsersInput;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface ArticleCreateimagesInput {
+  set?: String[] | String;
+}
+
+export interface ArticleUpdateManyWithoutServiceInput {
+  create?:
+    | ArticleCreateWithoutServiceInput[]
+    | ArticleCreateWithoutServiceInput;
+  delete?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  connect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  disconnect?: ArticleWhereUniqueInput[] | ArticleWhereUniqueInput;
+  update?:
+    | ArticleUpdateWithWhereUniqueWithoutServiceInput[]
+    | ArticleUpdateWithWhereUniqueWithoutServiceInput;
+  upsert?:
+    | ArticleUpsertWithWhereUniqueWithoutServiceInput[]
+    | ArticleUpsertWithWhereUniqueWithoutServiceInput;
 }
 
 export interface NodeNode {
@@ -1096,93 +1114,6 @@ export interface UserPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
 }
 
-export interface Article {
-  id: ID_Output;
-  url: String;
-  headline: String;
-  description?: String;
-  datePublished: DateTimeOutput;
-  body: String;
-  bodyMarkdown?: String;
-  author?: String;
-  tags: String[];
-  images: String[];
-}
-
-export interface ArticlePromise extends Promise<Article>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  url: () => Promise<String>;
-  headline: () => Promise<String>;
-  description: () => Promise<String>;
-  datePublished: () => Promise<DateTimeOutput>;
-  body: () => Promise<String>;
-  bodyMarkdown: () => Promise<String>;
-  author: () => Promise<String>;
-  tags: () => Promise<String[]>;
-  images: () => Promise<String[]>;
-  section: <T = ArticleSectionPromise>() => T;
-  service: <T = ServicePromise>() => T;
-}
-
-export interface ArticleSubscription
-  extends Promise<AsyncIterator<Article>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  url: () => Promise<AsyncIterator<String>>;
-  headline: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  datePublished: () => Promise<AsyncIterator<DateTimeOutput>>;
-  body: () => Promise<AsyncIterator<String>>;
-  bodyMarkdown: () => Promise<AsyncIterator<String>>;
-  author: () => Promise<AsyncIterator<String>>;
-  tags: () => Promise<AsyncIterator<String[]>>;
-  images: () => Promise<AsyncIterator<String[]>>;
-  section: <T = ArticleSectionSubscription>() => T;
-  service: <T = ServiceSubscription>() => T;
-}
-
-export interface User {
-  id: ID_Output;
-  email: String;
-  name?: String;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  name: () => Promise<String>;
-  services: <T = FragmentableArray<Service>>(
-    args?: {
-      where?: ServiceWhereInput;
-      orderBy?: ServiceOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  services: <T = Promise<AsyncIterator<ServiceSubscription>>>(
-    args?: {
-      where?: ServiceWhereInput;
-      orderBy?: ServiceOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
 export interface AggregateArticle {
   count: Int;
 }
@@ -1199,6 +1130,29 @@ export interface AggregateArticleSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface ServiceSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface ServiceSubscriptionPayloadPromise
+  extends Promise<ServiceSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ServicePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ServicePreviousValuesPromise>() => T;
+}
+
+export interface ServiceSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ServiceSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ServiceSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ServicePreviousValuesSubscription>() => T;
+}
+
 export interface ArticleEdge {
   cursor: String;
 }
@@ -1213,45 +1167,6 @@ export interface ArticleEdgeSubscription
     Fragmentable {
   node: <T = ArticleSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface ArticleSection {
@@ -1295,20 +1210,96 @@ export interface ArticleSectionSubscription
   ) => T;
 }
 
-export interface UserEdge {
-  cursor: String;
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface Service {
+  id: ID_Output;
+  name: ID_Output;
+  language?: LANGUAGE;
+  url?: String;
+  liveUrl?: String;
+  videoUrl?: String;
+  videoRestUrl?: String;
+}
+
+export interface ServicePromise extends Promise<Service>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<ID_Output>;
+  language: () => Promise<LANGUAGE>;
+  url: () => Promise<String>;
+  liveUrl: () => Promise<String>;
+  videoUrl: () => Promise<String>;
+  videoRestUrl: () => Promise<String>;
+  articles: <T = FragmentableArray<Article>>(
+    args?: {
+      where?: ArticleWhereInput;
+      orderBy?: ArticleOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  users: <T = FragmentableArray<User>>(
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface ServiceSubscription
+  extends Promise<AsyncIterator<Service>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<ID_Output>>;
+  language: () => Promise<AsyncIterator<LANGUAGE>>;
+  url: () => Promise<AsyncIterator<String>>;
+  liveUrl: () => Promise<AsyncIterator<String>>;
+  videoUrl: () => Promise<AsyncIterator<String>>;
+  videoRestUrl: () => Promise<AsyncIterator<String>>;
+  articles: <T = Promise<AsyncIterator<ArticleSubscription>>>(
+    args?: {
+      where?: ArticleWhereInput;
+      orderBy?: ArticleOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  users: <T = Promise<AsyncIterator<UserSubscription>>>(
+    args?: {
+      where?: UserWhereInput;
+      orderBy?: UserOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface PageInfo {
@@ -1334,20 +1325,20 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateService {
-  count: Int;
+export interface UserEdge {
+  cursor: String;
 }
 
-export interface AggregateServicePromise
-  extends Promise<AggregateService>,
-    Fragmentable {
-  count: () => Promise<Int>;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface AggregateServiceSubscription
-  extends Promise<AsyncIterator<AggregateService>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ArticleConnection {}
@@ -1366,6 +1357,87 @@ export interface ArticleConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<ArticleEdgeSubscription>>>() => T;
   aggregate: <T = AggregateArticleSubscription>() => T;
+}
+
+export interface AggregateService {
+  count: Int;
+}
+
+export interface AggregateServicePromise
+  extends Promise<AggregateService>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateServiceSubscription
+  extends Promise<AsyncIterator<AggregateService>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Article {
+  id: ID_Output;
+  url: String;
+  headline: String;
+  description?: String;
+  datePublished: DateTimeOutput;
+  body: String;
+  bodyMarkdown?: String;
+  author?: String;
+  tags: String[];
+  images: String[];
+}
+
+export interface ArticlePromise extends Promise<Article>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  url: () => Promise<String>;
+  headline: () => Promise<String>;
+  description: () => Promise<String>;
+  datePublished: () => Promise<DateTimeOutput>;
+  body: () => Promise<String>;
+  bodyMarkdown: () => Promise<String>;
+  author: () => Promise<String>;
+  tags: () => Promise<String[]>;
+  images: () => Promise<String[]>;
+  sections: <T = FragmentableArray<ArticleSection>>(
+    args?: {
+      where?: ArticleSectionWhereInput;
+      orderBy?: ArticleSectionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  service: <T = ServicePromise>() => T;
+}
+
+export interface ArticleSubscription
+  extends Promise<AsyncIterator<Article>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  url: () => Promise<AsyncIterator<String>>;
+  headline: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  datePublished: () => Promise<AsyncIterator<DateTimeOutput>>;
+  body: () => Promise<AsyncIterator<String>>;
+  bodyMarkdown: () => Promise<AsyncIterator<String>>;
+  author: () => Promise<AsyncIterator<String>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
+  images: () => Promise<AsyncIterator<String[]>>;
+  sections: <T = Promise<AsyncIterator<ArticleSectionSubscription>>>(
+    args?: {
+      where?: ArticleSectionWhereInput;
+      orderBy?: ArticleSectionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  service: <T = ServiceSubscription>() => T;
 }
 
 export interface ServiceConnection {}
@@ -1461,80 +1533,27 @@ export interface ArticleSubscriptionPayloadSubscription
   previousValues: <T = ArticlePreviousValuesSubscription>() => T;
 }
 
-export interface Service {
-  id: ID_Output;
-  name: ID_Output;
-  language?: LANGUAGE;
-  url?: String;
-  liveUrl?: String;
-  videoUrl?: String;
-  videoRestUrl?: String;
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  updatedFields?: String[];
 }
 
-export interface ServicePromise extends Promise<Service>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<ID_Output>;
-  language: () => Promise<LANGUAGE>;
-  url: () => Promise<String>;
-  liveUrl: () => Promise<String>;
-  videoUrl: () => Promise<String>;
-  videoRestUrl: () => Promise<String>;
-  articles: <T = FragmentableArray<Article>>(
-    args?: {
-      where?: ArticleWhereInput;
-      orderBy?: ArticleOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  users: <T = FragmentableArray<User>>(
-    args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface ServiceSubscription
-  extends Promise<AsyncIterator<Service>>,
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<ID_Output>>;
-  language: () => Promise<AsyncIterator<LANGUAGE>>;
-  url: () => Promise<AsyncIterator<String>>;
-  liveUrl: () => Promise<AsyncIterator<String>>;
-  videoUrl: () => Promise<AsyncIterator<String>>;
-  videoRestUrl: () => Promise<AsyncIterator<String>>;
-  articles: <T = Promise<AsyncIterator<ArticleSubscription>>>(
-    args?: {
-      where?: ArticleWhereInput;
-      orderBy?: ArticleOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  users: <T = Promise<AsyncIterator<UserSubscription>>>(
-    args?: {
-      where?: UserWhereInput;
-      orderBy?: UserOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface UserConnection {}
@@ -1597,27 +1616,46 @@ export interface ArticleSectionSubscriptionPayloadSubscription
   previousValues: <T = ArticleSectionPreviousValuesSubscription>() => T;
 }
 
-export interface ServiceSubscriptionPayload {
-  mutation: MutationType;
-  updatedFields?: String[];
+export interface User {
+  id: ID_Output;
+  email: String;
+  name?: String;
 }
 
-export interface ServiceSubscriptionPayloadPromise
-  extends Promise<ServiceSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ServicePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ServicePreviousValuesPromise>() => T;
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  name: () => Promise<String>;
+  services: <T = FragmentableArray<Service>>(
+    args?: {
+      where?: ServiceWhereInput;
+      orderBy?: ServiceOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
-export interface ServiceSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ServiceSubscriptionPayload>>,
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ServiceSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ServicePreviousValuesSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  services: <T = Promise<AsyncIterator<ServiceSubscription>>>(
+    args?: {
+      where?: ServiceWhereInput;
+      orderBy?: ServiceOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface ArticlePreviousValues {
@@ -1730,22 +1768,22 @@ export interface AggregateArticleSectionSubscription
 }
 
 /*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+export type Long = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number;
-
-export type Long = string;
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
