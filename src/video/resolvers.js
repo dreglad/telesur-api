@@ -49,7 +49,6 @@ const Query = {
   series: (_, args, { service }, { cacheControl }) => {
     return new Promise((resolve, reject) => {
       const params = { limit: args.first, offset: args.offset || 0 }
-      console.log(service)
       restFetch(service, `/programa/`, params).catch(reject).then(res => {
         setCacheHintFromRes(res, cacheControl)
         res.json().then(programas => { resolve(programas.map(mapSerie)) }).catch(reject)
@@ -139,7 +138,7 @@ const typeResolvers = {
   },
 
   Serie: {
-    episodes: ({ id }, args) => Query.clips(id, { serie: id, genre: 'programa', ...args }),
+    episodes: ({ id }, args, ctx) => Query.clips(id, { serie: id, genre: 'programa', ...args }, ctx),
   },
 
   Clip: {
