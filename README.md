@@ -11,4 +11,4 @@ yarn start
 
 ## Live API
 
-Endpoint: [telesur-video-api.omedia.io](https://telesur-video-api.omedia.io)
+Endpoint: [telesur-api.omedia.io](https://telesur-api.omedia.io)
