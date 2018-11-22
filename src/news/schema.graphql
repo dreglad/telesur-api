@@ -1,15 +1,19 @@
 # import Article, ArticleSection, ArticleWhereInput, ArticleOrderByInput from "../../database/generated/graphql-schema/prisma.graphql"
 
-"""Available queries"""
 type Query {
+
   """Get a list of articles"""
   articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
+
   """Retreive a single article"""
-  article(id: ID!): Article
+  article(id: ID, url: String): Article
 
   """Get a list of article sections"""
   articleSections(where: ArticleSectionWhereInput, orderBy: ArticleSectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ArticleSection]!
+
   """Retreive a single article section"""
-  articleSection(where: ArticleSectionWhereUniqueInput!): ArticleSection
-  articlesCount: Int
+  articleSection(id: ID, name:  String): ArticleSection
+
+  """Total number of articles matching certain query"""
+  articlesCount(where: ArticleWhereInput): Int
 }

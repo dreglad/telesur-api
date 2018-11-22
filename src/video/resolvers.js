@@ -13,9 +13,6 @@ const restFetch = ({ videoRestUrl }, path, params) =>
   fetch(`${videoRestUrl}${path}/?${toQueryString(params)}`)
 
 const Query = {
-  services: (_, __, { prisma }) => prisma.services(),
-  service: (_, { id }, { prisma }) => prisma.service({ id }),
-
   clips: (_, args, { service }) => {
     const relation = (rel, isNull) =>
       typeof isNull !== 'undefined'

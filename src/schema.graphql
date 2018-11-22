@@ -1,9 +1,12 @@
-# import Query.*, Service from './video/schema.graphql'
-# import Query.*, from './news/schema.graphql'
+# import Query.* from './video/schema.graphql'
+# import Query.* from './news/schema.graphql'
 
 type Query {
+
   """Get a list of available services"""
   services: [Service!]!
-  """Retreive a single service"""
-  service(id: ID!): Service
+
+  """Retreive a single service wither by name or id"""
+  service(name: String, id: ID): Service
+
 }

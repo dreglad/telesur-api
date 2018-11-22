@@ -4,6 +4,7 @@ const { ApolloEngine } = require('apollo-engine')
 const { Prisma } = require('../database/generated/prisma-client')
 const binding = require('prisma-binding')
 const resolvers = require('./resolvers')
+const newsDefs = require('./news/typeDefs.js')
 const { addDirectiveResolveFunctionsToSchema } = require('graphql-directive')
 const { makeExecutableSchema } = require('graphql-tools')
 const { importSchema } = require('graphql-import')
@@ -47,6 +48,7 @@ const graphQLServer = new GraphQLServer({
     db,
     prisma,
     pubsub,
+    cache: {},
     service: await prisma.service({
       name: req.request.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
     })

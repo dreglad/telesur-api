@@ -7,8 +7,11 @@ const resolvers = {
     services (_, args, { db }, info) {
       return db.query.service(args, info)
     },
-    service (_, { id }, { db }, info) {
-      return db.service({ id: id });
+
+    service (_, { id, name }, { prisma, service }, info) {
+      return id || name
+        ? prisma.service({ id, name })
+        : service
     }
   }
 }
