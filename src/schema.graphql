@@ -1,5 +1,5 @@
 # import Query.*, Service from './video/schema.graphql'
-# import Query.* from './news/schema.graphql'
+# import Query.*, from './news/schema.graphql'
 
 type Query {
   """Get a list of available services"""
