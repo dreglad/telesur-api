@@ -4,6 +4,9 @@ const { ApolloEngine } = require('apollo-engine')
 const { Prisma } = require('../database/generated/prisma-client')
 const binding = require('prisma-binding')
 const resolvers = require('./resolvers')
+const { addDirectiveResolveFunctionsToSchema } = require('graphql-directive')
+const { makeExecutableSchema } = require('graphql-tools')
+const { importSchema } = require('graphql-import')
 
 const db = new binding.Prisma({
   typeDefs: 'database/generated/graphql-schema/prisma.graphql',
@@ -16,9 +19,29 @@ const prisma = new Prisma({
 });
 
 const pubsub = new PubSub();
+
+const schema = makeExecutableSchema({
+  typeDefs: [
+    importSchema('src/schema.graphql'),
+    newsDefs,
+    // TODO: Implement directives
+    `
+    directive @markdown(fields: [String!]!) on FIELD | FIELD_DEFINITION
+    `
+  ],
+  resolvers
+});
+
+// TODO: Implement directives
+addDirectiveResolveFunctionsToSchema(schema, {
+  async markdown(resolve, _, { fields }) {
+    const result = await resolve()
+    return result
+  }
+});
+
 const graphQLServer = new GraphQLServer({
-  typeDefs: 'src/schema.graphql',
-  resolvers,
+  schema,
   context: async req => ({
     ...req,
     db,
