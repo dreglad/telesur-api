@@ -1,5 +1,3 @@
-const TurndownService = require('turndown')
-// const { Converter } = require('showdown')
 const { merge } = require('lodash')
 
 const Query = {
