@@ -1,0 +1,18 @@
+query {
+
+  # Count articles
+  total: articlesCount
+  opinion: articlesCount(where: {sections_some: {name: "Opinión"}})
+
+  # Article sections
+  articleSection(name: "World") {
+    articles(first: 2) {
+      headline
+      url
+      body
+      bodyTurnDown
+      id
+    }
+  }
+
+}

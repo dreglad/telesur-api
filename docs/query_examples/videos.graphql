@@ -1,0 +1,46 @@
+# nombre de todas las categorías de video
+query Categorias {
+  categories {
+    name
+  }
+}
+
+# Igual que query anterior, pero incluyento en la misma consulta
+# el título de los primeros cinco clips de cada categoría
+query Categorias_Y_Sus_Clips_Recientes {
+  categories {
+    id
+    name
+    clips(first: 5) {
+      title
+    }
+  }
+}
+
+# Primeros 20 clips con información como título,
+# descripción, hls, etc..
+query Clips_De_Categoria_Deportes {
+  clips(first: 20, category: "Deportes") {
+    title
+    description
+    
+    hls
+    date    
+    thumbnail
+    # Etc...
+  }
+}
+
+# Lista de programas y su último episodio
+query Programas_Y_Su_Episodio_Reciente {
+  series {
+    name
+    description
+    poster
+    episodes(first: 1) {
+      title
+      date
+      hls
+    }
+  }
+}
