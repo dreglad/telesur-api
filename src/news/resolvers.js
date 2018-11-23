@@ -51,12 +51,6 @@ const Query = {
 const resolvers = {
   Query,
   Article: {
-    bodyTurnDown (article, args, { prisma }, info) {
-      return new TurndownService().turndown(article.body);
-    },
-
-    bodyShowDown (article, args, { db }, info) {
-    }
   }
 }
 

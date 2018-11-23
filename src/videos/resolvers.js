@@ -1,5 +1,7 @@
 const fetch = require('node-fetch')
 const { toQueryString, setCacheHintFromRes } = require('../utils')
+const differenceInDays = require('date-fns/difference_in_days')
+const parse = require('date-fns/parse')
 const {
   mapClip,
   mapSerie,
@@ -34,11 +36,17 @@ const Query = {
       }).catch(reject)
     })
   },
-  clip: (_, { id }, ctx, { service, cacheControl }) => {
+  clip: (_, { id }, { service }, { cacheControl }) => {
     return new Promise((resolve, reject) => {
       restFetch(service, `/clip/${id}/`, { detalle: 'completo' }).catch(reject).then(res => {
-        setCacheHintFromRes(res, cacheControl)
-        res.json().then(clip => { resolve(mapClip(clip)) }).catch(() => { resolve(null) })
+        res.json().then(sourceClip => {
+          const clip = mapClip(sourceClip)
+          if (cacheControl) {
+            const maxAge = differenceInDays(new Date(), parse(clip.date)) ? 86400 : 60
+            cacheControl.setCacheHint({ maxAge })
+          }
+          resolve(clip);
+        }).catch(() => { resolve(null) })
       })
     })
   },
