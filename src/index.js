@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { GraphQLServer, PubSub } = require('graphql-yoga')
 const { ApolloEngine } = require('apollo-engine')
 const { Prisma } = require('../database/generated/prisma-client')
