@@ -3,40 +3,40 @@
 """Video queries"""
 type Query {
   """Retrieve a paginated list of video clips"""
-  clips(service: ID, genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int = 0, offset: Int = 0): [Clip!]!
+  clips(service: ID, genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int = 0, skip: Int = 0): [Clip!]!
   """Retreive a single clip"""
   clip(service: ID, id: ID!): Clip
 
   """Retrieve a paginated list of series"""
-  series(service: ID, first: Int = 0, offset: Int = 0): [Serie!]!
+  series(service: ID, first: Int = 0, skip: Int = 0): [Serie!]!
   """Retreive a single series"""
   serie(service: ID, id: ID!): Serie
 
   """Retrieve a paginated list of video categories"""
-  categories(service: ID, first: Int = 0, offset: Int = 0): [Category!]!
+  categories(service: ID, first: Int = 0, skip: Int = 0): [Category!]!
   """Retreive a single video category"""
   category(service: ID, id: ID!): Category
 
   """Retrieve a paginated list of video genres"""
-  genres(service: ID, first: Int = 0, offset: Int = 0): [Genre!]!
+  genres(service: ID, first: Int = 0, skip: Int = 0): [Genre!]!
   """Retreive a single video genre"""
   genre(service: ID, id: ID!): Genre
 
   """Retrieve a paginated list of correspondents"""
-  correspondents(service: ID, country: String, first: Int = 0, offset: Int = 0): [Correspondent!]!
+  correspondents(service: ID, country: String, first: Int = 0, skip: Int = 0): [Correspondent!]!
   """Retreive a single correspondent"""
   correspondent(service: ID, id: ID!): Correspondent
 
   """Retrieve a paginated list of video topics"""
-  topics(service: ID, first: Int = 0, offset: Int = 0): [Topic!]!
+  topics(service: ID, first: Int = 0, skip: Int = 0): [Topic!]!
   """Retreive a single video topic"""
   topic(service: ID, id: ID!): Topic
 }
 
 extend type Service {
   genres: [Genre!]!
-  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
-  series(first: Int = 0, offset: Int = 0): [Serie!]!
+  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
+  series(first: Int = 0, skip: Int = 0): [Serie!]!
   categories: [Category!]!
 }
 
@@ -80,14 +80,14 @@ type Genre {
   plural: String!
   description: String
   downloadable: Boolean!
-  clips(serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
+  clips(serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
 }
 
 """Video clip category"""
 type Category {
   id: ID!
   name: String!
-  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
+  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
 }
 
 """Show or Serie"""
@@ -97,7 +97,7 @@ type Serie {
   poster: String
   description: String
   serieType: String
-  episodes(first: Int, offset: Int): [Clip!]!
+  episodes(first: Int, skip: Int): [Clip!]!
 }
 
 """Correspondent"""
@@ -106,7 +106,7 @@ type Correspondent {
   name: String!
   twitter: String
   country: String
-  clips(genre: ID, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
+  clips(genre: ID, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
 }
 
 """Topic"""
@@ -114,5 +114,5 @@ type Topic {
   id: ID!
   name: String!
   description: String
-  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, country: String, first: Int, offset: Int): [Clip!]!
+  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
 }

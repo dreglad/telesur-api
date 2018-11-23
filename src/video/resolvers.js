@@ -22,7 +22,7 @@ const Query = {
       restFetch(service, '/clip/', {
         detalle: 'completo',
         limit: args.first,
-        offset: args.offset || 0,
+        offset: args.skip || 0,
         tipo: args.genre,
         programa: args.serie,
         country_code: args.country,
@@ -45,7 +45,7 @@ const Query = {
 
   series: (_, args, { service }, { cacheControl }) => {
     return new Promise((resolve, reject) => {
-      const params = { limit: args.first, offset: args.offset || 0 }
+      const params = { limit: args.first, offset: args.skip || 0 }
       restFetch(service, `/programa/`, params).catch(reject).then(res => {
         setCacheHintFromRes(res, cacheControl)
         res.json().then(programas => { resolve(programas.map(mapSerie)) }).catch(reject)
@@ -63,7 +63,7 @@ const Query = {
 
   genres: (_, args, { service }, { cacheControl }) => {
     return new Promise((resolve, reject) => {
-      const params = { limit: args.first, offset: args.offset || 0 }
+      const params = { limit: args.first, offset: args.skip || 0 }
       restFetch(service, `/tipo_clip/`, params).catch(reject).then(res => {
         res.json().then(tipos => { resolve(tipos.map(mapGenre)) }).catch(reject)
       })
@@ -79,7 +79,7 @@ const Query = {
 
   categories: (_, args, { service }) => {
     return new Promise((resolve, reject) => {
-      const params = { limit: args.first, offset: args.offset || 0 }
+      const params = { limit: args.first, offset: args.skip || 0 }
       restFetch(service, `/categoria/`, params).catch(reject).then(res => {
         res.json().then(categorias => { resolve(categorias.map(mapCategory)) }).catch(reject)
       })
@@ -95,7 +95,7 @@ const Query = {
 
   correspondents: (_, args, { service }) => {
     return new Promise((resolve, reject) => {
-      const params = { pais: args.country, limit: args.first, offset: args.offset || 0 }
+      const params = { pais: args.country, limit: args.first, offset: args.skip || 0 }
       restFetch(service, `/corresponsal/`, params).catch(reject).then(res => {
         res.json().then(corresponsales => { resolve(corresponsales.map(mapCorrespondent)) }).catch(reject)
       })
@@ -111,7 +111,7 @@ const Query = {
 
   topics: (_, args, { service }) => {
     return new Promise((resolve, reject) => {
-      const params = { limit: args.first, offset: args.offset || 0 }
+      const params = { limit: args.first, offset: args.skip || 0 }
       restFetch(service, `/tema/`, params).catch(reject).then(res => {
         res.json().then(temas => { resolve(temas.map(mapTopic)) }).catch(reject)
       })
