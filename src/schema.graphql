@@ -1,4 +1,4 @@
-# import Query.* from './video/schema.graphql'
+# import Query.* from './videos/schema.graphql'
 # import Query.* from './news/schema.graphql'
 
 type Query {

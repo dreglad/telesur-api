@@ -1,5 +1,5 @@
 const { merge } = require('lodash')
-const videoResolvers = require('./video/resolvers')
+const videoResolvers = require('./videos/resolvers')
 const newsResolvers = require('./news/resolvers')
 
 const resolvers = {
