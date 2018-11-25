@@ -3,7 +3,7 @@
 """Video queries"""
 type Query {
   """Retrieve a paginated list of video clips"""
-  clips(service: ID, genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int = 0, skip: Int = 0): [Clip!]!
+  clips(service: ID, genre: ID, genreIsNull: Boolean, serie: ID, episodesOfSerie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int = 0, skip: Int = 0): [Clip!]!
   """Retreive a single clip"""
   clip(service: ID, id: ID!): Clip
 
