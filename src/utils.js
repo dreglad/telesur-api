@@ -11,8 +11,10 @@ const toQueryString = (obj = {}) => {
 
 const setCacheHintFromRes = (res, cacheControl) => {
   const cacheHeader = parseCacheControl(res.headers['cache-control'])
-  const maxAge = cacheHeader['max-age'] || 60
-  cacheControl && cacheControl.setCacheHint({ maxAge })
+  if (cacheHeader)
+  cacheControl && cacheHeader && cacheControl.setCacheHint({
+    maxAge: cacheHeader['max-age'] || 60
+  })
 }
 
 module.exports = {
