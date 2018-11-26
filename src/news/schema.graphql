@@ -1,4 +1,4 @@
-# import Article, ArticleSection, ArticleWhereInput, ArticleOrderByInput from "../../database/generated/graphql-schema/prisma.graphql"
+# import Article, ArticleSection, ArticleWhereInput, ArticleOrderByInput from "../generated/graphql-schema/prisma.graphql"
 
 type Query {
 
