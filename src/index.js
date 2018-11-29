@@ -1,42 +1,36 @@
-const { ApolloEngine } = require('apollo-engine')
-const { GraphQLServer, PubSub } = require('graphql-yoga')
-const { Prisma } = require('../database/generated/prisma-client')
-const binding = require('prisma-binding')
+const { ApolloEngine } = require('apollo-engine');
+const { GraphQLServer, PubSub } = require('graphql-yoga');
+const binding = require('prisma-binding');
+const { Prisma } = require('./generated/prisma-client');
+const resolvers = require('./resolvers');
 
-const resolvers = require('./resolvers')
-// const newsDefs = require('./news/typeDefs.js')
+const port = parseInt(process.env.PORT, 10) || 4000;
+
+const endpoint = process.env.PRISMA_ENDPOINT || 'http://127.0.0.1:4466';
 
 const db = new binding.Prisma({
-  typeDefs: 'database/generated/graphql-schema/prisma.graphql',
-  endpoint: process.env.PRISMA_ENDPOINT
-})
-
-/* prisma client */
-const prisma = new Prisma({
-  endpoint: process.env.PRISMA_ENDPOINT
+  typeDefs: 'src/generated/graphql-schema/prisma.graphql',
+  endpoint
 });
+
+const prisma = new Prisma({ endpoint });
 
 const pubsub = new PubSub();
 
 const graphQLServer = new GraphQLServer({
-  typeDefs: [
-    'src/schema.graphql',
-    // newsDefs
-  ],
+  typeDefs: ['src/schema.graphql'],
   resolvers,
   context: async req => ({
     ...req,
     db,
     prisma,
     pubsub,
-    cache: {},
+    cache: {}, // TODO: Use Facebook's Dataloader
     service: await prisma.service({
       name: req.request.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
     })
   })
-})
-
-const port = parseInt(process.env.PORT, 10) || 4000;
+});
 
 if (process.env.ENGINE_API_KEY) {
   // With Apollo Engine
