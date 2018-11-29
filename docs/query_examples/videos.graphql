@@ -17,18 +17,13 @@ query Categorias_Y_Sus_Clips_Recientes {
   }
 }
 
-query Total_Clips_De_Entrevista {
-  clipsConnection(where: { genre: "entrevista" }) {
-    aggregate {
-      count
-    }
-  }
-}
-
 # Primeros 20 clips con información como título,
 # descripción, hls, etc..
 query Clips_De_Categoria_Deportes {
-  clips(first: 20, { where: { category: "Deportes" }}) {
+  clips(
+    first: 5,
+    where: { category: "Deportes" }
+  ) {
     title
     description
     hls
@@ -40,14 +35,21 @@ query Clips_De_Categoria_Deportes {
 
 # Lista de programas y su último episodio
 query Programas_Y_Su_Episodio_Reciente {
-  series {
+  series(first: 5, skip: 10) {
     name
     description
     poster
-    episodes(first: 1) {
+    episodes(first: 2) {
       title
       date
       hls
     }
   }
+}
+
+query Totales {
+  numeroTotalDeClips: clipsConnection{ aggregate { count } }
+  numeroTotalDeEntrevistas: clipsConnection(where: { genre: "entrevista" }) { aggregate { count } }
+  numeroTotalDeCorresponsales: correspondentsConnection { aggregate { count } }
+  numeroTotalDeProgramas: seriesConnection { aggregate { count } }
 }
