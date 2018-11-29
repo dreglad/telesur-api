@@ -1,59 +1,46 @@
-input ClipWhereInput {
-  service: ID,
-  genre: ID,
-  genreIsNull: Boolean,
-  serie: ID,
-  serieIsNull: Boolean,
-  episodesOfSerie: ID,
-  category: ID,
-  categoryIsNull: Boolean
-  correspondent: ID, correspondentIsNull: Boolean,
-  topic: ID,
-  topicIsNull: Boolean,
-  country: String
-}
-
-type ClipConnection {
-  aggregate: AggregateClip!
-}
-
-type AggregateClip {
-  count: Int
-}
-
 """Video queries"""
 type Query {
   """Retrieve a paginated list of video clips"""
   clips(where: ClipWhereInput, skip: Int, first: Int, orderBy: String): [Clip!]!
-  """Retreive a single clip"""
-  clip(service: ID, id: ID!): Clip
   """Clips connection"""
   clipsConnection(where: ClipWhereInput, skip: Int, first: Int): ClipConnection!
+  """Retreive a single clip"""
+  clip(id: ID!): Clip
 
   """Retrieve a paginated list of series"""
-  series(service: ID, first: Int = 0, skip: Int = 0): [Serie!]!
+  series(first: Int, skip: Int): [Serie!]
+  """Series connection"""
+  seriesConnection(skip: Int, first: Int): SerieConnection!
   """Retreive a single series"""
-  serie(service: ID, id: ID!): Serie
+  serie(id: ID!): Serie
 
   """Retrieve a paginated list of video categories"""
-  categories(service: ID, first: Int = 0, skip: Int = 0): [Category!]!
+  categories(first: Int, skip: Int): [Category!]
+  """Categories connection"""
+  categoriesConnection(skip: Int, first: Int): CategoryConnection!
   """Retreive a single video category"""
-  category(service: ID, id: ID!): Category
+  category(id: ID!): Category
 
   """Retrieve a paginated list of video genres"""
-  genres(service: ID, first: Int = 0, skip: Int = 0): [Genre!]!
+  genres: [Genre!]
+  """Genres connection"""
+  genresConnection(skip: Int, first: Int): GenreConnection!
   """Retreive a single video genre"""
-  genre(service: ID, id: ID!): Genre
+  genre(id: ID!): Genre
 
   """Retrieve a paginated list of correspondents"""
-  correspondents(service: ID, country: String, first: Int = 0, skip: Int = 0): [Correspondent!]!
+  correspondents(country: String, first: Int, skip: Int): [Correspondent!]!
+  """Correspondents connection"""
+  correspondentsConnection(skip: Int, first: Int): CorrespondentConnection!
   """Retreive a single correspondent"""
-  correspondent(service: ID, id: ID!): Correspondent
+  correspondent(id: ID!): Correspondent
 
   """Retrieve a paginated list of video topics"""
-  topics(service: ID, first: Int = 0, skip: Int = 0): [Topic!]!
+  topics(first: Int, skip: Int): [Topic!]!
+  """Topics connection"""
+  topicsConnection(skip: Int, first: Int): TopicConnection!
   """Retreive a single video topic"""
-  topic(service: ID, id: ID!): Topic
+  topic(id: ID!): Topic
 }
 
 """Video clip"""
@@ -95,14 +82,14 @@ type Genre {
   plural: String!
   description: String
   downloadable: Boolean!
-  clips(serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
+  clips(where: ClipWhereInput, skip: Int, first: Int, orderBy: String): [Clip!]!
 }
 
 """Video clip category"""
 type Category {
   id: ID!
   name: String!
-  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
+  clips(where: ClipWhereInput, skip: Int, first: Int, orderBy: String): [Clip!]!
 }
 
 """Show or Serie"""
@@ -112,7 +99,7 @@ type Serie {
   poster: String
   description: String
   serieType: String
-  episodes(first: Int, skip: Int): [Clip!]!
+  episodes(skip: Int, first: Int): [Clip!]!
 }
 
 """Correspondent"""
@@ -121,7 +108,7 @@ type Correspondent {
   name: String!
   twitter: String
   country: String
-  clips(genre: ID, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
+  clips(where: ClipWhereInput, skip: Int, first: Int, orderBy: String): [Clip!]!
 }
 
 """Topic"""
@@ -129,5 +116,83 @@ type Topic {
   id: ID!
   name: String!
   description: String
-  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
+  clips(where: ClipWhereInput, skip: Int, first: Int, orderBy: String): [Clip!]!
+}
+
+
+# Clip Connection
+
+type ClipConnection {
+  aggregate: AggregateClip!
+}
+
+input ClipWhereInput {
+  genre: ID,
+  genreIsNull: Boolean,
+  serie: ID,
+  serieIsNull: Boolean,
+  episodesOfSerie: ID,
+  category: ID,
+  categoryIsNull: Boolean
+  correspondent: ID, correspondentIsNull: Boolean,
+  topic: ID,
+  topicIsNull: Boolean,
+  country: String
+}
+
+type AggregateClip {
+  count: Int
+}
+
+
+# Serie Connection
+
+type SerieConnection {
+  aggregate: AggregateSerie!
+}
+
+type AggregateSerie {
+  count: Int
+}
+
+# Correspondent Connection
+
+type CorrespondentConnection {
+  aggregate: AggregateCorrespondent!
+}
+
+type AggregateCorrespondent {
+  count: Int
+}
+
+# Topic Connection
+
+type TopicConnection {
+  aggregate: AggregateTopic!
+}
+
+type AggregateTopic {
+  count: Int
+}
+
+
+# Category Connection
+
+type CategoryConnection {
+  aggregate: AggregateCategory!
+}
+
+type AggregateCategory {
+  count: Int
+}
+
+
+# Genre Connection
+
+type GenreConnection {
+  aggregate: AggregateGenre!
+}
+
+type AggregateGenre {
+  count: Int
 }
