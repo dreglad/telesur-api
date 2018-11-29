@@ -17,11 +17,18 @@ query Categorias_Y_Sus_Clips_Recientes {
   }
 }
 
+query Total_Clips_De_Entrevista {
+  clipsConnection(where: { genre: "entrevista" }) {
+    aggregate {
+      count
+    }
+  }
+}
 
 # Primeros 20 clips con información como título,
 # descripción, hls, etc..
 query Clips_De_Categoria_Deportes {
-  clips(first: 20, category: "Deportes") {
+  clips(first: 20, { where: { category: "Deportes" }}) {
     title
     description
     hls
