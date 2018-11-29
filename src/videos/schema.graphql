@@ -1,11 +1,34 @@
-# import Service from "../generated/graphql-schema/prisma.graphql"
+input ClipWhereInput {
+  service: ID,
+  genre: ID,
+  genreIsNull: Boolean,
+  serie: ID,
+  serieIsNull: Boolean,
+  episodesOfSerie: ID,
+  category: ID,
+  categoryIsNull: Boolean
+  correspondent: ID, correspondentIsNull: Boolean,
+  topic: ID,
+  topicIsNull: Boolean,
+  country: String
+}
+
+type ClipConnection {
+  aggregate: AggregateClip!
+}
+
+type AggregateClip {
+  count: Int
+}
 
 """Video queries"""
 type Query {
   """Retrieve a paginated list of video clips"""
-  clips(service: ID, genre: ID, genreIsNull: Boolean, serie: ID, episodesOfSerie: ID, serieIsNull: Boolean, category: ID, categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int = 0, skip: Int = 0): [Clip!]!
+  clips(where: ClipWhereInput, skip: Int, first: Int, orderBy: String): [Clip!]!
   """Retreive a single clip"""
   clip(service: ID, id: ID!): Clip
+  """Clips connection"""
+  clipsConnection(where: ClipWhereInput, skip: Int, first: Int): ClipConnection!
 
   """Retrieve a paginated list of series"""
   series(service: ID, first: Int = 0, skip: Int = 0): [Serie!]!
@@ -33,13 +56,6 @@ type Query {
   topic(service: ID, id: ID!): Topic
 }
 
-extend type Service {
-  genres: [Genre!]!
-  clips(genre: ID, genreIsNull: Boolean, serie: ID, serieIsNull: Boolean, category: ID categoryIsNull: Boolean, correspondent: ID, correspondentIsNull: Boolean, topic: ID, topicIsNull: Boolean, country: String, first: Int, skip: Int): [Clip!]!
-  series(first: Int = 0, skip: Int = 0): [Serie!]!
-  categories: [Category!]!
-}
-
 """Video clip"""
 type Clip {
   id: ID!
@@ -63,7 +79,6 @@ type Clip {
   width: Int
   height: Int
   aspectRatio: Float
-  service: Service!
   genre: Genre
   serie: Serie
   category: Category

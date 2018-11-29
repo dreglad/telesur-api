@@ -1,12 +1,3 @@
+# import Query.* from "./generated/graphql-schema/prisma.graphql"
 # import Query.* from './videos/schema.graphql'
 # import Query.* from './news/schema.graphql'
-
-type Query {
-
-  """Get a list of available services"""
-  services: [Service!]!
-
-  """Retreive a single service wither by name or id"""
-  service(name: String, id: ID): Service
-
-}

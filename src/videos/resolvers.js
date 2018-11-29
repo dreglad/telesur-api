@@ -11,44 +11,22 @@ const {
   mapTopic
 } = require('./mappers')
 
-const restFetch = ({ videoRestUrl }, path, params) =>
-  fetch(`${videoRestUrl}${path}/?${toQueryString(params)}`)
-
 const Query = {
-  clips: (_, args, { service }) => {
-    const relation = (rel, isNull) =>
-      typeof isNull !== 'undefined'
-        ? isNull && 'es_nulo' || 'no_es_nulo'
-        : rel
-    return new Promise((resolve, reject) => {
-      restFetch(service, '/clip/', {
-        detalle: 'completo',
-        limit: args.first,
-        offset: args.skip || 0,
-        tipo: args.episodesOfSerie ? 'programa' : args.genre,
-        programa: args.episodesOfSerie || args.serie,
-        country_code: args.country,
-        categoria: relation(args.category, args.categoryIsNull),
-        corresponsal: relation(args.correspondent, args.correspondentIsNull),
-        tema: relation(args.topic, args.topicIsNull)
-      }).then(res => {
-        res.json().catch(reject).then(clips => { resolve(clips.map(mapClip)) })
-      }).catch(reject)
-    })
+  clips: async (_, args, { service }) => {
+    const { results } = await clipsFetch(service, args.where, args.first, args.skip);
+    return results.map(mapClip);
   },
-  clip: (_, { id }, { service }, { cacheControl }) => {
-    return new Promise((resolve, reject) => {
-      restFetch(service, `/clip/${id}/`, { detalle: 'completo' }).catch(reject).then(res => {
-        res.json().then(sourceClip => {
-          const clip = mapClip(sourceClip)
-          if (cacheControl) {
-            const maxAge = differenceInDays(new Date(), parse(clip.date)) ? 86400 : 60
-            cacheControl.setCacheHint({ maxAge })
-          }
-          resolve(clip);
-        }).catch(() => { resolve(null) })
-      })
-    })
+  clipsConnection: async (_, args, { service }) => {
+    const { totalCount } = await clipsFetch(service, args.where, args.first, args.skip);
+    return { aggregate: { count: totalCount } };
+  },
+  clip: async (_, { id }, { service }, { cacheControl }) => {
+    const clip = mapClip(await restFetch(service, `/clip/${id}/`, { detalle: 'completo' }));
+    if (cacheControl) {
+      const maxAge = differenceInDays(new Date(), parse(clip.date)) ? 86400 : 60
+      cacheControl.setCacheHint({ maxAge })
+    }
+    return clip;
   },
 
   series: (_, args, { service }, { cacheControl }) => {
@@ -135,19 +113,11 @@ const Query = {
 }
 
 const typeResolvers = {
-  Service: {
-    // clips: ({ id }, args) => Query.clips(id, { service: id, ...args }),
-    // series: ({ id }, args) => Query.series(id, { service: id, ...args }),
-    // genres: ({ id }, args) => Query.genres(id, { service: id, ...args }),
-    // categories: ({ id }, args) => Query.categories(id, { service: id, ...args }),
-  },
-
   Serie: {
     episodes: ({ id }, args, ctx) => Query.clips(id, { serie: id, genre: 'programa', ...args }, ctx),
   },
 
   Clip: {
-    service: ({ idioma_original }) => services.find(s => s.language === idioma_original),
     genre: clip => clip.tipo && mapGenre(clip.tipo),
     serie: clip => clip.programa && mapSerie(clip.programa),
     category: clip => clip.categoria && mapCategory(clip.categoria),
@@ -170,7 +140,35 @@ const typeResolvers = {
   Topic: {
     clips: ({ id }, args, ctx) => Query.clips(id, { topic: id, ...args }, ctx)
   },
+};
+
+const restFetch = ({ videoRestUrl }, path, params) => {
+  return fetch(`${videoRestUrl}${path}/?${toQueryString(params)}`)
+    .then(res => res.json())
+    .then(data => {
+      if (!Array.isArray(data) && Object.keys(data).includes('totalCount')) {
+        return data
+      } else {
+        return data
+      }
+    });
 }
+
+const clipsFetch = (service, where = {}, first, skip) => {
+  const relation = (rel, isNull) => typeof isNull !== 'undefined' ? isNull && 'es_nulo' || 'no_es_nulo' : rel
+  return restFetch(service, '/clip/', {
+    counts: true,
+    limit: first,
+    offset: skip,
+    tipo: where.episodesOfSerie ? 'programa' : where.genre,
+    programa: where.episodesOfSerie || where.serie,
+    country_code: where.country,
+    categoria: relation(where.category, where.categoryIsNull),
+    corresponsal: relation(where.correspondent, where.correspondentIsNull),
+    tema: relation(where.topic, where.topicIsNull)
+  })
+};
+
 
 module.exports = {
   Query,

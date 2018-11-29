@@ -11,6 +11,16 @@ const Query = {
     }), info)
   },
 
+  articlesConnection (_, args, { db, service }, info) {
+    return db.query.articlesConnection(merge(args, {
+      orderBy: 'datePublished_DESC',
+      first: 20,
+      where: {
+        service: { id: service.id }
+      }
+    }), info)
+  },
+
   article (_, args, { db, service }, info) {
     return db.query.article({
       where: {
@@ -22,6 +32,14 @@ const Query = {
 
   articleSections (_, args, { db, service }, info) {
     return db.query.articleSections(merge(args, {
+      where: {
+        articles_some: { service: { id: service.id } }
+      }
+    }), info)
+  },
+
+  articleSectionsConnection (_, args, { db, service }, info) {
+    return db.query.articleSectionsConnection(merge(args, {
       where: {
         articles_some: { service: { id: service.id } }
       }
@@ -43,6 +61,7 @@ const Query = {
       where: { service: { id: service.id } }
     })).aggregate().count()
   }
+
 }
 
 
