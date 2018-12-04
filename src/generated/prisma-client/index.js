@@ -17,11 +17,27 @@ var models = [
     embedded: false
   },
   {
+    name: "Playlist",
+    embedded: false
+  },
+  {
+    name: "PlaylistItem",
+    embedded: false
+  },
+  {
+    name: "SOURCE_TYPE",
+    embedded: false
+  },
+  {
     name: "Service",
     embedded: false
   },
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Video",
     embedded: false
   }
 ];

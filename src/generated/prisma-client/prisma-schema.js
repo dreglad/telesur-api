@@ -7,11 +7,23 @@ type AggregateArticleSection {
   count: Int!
 }
 
+type AggregatePlaylist {
+  count: Int!
+}
+
+type AggregatePlaylistItem {
+  count: Int!
+}
+
 type AggregateService {
   count: Int!
 }
 
 type AggregateUser {
+  count: Int!
+}
+
+type AggregateVideo {
   count: Int!
 }
 
@@ -495,6 +507,8 @@ type BatchPayload {
 
 scalar DateTime
 
+scalar Json
+
 enum LANGUAGE {
   ES
   EN
@@ -515,6 +529,18 @@ type Mutation {
   upsertArticleSection(where: ArticleSectionWhereUniqueInput!, create: ArticleSectionCreateInput!, update: ArticleSectionUpdateInput!): ArticleSection!
   deleteArticleSection(where: ArticleSectionWhereUniqueInput!): ArticleSection
   deleteManyArticleSections(where: ArticleSectionWhereInput): BatchPayload!
+  createPlaylist(data: PlaylistCreateInput!): Playlist!
+  updatePlaylist(data: PlaylistUpdateInput!, where: PlaylistWhereUniqueInput!): Playlist
+  updateManyPlaylists(data: PlaylistUpdateManyMutationInput!, where: PlaylistWhereInput): BatchPayload!
+  upsertPlaylist(where: PlaylistWhereUniqueInput!, create: PlaylistCreateInput!, update: PlaylistUpdateInput!): Playlist!
+  deletePlaylist(where: PlaylistWhereUniqueInput!): Playlist
+  deleteManyPlaylists(where: PlaylistWhereInput): BatchPayload!
+  createPlaylistItem(data: PlaylistItemCreateInput!): PlaylistItem!
+  updatePlaylistItem(data: PlaylistItemUpdateInput!, where: PlaylistItemWhereUniqueInput!): PlaylistItem
+  updateManyPlaylistItems(data: PlaylistItemUpdateManyMutationInput!, where: PlaylistItemWhereInput): BatchPayload!
+  upsertPlaylistItem(where: PlaylistItemWhereUniqueInput!, create: PlaylistItemCreateInput!, update: PlaylistItemUpdateInput!): PlaylistItem!
+  deletePlaylistItem(where: PlaylistItemWhereUniqueInput!): PlaylistItem
+  deleteManyPlaylistItems(where: PlaylistItemWhereInput): BatchPayload!
   createService(data: ServiceCreateInput!): Service!
   updateService(data: ServiceUpdateInput!, where: ServiceWhereUniqueInput!): Service
   updateManyServices(data: ServiceUpdateManyMutationInput!, where: ServiceWhereInput): BatchPayload!
@@ -527,6 +553,12 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createVideo(data: VideoCreateInput!): Video!
+  updateVideo(data: VideoUpdateInput!, where: VideoWhereUniqueInput!): Video
+  updateManyVideos(data: VideoUpdateManyMutationInput!, where: VideoWhereInput): BatchPayload!
+  upsertVideo(where: VideoWhereUniqueInput!, create: VideoCreateInput!, update: VideoUpdateInput!): Video!
+  deleteVideo(where: VideoWhereUniqueInput!): Video
+  deleteManyVideos(where: VideoWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -546,6 +578,536 @@ type PageInfo {
   endCursor: String
 }
 
+type Playlist {
+  id: ID!
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json!
+  parent: Playlist
+  children(where: PlaylistWhereInput, orderBy: PlaylistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Playlist!]
+  items(where: PlaylistItemWhereInput, orderBy: PlaylistItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PlaylistItem!]
+  user: User
+  service: Service!
+}
+
+type PlaylistConnection {
+  pageInfo: PageInfo!
+  edges: [PlaylistEdge]!
+  aggregate: AggregatePlaylist!
+}
+
+input PlaylistCreateInput {
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistCreateOneWithoutChildrenInput
+  children: PlaylistCreateManyWithoutParentInput
+  items: PlaylistItemCreateManyWithoutPlayListInput
+  user: UserCreateOneWithoutPlaylistsInput
+  service: ServiceCreateOneInput!
+}
+
+input PlaylistCreateManyWithoutParentInput {
+  create: [PlaylistCreateWithoutParentInput!]
+  connect: [PlaylistWhereUniqueInput!]
+}
+
+input PlaylistCreateManyWithoutUserInput {
+  create: [PlaylistCreateWithoutUserInput!]
+  connect: [PlaylistWhereUniqueInput!]
+}
+
+input PlaylistCreateOneWithoutChildrenInput {
+  create: PlaylistCreateWithoutChildrenInput
+  connect: PlaylistWhereUniqueInput
+}
+
+input PlaylistCreateOneWithoutItemsInput {
+  create: PlaylistCreateWithoutItemsInput
+  connect: PlaylistWhereUniqueInput
+}
+
+input PlaylistCreateWithoutChildrenInput {
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistCreateOneWithoutChildrenInput
+  items: PlaylistItemCreateManyWithoutPlayListInput
+  user: UserCreateOneWithoutPlaylistsInput
+  service: ServiceCreateOneInput!
+}
+
+input PlaylistCreateWithoutItemsInput {
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistCreateOneWithoutChildrenInput
+  children: PlaylistCreateManyWithoutParentInput
+  user: UserCreateOneWithoutPlaylistsInput
+  service: ServiceCreateOneInput!
+}
+
+input PlaylistCreateWithoutParentInput {
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json
+  children: PlaylistCreateManyWithoutParentInput
+  items: PlaylistItemCreateManyWithoutPlayListInput
+  user: UserCreateOneWithoutPlaylistsInput
+  service: ServiceCreateOneInput!
+}
+
+input PlaylistCreateWithoutUserInput {
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistCreateOneWithoutChildrenInput
+  children: PlaylistCreateManyWithoutParentInput
+  items: PlaylistItemCreateManyWithoutPlayListInput
+  service: ServiceCreateOneInput!
+}
+
+type PlaylistEdge {
+  node: Playlist!
+  cursor: String!
+}
+
+type PlaylistItem {
+  id: ID!
+  dateAdded: DateTime
+  metadata: Json!
+  playList: Playlist!
+  video: Video!
+}
+
+type PlaylistItemConnection {
+  pageInfo: PageInfo!
+  edges: [PlaylistItemEdge]!
+  aggregate: AggregatePlaylistItem!
+}
+
+input PlaylistItemCreateInput {
+  dateAdded: DateTime
+  metadata: Json
+  playList: PlaylistCreateOneWithoutItemsInput!
+  video: VideoCreateOneWithoutPlayListItemsInput!
+}
+
+input PlaylistItemCreateManyWithoutPlayListInput {
+  create: [PlaylistItemCreateWithoutPlayListInput!]
+  connect: [PlaylistItemWhereUniqueInput!]
+}
+
+input PlaylistItemCreateManyWithoutVideoInput {
+  create: [PlaylistItemCreateWithoutVideoInput!]
+  connect: [PlaylistItemWhereUniqueInput!]
+}
+
+input PlaylistItemCreateWithoutPlayListInput {
+  dateAdded: DateTime
+  metadata: Json
+  video: VideoCreateOneWithoutPlayListItemsInput!
+}
+
+input PlaylistItemCreateWithoutVideoInput {
+  dateAdded: DateTime
+  metadata: Json
+  playList: PlaylistCreateOneWithoutItemsInput!
+}
+
+type PlaylistItemEdge {
+  node: PlaylistItem!
+  cursor: String!
+}
+
+enum PlaylistItemOrderByInput {
+  id_ASC
+  id_DESC
+  dateAdded_ASC
+  dateAdded_DESC
+  metadata_ASC
+  metadata_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PlaylistItemPreviousValues {
+  id: ID!
+  dateAdded: DateTime
+  metadata: Json!
+}
+
+type PlaylistItemSubscriptionPayload {
+  mutation: MutationType!
+  node: PlaylistItem
+  updatedFields: [String!]
+  previousValues: PlaylistItemPreviousValues
+}
+
+input PlaylistItemSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PlaylistItemWhereInput
+  AND: [PlaylistItemSubscriptionWhereInput!]
+  OR: [PlaylistItemSubscriptionWhereInput!]
+  NOT: [PlaylistItemSubscriptionWhereInput!]
+}
+
+input PlaylistItemUpdateInput {
+  dateAdded: DateTime
+  metadata: Json
+  playList: PlaylistUpdateOneRequiredWithoutItemsInput
+  video: VideoUpdateOneRequiredWithoutPlayListItemsInput
+}
+
+input PlaylistItemUpdateManyMutationInput {
+  dateAdded: DateTime
+  metadata: Json
+}
+
+input PlaylistItemUpdateManyWithoutPlayListInput {
+  create: [PlaylistItemCreateWithoutPlayListInput!]
+  delete: [PlaylistItemWhereUniqueInput!]
+  connect: [PlaylistItemWhereUniqueInput!]
+  disconnect: [PlaylistItemWhereUniqueInput!]
+  update: [PlaylistItemUpdateWithWhereUniqueWithoutPlayListInput!]
+  upsert: [PlaylistItemUpsertWithWhereUniqueWithoutPlayListInput!]
+}
+
+input PlaylistItemUpdateManyWithoutVideoInput {
+  create: [PlaylistItemCreateWithoutVideoInput!]
+  delete: [PlaylistItemWhereUniqueInput!]
+  connect: [PlaylistItemWhereUniqueInput!]
+  disconnect: [PlaylistItemWhereUniqueInput!]
+  update: [PlaylistItemUpdateWithWhereUniqueWithoutVideoInput!]
+  upsert: [PlaylistItemUpsertWithWhereUniqueWithoutVideoInput!]
+}
+
+input PlaylistItemUpdateWithoutPlayListDataInput {
+  dateAdded: DateTime
+  metadata: Json
+  video: VideoUpdateOneRequiredWithoutPlayListItemsInput
+}
+
+input PlaylistItemUpdateWithoutVideoDataInput {
+  dateAdded: DateTime
+  metadata: Json
+  playList: PlaylistUpdateOneRequiredWithoutItemsInput
+}
+
+input PlaylistItemUpdateWithWhereUniqueWithoutPlayListInput {
+  where: PlaylistItemWhereUniqueInput!
+  data: PlaylistItemUpdateWithoutPlayListDataInput!
+}
+
+input PlaylistItemUpdateWithWhereUniqueWithoutVideoInput {
+  where: PlaylistItemWhereUniqueInput!
+  data: PlaylistItemUpdateWithoutVideoDataInput!
+}
+
+input PlaylistItemUpsertWithWhereUniqueWithoutPlayListInput {
+  where: PlaylistItemWhereUniqueInput!
+  update: PlaylistItemUpdateWithoutPlayListDataInput!
+  create: PlaylistItemCreateWithoutPlayListInput!
+}
+
+input PlaylistItemUpsertWithWhereUniqueWithoutVideoInput {
+  where: PlaylistItemWhereUniqueInput!
+  update: PlaylistItemUpdateWithoutVideoDataInput!
+  create: PlaylistItemCreateWithoutVideoInput!
+}
+
+input PlaylistItemWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  dateAdded: DateTime
+  dateAdded_not: DateTime
+  dateAdded_in: [DateTime!]
+  dateAdded_not_in: [DateTime!]
+  dateAdded_lt: DateTime
+  dateAdded_lte: DateTime
+  dateAdded_gt: DateTime
+  dateAdded_gte: DateTime
+  playList: PlaylistWhereInput
+  video: VideoWhereInput
+  AND: [PlaylistItemWhereInput!]
+  OR: [PlaylistItemWhereInput!]
+  NOT: [PlaylistItemWhereInput!]
+}
+
+input PlaylistItemWhereUniqueInput {
+  id: ID
+}
+
+enum PlaylistOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  childrenName_ASC
+  childrenName_DESC
+  description_ASC
+  description_DESC
+  metadata_ASC
+  metadata_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type PlaylistPreviousValues {
+  id: ID!
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json!
+}
+
+type PlaylistSubscriptionPayload {
+  mutation: MutationType!
+  node: Playlist
+  updatedFields: [String!]
+  previousValues: PlaylistPreviousValues
+}
+
+input PlaylistSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: PlaylistWhereInput
+  AND: [PlaylistSubscriptionWhereInput!]
+  OR: [PlaylistSubscriptionWhereInput!]
+  NOT: [PlaylistSubscriptionWhereInput!]
+}
+
+input PlaylistUpdateInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistUpdateOneWithoutChildrenInput
+  children: PlaylistUpdateManyWithoutParentInput
+  items: PlaylistItemUpdateManyWithoutPlayListInput
+  user: UserUpdateOneWithoutPlaylistsInput
+  service: ServiceUpdateOneRequiredInput
+}
+
+input PlaylistUpdateManyMutationInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+}
+
+input PlaylistUpdateManyWithoutParentInput {
+  create: [PlaylistCreateWithoutParentInput!]
+  delete: [PlaylistWhereUniqueInput!]
+  connect: [PlaylistWhereUniqueInput!]
+  disconnect: [PlaylistWhereUniqueInput!]
+  update: [PlaylistUpdateWithWhereUniqueWithoutParentInput!]
+  upsert: [PlaylistUpsertWithWhereUniqueWithoutParentInput!]
+}
+
+input PlaylistUpdateManyWithoutUserInput {
+  create: [PlaylistCreateWithoutUserInput!]
+  delete: [PlaylistWhereUniqueInput!]
+  connect: [PlaylistWhereUniqueInput!]
+  disconnect: [PlaylistWhereUniqueInput!]
+  update: [PlaylistUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [PlaylistUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input PlaylistUpdateOneRequiredWithoutItemsInput {
+  create: PlaylistCreateWithoutItemsInput
+  update: PlaylistUpdateWithoutItemsDataInput
+  upsert: PlaylistUpsertWithoutItemsInput
+  connect: PlaylistWhereUniqueInput
+}
+
+input PlaylistUpdateOneWithoutChildrenInput {
+  create: PlaylistCreateWithoutChildrenInput
+  update: PlaylistUpdateWithoutChildrenDataInput
+  upsert: PlaylistUpsertWithoutChildrenInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: PlaylistWhereUniqueInput
+}
+
+input PlaylistUpdateWithoutChildrenDataInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistUpdateOneWithoutChildrenInput
+  items: PlaylistItemUpdateManyWithoutPlayListInput
+  user: UserUpdateOneWithoutPlaylistsInput
+  service: ServiceUpdateOneRequiredInput
+}
+
+input PlaylistUpdateWithoutItemsDataInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistUpdateOneWithoutChildrenInput
+  children: PlaylistUpdateManyWithoutParentInput
+  user: UserUpdateOneWithoutPlaylistsInput
+  service: ServiceUpdateOneRequiredInput
+}
+
+input PlaylistUpdateWithoutParentDataInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+  children: PlaylistUpdateManyWithoutParentInput
+  items: PlaylistItemUpdateManyWithoutPlayListInput
+  user: UserUpdateOneWithoutPlaylistsInput
+  service: ServiceUpdateOneRequiredInput
+}
+
+input PlaylistUpdateWithoutUserDataInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+  parent: PlaylistUpdateOneWithoutChildrenInput
+  children: PlaylistUpdateManyWithoutParentInput
+  items: PlaylistItemUpdateManyWithoutPlayListInput
+  service: ServiceUpdateOneRequiredInput
+}
+
+input PlaylistUpdateWithWhereUniqueWithoutParentInput {
+  where: PlaylistWhereUniqueInput!
+  data: PlaylistUpdateWithoutParentDataInput!
+}
+
+input PlaylistUpdateWithWhereUniqueWithoutUserInput {
+  where: PlaylistWhereUniqueInput!
+  data: PlaylistUpdateWithoutUserDataInput!
+}
+
+input PlaylistUpsertWithoutChildrenInput {
+  update: PlaylistUpdateWithoutChildrenDataInput!
+  create: PlaylistCreateWithoutChildrenInput!
+}
+
+input PlaylistUpsertWithoutItemsInput {
+  update: PlaylistUpdateWithoutItemsDataInput!
+  create: PlaylistCreateWithoutItemsInput!
+}
+
+input PlaylistUpsertWithWhereUniqueWithoutParentInput {
+  where: PlaylistWhereUniqueInput!
+  update: PlaylistUpdateWithoutParentDataInput!
+  create: PlaylistCreateWithoutParentInput!
+}
+
+input PlaylistUpsertWithWhereUniqueWithoutUserInput {
+  where: PlaylistWhereUniqueInput!
+  update: PlaylistUpdateWithoutUserDataInput!
+  create: PlaylistCreateWithoutUserInput!
+}
+
+input PlaylistWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  childrenName: String
+  childrenName_not: String
+  childrenName_in: [String!]
+  childrenName_not_in: [String!]
+  childrenName_lt: String
+  childrenName_lte: String
+  childrenName_gt: String
+  childrenName_gte: String
+  childrenName_contains: String
+  childrenName_not_contains: String
+  childrenName_starts_with: String
+  childrenName_not_starts_with: String
+  childrenName_ends_with: String
+  childrenName_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  parent: PlaylistWhereInput
+  children_every: PlaylistWhereInput
+  children_some: PlaylistWhereInput
+  children_none: PlaylistWhereInput
+  items_every: PlaylistItemWhereInput
+  items_some: PlaylistItemWhereInput
+  items_none: PlaylistItemWhereInput
+  user: UserWhereInput
+  service: ServiceWhereInput
+  AND: [PlaylistWhereInput!]
+  OR: [PlaylistWhereInput!]
+  NOT: [PlaylistWhereInput!]
+}
+
+input PlaylistWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   article(where: ArticleWhereUniqueInput!): Article
   articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
@@ -553,12 +1115,21 @@ type Query {
   articleSection(where: ArticleSectionWhereUniqueInput!): ArticleSection
   articleSections(where: ArticleSectionWhereInput, orderBy: ArticleSectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ArticleSection]!
   articleSectionsConnection(where: ArticleSectionWhereInput, orderBy: ArticleSectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ArticleSectionConnection!
+  playlist(where: PlaylistWhereUniqueInput!): Playlist
+  playlists(where: PlaylistWhereInput, orderBy: PlaylistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Playlist]!
+  playlistsConnection(where: PlaylistWhereInput, orderBy: PlaylistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaylistConnection!
+  playlistItem(where: PlaylistItemWhereUniqueInput!): PlaylistItem
+  playlistItems(where: PlaylistItemWhereInput, orderBy: PlaylistItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PlaylistItem]!
+  playlistItemsConnection(where: PlaylistItemWhereInput, orderBy: PlaylistItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PlaylistItemConnection!
   service(where: ServiceWhereUniqueInput!): Service
   services(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Service]!
   servicesConnection(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ServiceConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  video(where: VideoWhereUniqueInput!): Video
+  videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video]!
+  videosConnection(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VideoConnection!
   node(id: ID!): Node
 }
 
@@ -572,6 +1143,7 @@ type Service {
   videoRestUrl: String
   articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article!]
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  videos(where: VideoWhereInput, orderBy: VideoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Video!]
 }
 
 type ServiceConnection {
@@ -589,6 +1161,7 @@ input ServiceCreateInput {
   videoRestUrl: String
   articles: ArticleCreateManyWithoutServiceInput
   users: UserCreateManyWithoutServicesInput
+  videos: VideoCreateManyWithoutServiceInput
 }
 
 input ServiceCreateManyWithoutUsersInput {
@@ -596,8 +1169,18 @@ input ServiceCreateManyWithoutUsersInput {
   connect: [ServiceWhereUniqueInput!]
 }
 
+input ServiceCreateOneInput {
+  create: ServiceCreateInput
+  connect: ServiceWhereUniqueInput
+}
+
 input ServiceCreateOneWithoutArticlesInput {
   create: ServiceCreateWithoutArticlesInput
+  connect: ServiceWhereUniqueInput
+}
+
+input ServiceCreateOneWithoutVideosInput {
+  create: ServiceCreateWithoutVideosInput
   connect: ServiceWhereUniqueInput
 }
 
@@ -609,6 +1192,7 @@ input ServiceCreateWithoutArticlesInput {
   videoUrl: String
   videoRestUrl: String
   users: UserCreateManyWithoutServicesInput
+  videos: VideoCreateManyWithoutServiceInput
 }
 
 input ServiceCreateWithoutUsersInput {
@@ -619,6 +1203,18 @@ input ServiceCreateWithoutUsersInput {
   videoUrl: String
   videoRestUrl: String
   articles: ArticleCreateManyWithoutServiceInput
+  videos: VideoCreateManyWithoutServiceInput
+}
+
+input ServiceCreateWithoutVideosInput {
+  name: ID!
+  language: LANGUAGE
+  url: String
+  liveUrl: String
+  videoUrl: String
+  videoRestUrl: String
+  articles: ArticleCreateManyWithoutServiceInput
+  users: UserCreateManyWithoutServicesInput
 }
 
 type ServiceEdge {
@@ -675,6 +1271,18 @@ input ServiceSubscriptionWhereInput {
   NOT: [ServiceSubscriptionWhereInput!]
 }
 
+input ServiceUpdateDataInput {
+  name: ID
+  language: LANGUAGE
+  url: String
+  liveUrl: String
+  videoUrl: String
+  videoRestUrl: String
+  articles: ArticleUpdateManyWithoutServiceInput
+  users: UserUpdateManyWithoutServicesInput
+  videos: VideoUpdateManyWithoutServiceInput
+}
+
 input ServiceUpdateInput {
   name: ID
   language: LANGUAGE
@@ -684,6 +1292,7 @@ input ServiceUpdateInput {
   videoRestUrl: String
   articles: ArticleUpdateManyWithoutServiceInput
   users: UserUpdateManyWithoutServicesInput
+  videos: VideoUpdateManyWithoutServiceInput
 }
 
 input ServiceUpdateManyMutationInput {
@@ -704,10 +1313,24 @@ input ServiceUpdateManyWithoutUsersInput {
   upsert: [ServiceUpsertWithWhereUniqueWithoutUsersInput!]
 }
 
+input ServiceUpdateOneRequiredInput {
+  create: ServiceCreateInput
+  update: ServiceUpdateDataInput
+  upsert: ServiceUpsertNestedInput
+  connect: ServiceWhereUniqueInput
+}
+
 input ServiceUpdateOneRequiredWithoutArticlesInput {
   create: ServiceCreateWithoutArticlesInput
   update: ServiceUpdateWithoutArticlesDataInput
   upsert: ServiceUpsertWithoutArticlesInput
+  connect: ServiceWhereUniqueInput
+}
+
+input ServiceUpdateOneRequiredWithoutVideosInput {
+  create: ServiceCreateWithoutVideosInput
+  update: ServiceUpdateWithoutVideosDataInput
+  upsert: ServiceUpsertWithoutVideosInput
   connect: ServiceWhereUniqueInput
 }
 
@@ -719,6 +1342,7 @@ input ServiceUpdateWithoutArticlesDataInput {
   videoUrl: String
   videoRestUrl: String
   users: UserUpdateManyWithoutServicesInput
+  videos: VideoUpdateManyWithoutServiceInput
 }
 
 input ServiceUpdateWithoutUsersDataInput {
@@ -729,6 +1353,18 @@ input ServiceUpdateWithoutUsersDataInput {
   videoUrl: String
   videoRestUrl: String
   articles: ArticleUpdateManyWithoutServiceInput
+  videos: VideoUpdateManyWithoutServiceInput
+}
+
+input ServiceUpdateWithoutVideosDataInput {
+  name: ID
+  language: LANGUAGE
+  url: String
+  liveUrl: String
+  videoUrl: String
+  videoRestUrl: String
+  articles: ArticleUpdateManyWithoutServiceInput
+  users: UserUpdateManyWithoutServicesInput
 }
 
 input ServiceUpdateWithWhereUniqueWithoutUsersInput {
@@ -736,9 +1372,19 @@ input ServiceUpdateWithWhereUniqueWithoutUsersInput {
   data: ServiceUpdateWithoutUsersDataInput!
 }
 
+input ServiceUpsertNestedInput {
+  update: ServiceUpdateDataInput!
+  create: ServiceCreateInput!
+}
+
 input ServiceUpsertWithoutArticlesInput {
   update: ServiceUpdateWithoutArticlesDataInput!
   create: ServiceCreateWithoutArticlesInput!
+}
+
+input ServiceUpsertWithoutVideosInput {
+  update: ServiceUpdateWithoutVideosDataInput!
+  create: ServiceCreateWithoutVideosInput!
 }
 
 input ServiceUpsertWithWhereUniqueWithoutUsersInput {
@@ -842,6 +1488,9 @@ input ServiceWhereInput {
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
+  videos_every: VideoWhereInput
+  videos_some: VideoWhereInput
+  videos_none: VideoWhereInput
   AND: [ServiceWhereInput!]
   OR: [ServiceWhereInput!]
   NOT: [ServiceWhereInput!]
@@ -852,11 +1501,20 @@ input ServiceWhereUniqueInput {
   name: ID
 }
 
+enum SOURCE_TYPE {
+  CLIPS
+  MEDIAFNS
+  YOUTUBE
+}
+
 type Subscription {
   article(where: ArticleSubscriptionWhereInput): ArticleSubscriptionPayload
   articleSection(where: ArticleSectionSubscriptionWhereInput): ArticleSectionSubscriptionPayload
+  playlist(where: PlaylistSubscriptionWhereInput): PlaylistSubscriptionPayload
+  playlistItem(where: PlaylistItemSubscriptionWhereInput): PlaylistItemSubscriptionPayload
   service(where: ServiceSubscriptionWhereInput): ServiceSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  video(where: VideoSubscriptionWhereInput): VideoSubscriptionPayload
 }
 
 type User {
@@ -864,6 +1522,7 @@ type User {
   email: String!
   name: String
   services(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Service!]
+  playlists(where: PlaylistWhereInput, orderBy: PlaylistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Playlist!]
 }
 
 type UserConnection {
@@ -876,6 +1535,7 @@ input UserCreateInput {
   email: String!
   name: String
   services: ServiceCreateManyWithoutUsersInput
+  playlists: PlaylistCreateManyWithoutUserInput
 }
 
 input UserCreateManyWithoutServicesInput {
@@ -883,9 +1543,21 @@ input UserCreateManyWithoutServicesInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreateOneWithoutPlaylistsInput {
+  create: UserCreateWithoutPlaylistsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPlaylistsInput {
+  email: String!
+  name: String
+  services: ServiceCreateManyWithoutUsersInput
+}
+
 input UserCreateWithoutServicesInput {
   email: String!
   name: String
+  playlists: PlaylistCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -934,6 +1606,7 @@ input UserUpdateInput {
   email: String
   name: String
   services: ServiceUpdateManyWithoutUsersInput
+  playlists: PlaylistUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -950,14 +1623,35 @@ input UserUpdateManyWithoutServicesInput {
   upsert: [UserUpsertWithWhereUniqueWithoutServicesInput!]
 }
 
+input UserUpdateOneWithoutPlaylistsInput {
+  create: UserCreateWithoutPlaylistsInput
+  update: UserUpdateWithoutPlaylistsDataInput
+  upsert: UserUpsertWithoutPlaylistsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutPlaylistsDataInput {
+  email: String
+  name: String
+  services: ServiceUpdateManyWithoutUsersInput
+}
+
 input UserUpdateWithoutServicesDataInput {
   email: String
   name: String
+  playlists: PlaylistUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithWhereUniqueWithoutServicesInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutServicesDataInput!
+}
+
+input UserUpsertWithoutPlaylistsInput {
+  update: UserUpdateWithoutPlaylistsDataInput!
+  create: UserCreateWithoutPlaylistsInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutServicesInput {
@@ -1012,6 +1706,9 @@ input UserWhereInput {
   services_every: ServiceWhereInput
   services_some: ServiceWhereInput
   services_none: ServiceWhereInput
+  playlists_every: PlaylistWhereInput
+  playlists_some: PlaylistWhereInput
+  playlists_none: PlaylistWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -1020,6 +1717,323 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+
+type Video {
+  id: ID!
+  name: String!
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean!
+  sourceId: String!
+  sourceType: SOURCE_TYPE!
+  tags: [String!]!
+  metadata: Json!
+  playListItems(where: PlaylistItemWhereInput, orderBy: PlaylistItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PlaylistItem!]
+  service: Service!
+}
+
+type VideoConnection {
+  pageInfo: PageInfo!
+  edges: [VideoEdge]!
+  aggregate: AggregateVideo!
+}
+
+input VideoCreateInput {
+  name: String!
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String!
+  sourceType: SOURCE_TYPE!
+  tags: VideoCreatetagsInput
+  metadata: Json
+  playListItems: PlaylistItemCreateManyWithoutVideoInput
+  service: ServiceCreateOneWithoutVideosInput!
+}
+
+input VideoCreateManyWithoutServiceInput {
+  create: [VideoCreateWithoutServiceInput!]
+  connect: [VideoWhereUniqueInput!]
+}
+
+input VideoCreateOneWithoutPlayListItemsInput {
+  create: VideoCreateWithoutPlayListItemsInput
+  connect: VideoWhereUniqueInput
+}
+
+input VideoCreatetagsInput {
+  set: [String!]
+}
+
+input VideoCreateWithoutPlayListItemsInput {
+  name: String!
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String!
+  sourceType: SOURCE_TYPE!
+  tags: VideoCreatetagsInput
+  metadata: Json
+  service: ServiceCreateOneWithoutVideosInput!
+}
+
+input VideoCreateWithoutServiceInput {
+  name: String!
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String!
+  sourceType: SOURCE_TYPE!
+  tags: VideoCreatetagsInput
+  metadata: Json
+  playListItems: PlaylistItemCreateManyWithoutVideoInput
+}
+
+type VideoEdge {
+  node: Video!
+  cursor: String!
+}
+
+enum VideoOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  datePublished_ASC
+  datePublished_DESC
+  dateFirstPublished_ASC
+  dateFirstPublished_DESC
+  paid_ASC
+  paid_DESC
+  sourceId_ASC
+  sourceId_DESC
+  sourceType_ASC
+  sourceType_DESC
+  metadata_ASC
+  metadata_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type VideoPreviousValues {
+  id: ID!
+  name: String!
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean!
+  sourceId: String!
+  sourceType: SOURCE_TYPE!
+  tags: [String!]!
+  metadata: Json!
+}
+
+type VideoSubscriptionPayload {
+  mutation: MutationType!
+  node: Video
+  updatedFields: [String!]
+  previousValues: VideoPreviousValues
+}
+
+input VideoSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: VideoWhereInput
+  AND: [VideoSubscriptionWhereInput!]
+  OR: [VideoSubscriptionWhereInput!]
+  NOT: [VideoSubscriptionWhereInput!]
+}
+
+input VideoUpdateInput {
+  name: String
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String
+  sourceType: SOURCE_TYPE
+  tags: VideoUpdatetagsInput
+  metadata: Json
+  playListItems: PlaylistItemUpdateManyWithoutVideoInput
+  service: ServiceUpdateOneRequiredWithoutVideosInput
+}
+
+input VideoUpdateManyMutationInput {
+  name: String
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String
+  sourceType: SOURCE_TYPE
+  tags: VideoUpdatetagsInput
+  metadata: Json
+}
+
+input VideoUpdateManyWithoutServiceInput {
+  create: [VideoCreateWithoutServiceInput!]
+  delete: [VideoWhereUniqueInput!]
+  connect: [VideoWhereUniqueInput!]
+  disconnect: [VideoWhereUniqueInput!]
+  update: [VideoUpdateWithWhereUniqueWithoutServiceInput!]
+  upsert: [VideoUpsertWithWhereUniqueWithoutServiceInput!]
+}
+
+input VideoUpdateOneRequiredWithoutPlayListItemsInput {
+  create: VideoCreateWithoutPlayListItemsInput
+  update: VideoUpdateWithoutPlayListItemsDataInput
+  upsert: VideoUpsertWithoutPlayListItemsInput
+  connect: VideoWhereUniqueInput
+}
+
+input VideoUpdatetagsInput {
+  set: [String!]
+}
+
+input VideoUpdateWithoutPlayListItemsDataInput {
+  name: String
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String
+  sourceType: SOURCE_TYPE
+  tags: VideoUpdatetagsInput
+  metadata: Json
+  service: ServiceUpdateOneRequiredWithoutVideosInput
+}
+
+input VideoUpdateWithoutServiceDataInput {
+  name: String
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String
+  sourceType: SOURCE_TYPE
+  tags: VideoUpdatetagsInput
+  metadata: Json
+  playListItems: PlaylistItemUpdateManyWithoutVideoInput
+}
+
+input VideoUpdateWithWhereUniqueWithoutServiceInput {
+  where: VideoWhereUniqueInput!
+  data: VideoUpdateWithoutServiceDataInput!
+}
+
+input VideoUpsertWithoutPlayListItemsInput {
+  update: VideoUpdateWithoutPlayListItemsDataInput!
+  create: VideoCreateWithoutPlayListItemsInput!
+}
+
+input VideoUpsertWithWhereUniqueWithoutServiceInput {
+  where: VideoWhereUniqueInput!
+  update: VideoUpdateWithoutServiceDataInput!
+  create: VideoCreateWithoutServiceInput!
+}
+
+input VideoWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  datePublished: DateTime
+  datePublished_not: DateTime
+  datePublished_in: [DateTime!]
+  datePublished_not_in: [DateTime!]
+  datePublished_lt: DateTime
+  datePublished_lte: DateTime
+  datePublished_gt: DateTime
+  datePublished_gte: DateTime
+  dateFirstPublished: DateTime
+  dateFirstPublished_not: DateTime
+  dateFirstPublished_in: [DateTime!]
+  dateFirstPublished_not_in: [DateTime!]
+  dateFirstPublished_lt: DateTime
+  dateFirstPublished_lte: DateTime
+  dateFirstPublished_gt: DateTime
+  dateFirstPublished_gte: DateTime
+  paid: Boolean
+  paid_not: Boolean
+  sourceId: String
+  sourceId_not: String
+  sourceId_in: [String!]
+  sourceId_not_in: [String!]
+  sourceId_lt: String
+  sourceId_lte: String
+  sourceId_gt: String
+  sourceId_gte: String
+  sourceId_contains: String
+  sourceId_not_contains: String
+  sourceId_starts_with: String
+  sourceId_not_starts_with: String
+  sourceId_ends_with: String
+  sourceId_not_ends_with: String
+  sourceType: SOURCE_TYPE
+  sourceType_not: SOURCE_TYPE
+  sourceType_in: [SOURCE_TYPE!]
+  sourceType_not_in: [SOURCE_TYPE!]
+  playListItems_every: PlaylistItemWhereInput
+  playListItems_some: PlaylistItemWhereInput
+  playListItems_none: PlaylistItemWhereInput
+  service: ServiceWhereInput
+  AND: [VideoWhereInput!]
+  OR: [VideoWhereInput!]
+  NOT: [VideoWhereInput!]
+}
+
+input VideoWhereUniqueInput {
+  id: ID
+  sourceId: String
 }
 `
       }
