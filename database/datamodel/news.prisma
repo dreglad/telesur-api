@@ -1,22 +1,3 @@
-type Service {
-  id: ID! @unique
-  name: ID! @unique
-  language: LANGUAGE
-  url: String
-  liveUrl: String
-  videoUrl: String
-  videoRestUrl: String
-  articles: [Article!]!
-  users: [User!]!
-}
-
-type User {
-  id: ID! @unique
-  email: String! @unique
-  name: String
-  services: [Service!]!
-}
-
 type Article {
   id: ID! @unique
   url: String! @unique
@@ -35,9 +16,4 @@ type ArticleSection {
   id: ID! @unique
   name: String! @unique
   articles: [Article!]!
-}
-
-enum LANGUAGE {
-  ES
-  EN
 }

@@ -1,5 +1,8 @@
 endpoint: ${env:PRISMA_ENDPOINT}
-datamodel: datamodel.prisma
+datamodel:
+  - datamodel/service.prisma
+  - datamodel/news.prisma
+  - datamodel/videos.prisma
 
 generate:
   - generator: javascript-client

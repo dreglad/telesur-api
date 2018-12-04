@@ -1,0 +1,41 @@
+type Video {
+  id: ID! @unique
+  name: String!
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean! @default(value: "false")
+  sourceId: String! @unique
+  sourceType: SOURCE_TYPE!
+  tags: [String!]
+  metadata: Json! @default(value: "{}")
+  playListItems: [PlaylistItem!]!
+  service: Service!
+}
+
+type Playlist {
+  id: ID! @unique
+  name: String!
+  childrenName: String
+  description: String
+  metadata: Json! @default(value: "{}")
+  parent: Playlist @relation(name: "PlaylistSelfRelation")
+  children: [Playlist!]! @relation(name: "PlaylistSelfRelation")
+  items: [PlaylistItem!]!
+  user: User
+  service: Service!
+}
+
+type PlaylistItem {
+  id: ID! @unique
+  dateAdded: DateTime
+  metadata: Json! @default(value: "{}")
+  playList: Playlist!
+  video: Video!
+}
+
+enum SOURCE_TYPE {
+  CLIPS
+  MEDIAFNS
+  YOUTUBE 
+}
