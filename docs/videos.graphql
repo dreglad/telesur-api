@@ -1,0 +1,48 @@
+query {
+  allChildren: playlists(where: {
+    NOT: { parent: null }
+  }) {
+    parent { name }
+    name
+  }
+
+  parents: playlists(where: {
+    parent: null,
+    user: null,
+    children_some: { id_not: null }
+  }) {
+    name
+    childrenName
+  }
+}
+
+query LongVideos {
+  videos {
+    id
+    name
+    description
+    datePublished
+    dateFirstPublished
+    paid
+    sourceType
+    sourceId
+    tags
+    metadata
+    playListItems {
+      playList {
+        id
+        name
+        parent {
+          id
+          name
+          description
+          parent {
+            id
+            name
+            description
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,4 @@
 mutation {
-
   createTelesur: createService(data: {
     name: "teleSUR"
     language: ES
@@ -21,4 +20,82 @@ mutation {
   }) {
     id
   }
+
+  v1: createVideo(data: {
+    name: "México: AMLO crea Comisión de la Verdad sobre el caso Ayotzinapa"
+    sourceType: CLIPS,
+    sourceId: "753570"
+    service: { connect: { name: "teleSUR" }}
+  }) { id }
+  v2: createVideo(data: {
+    name: "Discurso de la Toma de protesta de AMLO como presidente de la República"
+    sourceType: YOUTUBE
+    sourceId: "N2Z-S9OlEEI"
+    service: { connect: { name: "teleSUR" }}
+  }) { id }
+  v3: createVideo(data: {
+    name: "México: AMLO crea Comisión de la Verdad sobre el caso Ayotzinapa"
+    sourceType: MEDIAFNS
+    sourceId: "sandbox:4Fks23"
+    service: { connect: { name: "teleSUR" }}
+  }) { id }
+
+  progs: createPlaylist(data: {
+    service: { connect: { name: "teleSUR" }}
+    name: "programa",
+    childrenName: "programas",
+    children: {
+      create: [
+        {
+          service: { connect: { name: "teleSUR" }}
+          name: "Dossier",
+          description: "El progrma Dossier"
+          items: { create: [
+            { dateAdded: "2018-10-10", video: {connect: {sourceId: "753570" }}}
+          ]}
+        }
+        {
+          service: { connect: { name: "teleSUR" }}
+          name: "Agenda Abierta",
+          items: { create: [
+            { dateAdded: "2018-10-10", video: {connect: {sourceId: "N2Z-S9OlEEI" }}}
+            { dateAdded: "2018-10-11", video: {connect: {sourceId: "sandbox:4Fks23" }}}
+          ]}
+        }
+      ]
+    }
+  }) { id }
+  cats: createPlaylist(data: {
+    service: { connect: { name: "teleSUR" }}
+    name: "categoría",
+    childrenName: "categorías",
+    children: {
+      create: [
+        {
+          service: { connect: { name: "teleSUR" }}
+          name: "Política"
+          items: { create: [
+            { dateAdded: "2018-10-10", video: { connect: { sourceId: "N2Z-S9OlEEI" }}}
+            { dateAdded: "2018-10-11", video: {connect: { sourceId: "sandbox:4Fks23" }}}
+            { dateAdded: "2018-10-10", video: { connect: { sourceId: "753570" }}}
+          ]}
+        }
+        {
+          service: { connect: { name: "teleSUR" }}
+          name: "Economía"
+          items: { create: [
+            { dateAdded: "2018-10-10", video: { connect: { sourceId: "sandbox:4Fks23" }}}
+            { dateAdded: "2018-10-10", video: { connect: { sourceId: "N2Z-S9OlEEI" }}}
+          ]}
+        }
+        {
+          service: { connect: { name: "teleSUR" }}
+          name: "Deportes"
+          items: { create: [
+            { dateAdded: "2018-10-10", video: { connect: { sourceId: "sandbox:4Fks23" }}}
+          ]}
+        }
+      ]
+    }
+  }) { id }
 }
