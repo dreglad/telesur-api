@@ -1,5 +1,6 @@
 const { merge } = require('lodash');
 const videoResolvers = require('./videos/resolvers');
+const clipResolvers = require('./clips/resolvers');
 const newsResolvers = require('./news/resolvers');
 const { forwardTo } = require('prisma-binding');
 
@@ -11,16 +12,19 @@ const resolvers = {
 
     servicesConnection: forwardTo('db'),
 
-    service (_, { id, name }, { prisma, service }, info) {
-      return id || name
-        ? prisma.service({ id, name })
-        : service
+    service (_, args, { service }) {
+      return service;
+    },
+
+    currentService (_, __, { service }) {
+      return service;
     }
   }
 }
 
 module.exports = merge(
   resolvers,
+  clipResolvers,
   videoResolvers,
   newsResolvers
 )
