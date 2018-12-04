@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "type": "npm",
   "alias": "telesur-api.omedia.io",
   "dotenv": ".env.prod",
   "public": true
