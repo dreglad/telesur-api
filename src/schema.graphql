@@ -1,4 +1,4 @@
-# import Query.* from "./generated/graphql-schema/prisma.graphql"
+# import Service, Query.services, Query.service, Query.servicesConnection, Query.users, Query.user, Query.usersConnection from "./generated/graphql-schema/prisma.graphql"
 # import Query.* from './news/schema.graphql'
 # import Query.* from './clips/schema.graphql'
 # import Query.* from './videos/schema.graphql'

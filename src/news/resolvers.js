@@ -1,12 +1,21 @@
-const { merge } = require('lodash')
+const { merge } = require('lodash');
+const { crawlLinks } = require('./util');
 
 const Query = {
-  articles (_, args, { db, service }, info) {
+  async articles (_, args, { db, service }, info) {
+    let links;
+
+    if (args.foundInUrl) {
+      links = await crawlLinks(args.foundInUrl);
+      delete args.foundInUrl;
+    }
+
     return db.query.articles(merge(args, {
       orderBy: 'datePublished_DESC',
       first: 20,
       where: {
-        service: { id: service.id }
+        service: { id: service.id },
+        url_in: links
       }
     }), info)
   },

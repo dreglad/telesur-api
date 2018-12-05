@@ -14,4 +14,18 @@ query {
     }
   }
 
+  # Filter with URLs obtained from scrapping a URL
+  Noticias_En_Home_De_Deportes:
+  articles (
+    foundInUrl: "https://www.telesurtv.net/"
+    where: {
+      AND: [
+        { sections_some: { name: "Deportes" } }
+        { sections_some: { name: "Noticias" } }
+      ]
+    }
+  ) {
+    headline
+    sections { name }
+  }
 }
