@@ -3,5 +3,5 @@
 type Query {
   """Total number of articles matching certain query"""
   articlesCount(where: ArticleWhereInput): Int
-  articles(where: ArticleWhereInput, foundInUrl:String!, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
+  articles(where: ArticleWhereInput, foundInUrl: String, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
 }
