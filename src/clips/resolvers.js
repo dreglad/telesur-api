@@ -43,7 +43,7 @@ const Query = {
 
   topics: buildRestListResolver('tema', mapTopic),
   topicsConnection: buildRestConnectionResolver('tema', mapTopic),
-  topics: buildRestObjectResolver('tema', mapTopic)
+  topic: buildRestObjectResolver('tema', mapTopic)
 }
 
 const typeResolvers = {
