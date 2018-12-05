@@ -1,7 +1,5 @@
 const cheerio = require('cheerio');
 const fetch = require('node-fetch');
-const isAbsoluteUrl = require('is-absolute-url');
-const urlJoin = require('proper-url-join');
 const { uniq } = require('lodash');
 const URL = require('url').URL;
 
