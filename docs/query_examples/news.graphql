@@ -15,8 +15,7 @@ query {
   }
 
   # Filter with URLs obtained from scrapping a URL
-  Noticias_En_Home_De_Deportes:
-  articles (
+  Noticias_En_Home_De_Deportes: articles (
     foundInUrl: "https://www.telesurtv.net/"
     where: {
       AND: [
@@ -27,5 +26,14 @@ query {
   ) {
     headline
     sections { name }
+  }
+
+  Noticias_Encontrads_En_Feed_RSS: articles(
+    foundInUrl: "https://appservices.openmultimedia.biz/rss/RssPortada.xml"
+  ) {
+    headline
+    sections {
+      name
+    }
   }
 }
