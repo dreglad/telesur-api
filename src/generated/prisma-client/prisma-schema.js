@@ -140,6 +140,104 @@ type ArticlePreviousValues {
   images: [String!]!
 }
 
+input ArticleScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  headline: String
+  headline_not: String
+  headline_in: [String!]
+  headline_not_in: [String!]
+  headline_lt: String
+  headline_lte: String
+  headline_gt: String
+  headline_gte: String
+  headline_contains: String
+  headline_not_contains: String
+  headline_starts_with: String
+  headline_not_starts_with: String
+  headline_ends_with: String
+  headline_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  datePublished: DateTime
+  datePublished_not: DateTime
+  datePublished_in: [DateTime!]
+  datePublished_not_in: [DateTime!]
+  datePublished_lt: DateTime
+  datePublished_lte: DateTime
+  datePublished_gt: DateTime
+  datePublished_gte: DateTime
+  body: String
+  body_not: String
+  body_in: [String!]
+  body_not_in: [String!]
+  body_lt: String
+  body_lte: String
+  body_gt: String
+  body_gte: String
+  body_contains: String
+  body_not_contains: String
+  body_starts_with: String
+  body_not_starts_with: String
+  body_ends_with: String
+  body_not_ends_with: String
+  author: String
+  author_not: String
+  author_in: [String!]
+  author_not_in: [String!]
+  author_lt: String
+  author_lte: String
+  author_gt: String
+  author_gte: String
+  author_contains: String
+  author_not_contains: String
+  author_starts_with: String
+  author_not_starts_with: String
+  author_ends_with: String
+  author_not_ends_with: String
+  AND: [ArticleScalarWhereInput!]
+  OR: [ArticleScalarWhereInput!]
+  NOT: [ArticleScalarWhereInput!]
+}
+
 type ArticleSection {
   id: ID!
   name: String!
@@ -187,6 +285,40 @@ type ArticleSectionPreviousValues {
   name: String!
 }
 
+input ArticleSectionScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [ArticleSectionScalarWhereInput!]
+  OR: [ArticleSectionScalarWhereInput!]
+  NOT: [ArticleSectionScalarWhereInput!]
+}
+
 type ArticleSectionSubscriptionPayload {
   mutation: MutationType!
   node: ArticleSection
@@ -210,6 +342,10 @@ input ArticleSectionUpdateInput {
   articles: ArticleUpdateManyWithoutSectionsInput
 }
 
+input ArticleSectionUpdateManyDataInput {
+  name: String
+}
+
 input ArticleSectionUpdateManyMutationInput {
   name: String
 }
@@ -221,6 +357,13 @@ input ArticleSectionUpdateManyWithoutArticlesInput {
   disconnect: [ArticleSectionWhereUniqueInput!]
   update: [ArticleSectionUpdateWithWhereUniqueWithoutArticlesInput!]
   upsert: [ArticleSectionUpsertWithWhereUniqueWithoutArticlesInput!]
+  deleteMany: [ArticleSectionScalarWhereInput!]
+  updateMany: [ArticleSectionUpdateManyWithWhereNestedInput!]
+}
+
+input ArticleSectionUpdateManyWithWhereNestedInput {
+  where: ArticleSectionScalarWhereInput!
+  data: ArticleSectionUpdateManyDataInput!
 }
 
 input ArticleSectionUpdateWithoutArticlesDataInput {
@@ -315,6 +458,17 @@ input ArticleUpdateInput {
   service: ServiceUpdateOneRequiredWithoutArticlesInput
 }
 
+input ArticleUpdateManyDataInput {
+  url: String
+  headline: String
+  description: String
+  datePublished: DateTime
+  body: String
+  author: String
+  tags: ArticleUpdatetagsInput
+  images: ArticleUpdateimagesInput
+}
+
 input ArticleUpdateManyMutationInput {
   url: String
   headline: String
@@ -333,6 +487,8 @@ input ArticleUpdateManyWithoutSectionsInput {
   disconnect: [ArticleWhereUniqueInput!]
   update: [ArticleUpdateWithWhereUniqueWithoutSectionsInput!]
   upsert: [ArticleUpsertWithWhereUniqueWithoutSectionsInput!]
+  deleteMany: [ArticleScalarWhereInput!]
+  updateMany: [ArticleUpdateManyWithWhereNestedInput!]
 }
 
 input ArticleUpdateManyWithoutServiceInput {
@@ -342,6 +498,13 @@ input ArticleUpdateManyWithoutServiceInput {
   disconnect: [ArticleWhereUniqueInput!]
   update: [ArticleUpdateWithWhereUniqueWithoutServiceInput!]
   upsert: [ArticleUpsertWithWhereUniqueWithoutServiceInput!]
+  deleteMany: [ArticleScalarWhereInput!]
+  updateMany: [ArticleUpdateManyWithWhereNestedInput!]
+}
+
+input ArticleUpdateManyWithWhereNestedInput {
+  where: ArticleScalarWhereInput!
+  data: ArticleUpdateManyDataInput!
 }
 
 input ArticleUpdatetagsInput {
@@ -745,6 +908,34 @@ type PlaylistItemPreviousValues {
   metadata: Json!
 }
 
+input PlaylistItemScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  dateAdded: DateTime
+  dateAdded_not: DateTime
+  dateAdded_in: [DateTime!]
+  dateAdded_not_in: [DateTime!]
+  dateAdded_lt: DateTime
+  dateAdded_lte: DateTime
+  dateAdded_gt: DateTime
+  dateAdded_gte: DateTime
+  AND: [PlaylistItemScalarWhereInput!]
+  OR: [PlaylistItemScalarWhereInput!]
+  NOT: [PlaylistItemScalarWhereInput!]
+}
+
 type PlaylistItemSubscriptionPayload {
   mutation: MutationType!
   node: PlaylistItem
@@ -770,6 +961,11 @@ input PlaylistItemUpdateInput {
   video: VideoUpdateOneRequiredWithoutPlayListItemsInput
 }
 
+input PlaylistItemUpdateManyDataInput {
+  dateAdded: DateTime
+  metadata: Json
+}
+
 input PlaylistItemUpdateManyMutationInput {
   dateAdded: DateTime
   metadata: Json
@@ -782,6 +978,8 @@ input PlaylistItemUpdateManyWithoutPlayListInput {
   disconnect: [PlaylistItemWhereUniqueInput!]
   update: [PlaylistItemUpdateWithWhereUniqueWithoutPlayListInput!]
   upsert: [PlaylistItemUpsertWithWhereUniqueWithoutPlayListInput!]
+  deleteMany: [PlaylistItemScalarWhereInput!]
+  updateMany: [PlaylistItemUpdateManyWithWhereNestedInput!]
 }
 
 input PlaylistItemUpdateManyWithoutVideoInput {
@@ -791,6 +989,13 @@ input PlaylistItemUpdateManyWithoutVideoInput {
   disconnect: [PlaylistItemWhereUniqueInput!]
   update: [PlaylistItemUpdateWithWhereUniqueWithoutVideoInput!]
   upsert: [PlaylistItemUpsertWithWhereUniqueWithoutVideoInput!]
+  deleteMany: [PlaylistItemScalarWhereInput!]
+  updateMany: [PlaylistItemUpdateManyWithWhereNestedInput!]
+}
+
+input PlaylistItemUpdateManyWithWhereNestedInput {
+  where: PlaylistItemScalarWhereInput!
+  data: PlaylistItemUpdateManyDataInput!
 }
 
 input PlaylistItemUpdateWithoutPlayListDataInput {
@@ -886,6 +1091,68 @@ type PlaylistPreviousValues {
   metadata: Json!
 }
 
+input PlaylistScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  childrenName: String
+  childrenName_not: String
+  childrenName_in: [String!]
+  childrenName_not_in: [String!]
+  childrenName_lt: String
+  childrenName_lte: String
+  childrenName_gt: String
+  childrenName_gte: String
+  childrenName_contains: String
+  childrenName_not_contains: String
+  childrenName_starts_with: String
+  childrenName_not_starts_with: String
+  childrenName_ends_with: String
+  childrenName_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [PlaylistScalarWhereInput!]
+  OR: [PlaylistScalarWhereInput!]
+  NOT: [PlaylistScalarWhereInput!]
+}
+
 type PlaylistSubscriptionPayload {
   mutation: MutationType!
   node: Playlist
@@ -916,6 +1183,13 @@ input PlaylistUpdateInput {
   service: ServiceUpdateOneRequiredInput
 }
 
+input PlaylistUpdateManyDataInput {
+  name: String
+  childrenName: String
+  description: String
+  metadata: Json
+}
+
 input PlaylistUpdateManyMutationInput {
   name: String
   childrenName: String
@@ -930,6 +1204,8 @@ input PlaylistUpdateManyWithoutParentInput {
   disconnect: [PlaylistWhereUniqueInput!]
   update: [PlaylistUpdateWithWhereUniqueWithoutParentInput!]
   upsert: [PlaylistUpsertWithWhereUniqueWithoutParentInput!]
+  deleteMany: [PlaylistScalarWhereInput!]
+  updateMany: [PlaylistUpdateManyWithWhereNestedInput!]
 }
 
 input PlaylistUpdateManyWithoutUserInput {
@@ -939,6 +1215,13 @@ input PlaylistUpdateManyWithoutUserInput {
   disconnect: [PlaylistWhereUniqueInput!]
   update: [PlaylistUpdateWithWhereUniqueWithoutUserInput!]
   upsert: [PlaylistUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [PlaylistScalarWhereInput!]
+  updateMany: [PlaylistUpdateManyWithWhereNestedInput!]
+}
+
+input PlaylistUpdateManyWithWhereNestedInput {
+  where: PlaylistScalarWhereInput!
+  data: PlaylistUpdateManyDataInput!
 }
 
 input PlaylistUpdateOneRequiredWithoutItemsInput {
@@ -1253,6 +1536,100 @@ type ServicePreviousValues {
   videoRestUrl: String
 }
 
+input ServiceScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: ID
+  name_not: ID
+  name_in: [ID!]
+  name_not_in: [ID!]
+  name_lt: ID
+  name_lte: ID
+  name_gt: ID
+  name_gte: ID
+  name_contains: ID
+  name_not_contains: ID
+  name_starts_with: ID
+  name_not_starts_with: ID
+  name_ends_with: ID
+  name_not_ends_with: ID
+  language: LANGUAGE
+  language_not: LANGUAGE
+  language_in: [LANGUAGE!]
+  language_not_in: [LANGUAGE!]
+  url: String
+  url_not: String
+  url_in: [String!]
+  url_not_in: [String!]
+  url_lt: String
+  url_lte: String
+  url_gt: String
+  url_gte: String
+  url_contains: String
+  url_not_contains: String
+  url_starts_with: String
+  url_not_starts_with: String
+  url_ends_with: String
+  url_not_ends_with: String
+  liveUrl: String
+  liveUrl_not: String
+  liveUrl_in: [String!]
+  liveUrl_not_in: [String!]
+  liveUrl_lt: String
+  liveUrl_lte: String
+  liveUrl_gt: String
+  liveUrl_gte: String
+  liveUrl_contains: String
+  liveUrl_not_contains: String
+  liveUrl_starts_with: String
+  liveUrl_not_starts_with: String
+  liveUrl_ends_with: String
+  liveUrl_not_ends_with: String
+  videoUrl: String
+  videoUrl_not: String
+  videoUrl_in: [String!]
+  videoUrl_not_in: [String!]
+  videoUrl_lt: String
+  videoUrl_lte: String
+  videoUrl_gt: String
+  videoUrl_gte: String
+  videoUrl_contains: String
+  videoUrl_not_contains: String
+  videoUrl_starts_with: String
+  videoUrl_not_starts_with: String
+  videoUrl_ends_with: String
+  videoUrl_not_ends_with: String
+  videoRestUrl: String
+  videoRestUrl_not: String
+  videoRestUrl_in: [String!]
+  videoRestUrl_not_in: [String!]
+  videoRestUrl_lt: String
+  videoRestUrl_lte: String
+  videoRestUrl_gt: String
+  videoRestUrl_gte: String
+  videoRestUrl_contains: String
+  videoRestUrl_not_contains: String
+  videoRestUrl_starts_with: String
+  videoRestUrl_not_starts_with: String
+  videoRestUrl_ends_with: String
+  videoRestUrl_not_ends_with: String
+  AND: [ServiceScalarWhereInput!]
+  OR: [ServiceScalarWhereInput!]
+  NOT: [ServiceScalarWhereInput!]
+}
+
 type ServiceSubscriptionPayload {
   mutation: MutationType!
   node: Service
@@ -1295,6 +1672,15 @@ input ServiceUpdateInput {
   videos: VideoUpdateManyWithoutServiceInput
 }
 
+input ServiceUpdateManyDataInput {
+  name: ID
+  language: LANGUAGE
+  url: String
+  liveUrl: String
+  videoUrl: String
+  videoRestUrl: String
+}
+
 input ServiceUpdateManyMutationInput {
   name: ID
   language: LANGUAGE
@@ -1311,6 +1697,13 @@ input ServiceUpdateManyWithoutUsersInput {
   disconnect: [ServiceWhereUniqueInput!]
   update: [ServiceUpdateWithWhereUniqueWithoutUsersInput!]
   upsert: [ServiceUpsertWithWhereUniqueWithoutUsersInput!]
+  deleteMany: [ServiceScalarWhereInput!]
+  updateMany: [ServiceUpdateManyWithWhereNestedInput!]
+}
+
+input ServiceUpdateManyWithWhereNestedInput {
+  where: ServiceScalarWhereInput!
+  data: ServiceUpdateManyDataInput!
 }
 
 input ServiceUpdateOneRequiredInput {
@@ -1584,6 +1977,54 @@ type UserPreviousValues {
   name: String
 }
 
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -1609,6 +2050,11 @@ input UserUpdateInput {
   playlists: PlaylistUpdateManyWithoutUserInput
 }
 
+input UserUpdateManyDataInput {
+  email: String
+  name: String
+}
+
 input UserUpdateManyMutationInput {
   email: String
   name: String
@@ -1621,6 +2067,13 @@ input UserUpdateManyWithoutServicesInput {
   disconnect: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutServicesInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutServicesInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
 }
 
 input UserUpdateOneWithoutPlaylistsInput {
@@ -1837,6 +2290,90 @@ type VideoPreviousValues {
   metadata: Json!
 }
 
+input VideoScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  datePublished: DateTime
+  datePublished_not: DateTime
+  datePublished_in: [DateTime!]
+  datePublished_not_in: [DateTime!]
+  datePublished_lt: DateTime
+  datePublished_lte: DateTime
+  datePublished_gt: DateTime
+  datePublished_gte: DateTime
+  dateFirstPublished: DateTime
+  dateFirstPublished_not: DateTime
+  dateFirstPublished_in: [DateTime!]
+  dateFirstPublished_not_in: [DateTime!]
+  dateFirstPublished_lt: DateTime
+  dateFirstPublished_lte: DateTime
+  dateFirstPublished_gt: DateTime
+  dateFirstPublished_gte: DateTime
+  paid: Boolean
+  paid_not: Boolean
+  sourceId: String
+  sourceId_not: String
+  sourceId_in: [String!]
+  sourceId_not_in: [String!]
+  sourceId_lt: String
+  sourceId_lte: String
+  sourceId_gt: String
+  sourceId_gte: String
+  sourceId_contains: String
+  sourceId_not_contains: String
+  sourceId_starts_with: String
+  sourceId_not_starts_with: String
+  sourceId_ends_with: String
+  sourceId_not_ends_with: String
+  sourceType: SOURCE_TYPE
+  sourceType_not: SOURCE_TYPE
+  sourceType_in: [SOURCE_TYPE!]
+  sourceType_not_in: [SOURCE_TYPE!]
+  AND: [VideoScalarWhereInput!]
+  OR: [VideoScalarWhereInput!]
+  NOT: [VideoScalarWhereInput!]
+}
+
 type VideoSubscriptionPayload {
   mutation: MutationType!
   node: Video
@@ -1869,6 +2406,18 @@ input VideoUpdateInput {
   service: ServiceUpdateOneRequiredWithoutVideosInput
 }
 
+input VideoUpdateManyDataInput {
+  name: String
+  description: String
+  datePublished: DateTime
+  dateFirstPublished: DateTime
+  paid: Boolean
+  sourceId: String
+  sourceType: SOURCE_TYPE
+  tags: VideoUpdatetagsInput
+  metadata: Json
+}
+
 input VideoUpdateManyMutationInput {
   name: String
   description: String
@@ -1888,6 +2437,13 @@ input VideoUpdateManyWithoutServiceInput {
   disconnect: [VideoWhereUniqueInput!]
   update: [VideoUpdateWithWhereUniqueWithoutServiceInput!]
   upsert: [VideoUpsertWithWhereUniqueWithoutServiceInput!]
+  deleteMany: [VideoScalarWhereInput!]
+  updateMany: [VideoUpdateManyWithWhereNestedInput!]
+}
+
+input VideoUpdateManyWithWhereNestedInput {
+  where: VideoScalarWhereInput!
+  data: VideoUpdateManyDataInput!
 }
 
 input VideoUpdateOneRequiredWithoutPlayListItemsInput {
