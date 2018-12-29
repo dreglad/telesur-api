@@ -1,33 +1,13 @@
-const { merge } = require('lodash');
+const { compact, concat, flatten, get, merge, omit } = require('lodash');
 const { crawlLinks } = require('./util');
 
 const Query = {
   async articles (_, args, { db, service }, info) {
-    let links;
-
-    if (args.foundInUrl) {
-      links = await crawlLinks(args.foundInUrl);
-      delete args.foundInUrl;
-    }
-
-    return db.query.articles(merge(args, {
-      orderBy: 'datePublished_DESC',
-      first: 20,
-      where: {
-        service: { id: service.id },
-        url_in: links
-      }
-    }), info)
+    return db.query.articles(await articlesQueryParams(args, service), info)
   },
 
-  articlesConnection (_, args, { db, service }, info) {
-    return db.query.articlesConnection(merge(args, {
-      orderBy: 'datePublished_DESC',
-      first: 20,
-      where: {
-        service: { id: service.id }
-      }
-    }), info)
+  async articlesConnection (_, args, { db, service }, info) {
+    return db.query.articlesConnection(await articlesQueryParams(args, service), info)
   },
 
   article (_, args, { db, service }, info) {
@@ -63,16 +43,33 @@ const Query = {
     return has_service_articles
       ? db.query.articleSection({ where: args }, info)
       : null
-  },
-
-  articlesCount(_, args, { prisma, service }) {
-    return prisma.articlesConnection(merge(args, {
-      where: { service: { id: service.id } }
-    })).aggregate().count()
   }
+};
 
+async function articlesQueryParams(args, service) {
+  // URLs where to search for reference links
+  const url_in = compact(concat(
+    // Crawl and concatenate any extracted links
+    flatten(await crawlLinks(concat(args.foundInUrl, args.foundInUrls))),
+    // Concatenate to any passed url_in value  
+    get(args, 'where.url_in'),
+  ));
+
+  const params = merge(
+    omit(args, ['foundInUrl', 'foundInUrls']),
+    {
+      orderBy: 'datePublished_DESC',
+      first: args.first || 20,
+      where: {
+        url_in: url_in.length ? url_in : undefined,
+        service: { id: service.id }
+      }
+    }
+  );
+
+  console.log(params);
+  return params;
 }
-
 
 const resolvers = {
   Query,
