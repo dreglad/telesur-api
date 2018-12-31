@@ -1,8 +1,9 @@
-const { merge } = require('lodash');
+const { merge, flatten } = require('lodash');
 const videoResolvers = require('./videos/resolvers');
 const clipResolvers = require('./clips/resolvers');
 const newsResolvers = require('./news/resolvers');
 const { forwardTo } = require('prisma-binding');
+const { crawlDocuments } = require('./utils');
 
 const resolvers = {
   Query: {
@@ -18,6 +19,14 @@ const resolvers = {
 
     currentService (_, __, { service }) {
       return service;
+    },
+
+    async queryPublicDocument (_, { url, selector}, { db, service, prisma }, info) {
+      if (!selector) { throw new Error('Selector required') }
+      if (!url.startsWith('http')) { throw new Error('Invalid URL') }
+
+      const res = await crawlDocuments([url] , selector);
+      return flatten(res);
     }
   }
 }

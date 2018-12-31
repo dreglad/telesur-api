@@ -1,4 +1,8 @@
 const parseCacheControl = require('parse-cache-control')
+const cheerio = require('cheerio');
+const fetch = require('node-fetch');
+const URL = require('url').URL;
+const { compact, uniq } = require('lodash');
 
 const toQueryString = (obj = {}) => {
   let str = [];
@@ -17,7 +21,42 @@ const setCacheHintFromRes = (res, cacheControl) => {
   })
 }
 
+function crawlLinks(crarwlUrls, selector) {
+  return Promise.all(uniq(compact(crarwlUrls)).map(crawlUrl => {
+    const origin = new URL(crawlUrl).origin;
+    return fetch(crawlUrl)
+      .then(res => res.text())
+      .then(text => cheerio.load(text, {xmlMode: true }))
+      .then($ => {
+        const rssItems = $(selector);
+        if (rssItems.length) {
+          return rssItems.map((i, el) => $(el).text()).get();
+        } else {
+          return $('a').map((i, el) => $(el).prop('href')).get();
+        }
+      })
+      .then(urls => {
+        return [ ...new Set(urls) ]
+          .filter(url => !url.startsWith('#'))
+          .map(url => new URL(url, origin).href)
+          .map(url => url.replace('http://', 'https://'))
+      });
+  }));
+}
+
+function crawlDocuments(crarwlUrls, selector) {
+  return Promise.all(uniq(compact(crarwlUrls)).map(crawlUrl => {
+    const origin = new URL(crawlUrl).origin;
+    return fetch(crawlUrl)
+      .then(res => res.text())
+      .then(text => cheerio.load(text, {xmlMode: true }))
+      .then($ => $(selector).map((i, el) => $(el).text()).get());
+    }));
+}
+
 module.exports = {
+  crawlLinks,
+  crawlDocuments,
   toQueryString,
   setCacheHintFromRes
-}
+};

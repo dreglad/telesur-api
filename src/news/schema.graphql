@@ -1,7 +1,6 @@
 # import Query.articleSection, Query.articleSections, Query.articleSectionsConnection, Query.article, Query.ArticleConnection from "../generated/graphql-schema/prisma.graphql"
 
 type Query {
-  """Total number of articles matching certain query"""
   articlesConnection(where: ArticleWhereInput, foundInUrl: String, foundInUrls: [String!], orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ArticleConnection!
   articles(where: ArticleWhereInput, foundInUrl: String, foundInUrls: [String!], orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article]!
 }

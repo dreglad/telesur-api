@@ -1,22 +1,17 @@
 const { compact, concat, flatten, get, merge, omit } = require('lodash');
-const { crawlLinks } = require('./util');
+const { crawlLinks } = require('../utils');
 
 const Query = {
   async articles (_, args, { db, service }, info) {
-    return db.query.articles(await articlesQueryParams(args, service), info)
+    return db.query.articles(await articlesQueryParams(args, service), info);
   },
 
   async articlesConnection (_, args, { db, service }, info) {
-    return db.query.articlesConnection(await articlesQueryParams(args, service), info)
+    return db.query.articlesConnection(await articlesQueryParams(args, service), info);
   },
 
   article (_, args, { db, service }, info) {
-    return db.query.article({
-      where: {
-        service: { id: service.id },
-        ...args
-      }
-    }, info)
+    return db.query.article(args, info);
   },
 
   articleSections (_, args, { db, service }, info) {
@@ -67,7 +62,6 @@ async function articlesQueryParams(args, service) {
     }
   );
 
-  console.log(params);
   return params;
 }
 

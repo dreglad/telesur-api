@@ -4,5 +4,9 @@
 # import Query.* from './videos/schema.graphql'
 
 type Query {
+  """Currently selected Service"""
   currentService: Service!
+
+  """Query any public reachable XML/HTML document and return an array with text nodes extracted from the specified selector"""
+  queryPublicDocument(url: String!, selector: String!): [String]
 }
