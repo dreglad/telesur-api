@@ -46,6 +46,13 @@ if (process.env.ENGINE_API_KEY) {
     // logging: {
     //   level: "DEBUG"
     // },
+    generateClientInfo: ({ request }) => {
+      const headers = request.headers;
+      return {
+        clientName: headers && headers['client-name'] || 'Unknown Client',
+        clientVersion: headers && headers['client-version'] || 'Unversioned',
+      };
+    },
     // Specify behavior for how the Engine Proxy should connect to the
     // GraphQL origin (your Node GraphQL server). While the Proxy does
     // support multiple origins, most users will only put one origin
