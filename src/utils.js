@@ -1,7 +1,7 @@
 const parseCacheControl = require('parse-cache-control')
 const cheerio = require('cheerio');
 const fetch = require('node-fetch');
-const URL = require('url').URL;
+const { URL } = require('url');
 const { compact, uniq } = require('lodash');
 
 const toQueryString = (obj = {}) => {

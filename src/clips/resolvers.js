@@ -94,10 +94,10 @@ function buildRestListResolver(resource, mapper) {
 
 function buildRestObjectResolver(resource, mapper) {
   return async (_, { id }, { service }) => {
-    // Validate input
-    if (id.trim().length < 2) {
-      throw new GraphQLError('Invlaid or empty id provided');
-    }
+    // Validate input argument
+    id.trim().length ||
+      (() => { throw new GraphQLError('Invlaid or empty id provided') })();
+
     // load data
     const result = await restFetch(service, `/${resource}/${id}/`);
     return (result && !isEmpty(result))
