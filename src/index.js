@@ -18,7 +18,7 @@ const prisma = new Prisma({ endpoint });
 const pubsub = new PubSub();
 
 const graphQLServer = new GraphQLServer({
-  typeDefs: ['src/schema.graphql'],
+  typeDefs: ['src/schema/schema.graphql'],
   resolvers,
   context: async req => ({
     ...req,

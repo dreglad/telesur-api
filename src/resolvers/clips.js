@@ -1,10 +1,8 @@
 const fetch = require('node-fetch')
-const { UserInputError } = require('apollo-server-core');
-const { GraphQLError } = require('graphql');
-const { isEmpty } = require('lodash');
-const { toQueryString, setCacheHintFromRes } = require('../utils')
-const differenceInDays = require('date-fns/difference_in_days')
-const parse = require('date-fns/parse')
+const { isEmpty } = require('lodash')
+const { UserInputError } = require('apollo-server-core')
+const { GraphQLError } = require('graphql')
+const { toQueryString, setCacheHintFromRes } = require('./util')
 const {
   mapClip,
   mapSerie,
@@ -12,7 +10,7 @@ const {
   mapCategory,
   mapCorrespondent,
   mapTopic
-} = require('./mappers')
+} = require('../datasources/clips/mappers')
 
 const Query = {
   clips: async (_, args, { service }) => {

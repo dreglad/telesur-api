@@ -1,12 +1,12 @@
-const { GraphQLError } = require('graphql');
-const { UserInputError } = require('apollo-server-core');
-const { parse } = require('url');
-const { forwardTo } = require('prisma-binding');
-const { merge, flatten } = require('lodash');
-const { crawlDocuments } = require('./utils');
-const videoResolvers = require('./videos/resolvers');
-const clipResolvers = require('./clips/resolvers');
-const newsResolvers = require('./news/resolvers');
+const { merge, flatten } = require('lodash')
+const { parse } = require('url')
+const { GraphQLError } = require('graphql')
+const { UserInputError } = require('apollo-server-core')
+const { forwardTo } = require('prisma-binding')
+const { crawlDocuments } = require('./util')
+const videoResolvers = require('./videos')
+const clipResolvers = require('./clips')
+const newsResolvers = require('./news')
 
 const resolvers = {
   Query: {
