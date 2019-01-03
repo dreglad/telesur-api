@@ -36,4 +36,15 @@ query {
       name
     }
   }
+
+  # Filter with URLs obtained from scrapping several URLs
+  Noticias_Con_Referencia_En_Urls: articles (
+    foundInUrls: [
+      "https://www.telesurtv.net/",
+      "https://appservices.openmultimedia.biz/rss/RssPortada.xml"
+    ]
+  ) {
+    headline
+    sections { name }
+  }
 }

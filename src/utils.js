@@ -24,9 +24,9 @@ const setCacheHintFromRes = (res, cacheControl) => {
 function crawlLinks(crarwlUrls, selector) {
   return Promise.all(uniq(compact(crarwlUrls)).map(crawlUrl => {
     const origin = new URL(crawlUrl).origin;
-    return fetch(crawlUrl)
+    return fetch(`${process.env.CACHE_PROXY_URL}${crawlUrl}`)
       .then(res => res.text())
-      .then(text => cheerio.load(text, {xmlMode: true }))
+      .then(text => cheerio.load(text, { xmlMode: true }))
       .then($ => {
         const rssItems = $(selector);
         if (rssItems.length) {
@@ -47,7 +47,7 @@ function crawlLinks(crarwlUrls, selector) {
 function crawlDocuments(crarwlUrls, selector) {
   return Promise.all(uniq(compact(crarwlUrls)).map(crawlUrl => {
     const origin = new URL(crawlUrl).origin;
-    return fetch(crawlUrl)
+    return fetch(`${process.env.CACHE_PROXY_URL}${crawlUrl}`)
       .then(res => res.text())
       .then(text => cheerio.load(text, {xmlMode: true }))
       .then($ => $(selector).map((i, el) => $(el).text()).get());

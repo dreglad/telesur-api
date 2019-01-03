@@ -17,4 +17,12 @@ query {
     videoRestUrl
   }
 
+  query {
+    queryPublicDocument(
+      url: "https://appservices.openmultimedia.biz/rss/RssPortada.xml",
+      selector: "channel item orderHome,channel item link"
+    )
+  }
+
+
 }

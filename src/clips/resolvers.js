@@ -124,7 +124,7 @@ const clipsFetch = (service, args) => {
 };
 
 const restFetch = ({ videoRestUrl }, path, params) => {
-  return fetch(`${videoRestUrl}${path}/?${toQueryString(params)}`)
+  return fetch(`${process.env.CACHE_PROXY_URL}${videoRestUrl}${path}/?${toQueryString(params)}`)
     .then(res => res.json().catch(() => null));
 };
 
