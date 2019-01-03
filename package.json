@@ -1,6 +1,6 @@
 {
   "name": "telesur-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "teleSUR GraphQL API Server",
   "main": "index.js",
   "license": "MIT",
@@ -14,9 +14,11 @@
   "author": "David Regla <dreglad@gmail.com>",
   "dependencies": {
     "apollo-engine": "^1.1.2",
+    "apollo-server": "^2.3.1",
     "cheerio": "^1.0.0-rc.2",
     "date-fns": "^1.29.0",
-    "graphql-yoga": "^1.16.7",
+    "graphql": "^14.0.2",
+    "graphql-import": "^0.7.1",
     "lodash": "^4.17.11",
     "node-fetch": "^2.2.0",
     "parse-cache-control": "^1.0.1",
