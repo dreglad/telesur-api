@@ -21,26 +21,22 @@ const setCacheHintFromRes = (res, cacheControl) => {
   })
 }
 
-function crawlLinks(crarwlUrls, selector) {
+function crawlLinks(crarwlUrls, selector = 'a, channel item link') {
   return Promise.all(uniq(compact(crarwlUrls)).map(crawlUrl => {
     const origin = new URL(crawlUrl).origin;
     return fetch(`${process.env.CACHE_PROXY_URL}${crawlUrl}`)
       .then(res => res.text())
       .then(text => cheerio.load(text, { xmlMode: true }))
-      .then($ => {
-        const rssItems = $(selector);
-        if (rssItems.length) {
-          return rssItems.map((i, el) => $(el).text()).get();
-        } else {
-          return $('a').map((i, el) => $(el).prop('href')).get();
-        }
-      })
-      .then(urls => {
-        return [ ...new Set(urls) ]
-          .filter(url => !url.startsWith('#'))
+      .then($ => $(selector).map((i, el) => {
+        return $(el).prop('href') || $(el).text()
+      }).get())
+      .then(urls => (
+        [ ...new Set(urls) ]
           .map(url => new URL(url, origin).href)
+          .filter(url => url.startsWith('http'))
           .map(url => url.replace('http://', 'https://'))
-      });
+        )
+      );
   }));
 }
 
