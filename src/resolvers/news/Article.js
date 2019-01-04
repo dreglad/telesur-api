@@ -3,11 +3,11 @@ const { crawlLinks } = require('../util')
 
 const Query = {
   async articles (_, args, { db, service }, info) {
-    return db.query.articles(queryArgs({ args, service }), info);
+    return db.query.articles(await queryArgs({ args, service }), info);
   },
 
   async articlesConnection (_, args, { db, service }, info) {
-    return db.query.articlesConnection(queryArgs({ args, service }), info);
+    return db.query.articlesConnection(await queryArgs({ args, service }), info);
   },
 
   article (_, args, { db, service }, info) {
@@ -18,24 +18,23 @@ const Query = {
 };
 
 async function queryArgs ({ args, service }) {
-  // URLs where to search for reference links
-  const url_in = compact(concat(
-    // Crawl and concatenate any extracted links
-    flatten(await crawlLinks(concat(args.foundInUrl, args.foundInUrls))),
-    // Concatenate to any passed url_in value  
-    get(args, 'where.url_in'),
-  ));
-  return merge(
-    omit(args, ['foundInUrl', 'foundInUrls']),
+  const askedUrls = compact(concat(args.foundInUrl, args.foundInUrls));
+  const url_in = askedUrls.length
+    ? compact(flatten(await crawlLinks(askedUrls)))
+    : get(args, 'where.url_in', undefined);
+  const res = merge(
+    omit(args, ['foundInUrl', 'foundInUrls', 'where.url_in']),
     {
       orderBy: 'datePublished_DESC',
       first: args.first || 20,
       where: {
-        url_in: url_in.length ? url_in : undefined,
+        url_in,
         service: { id: service.id }
       }
     }
   );
+
+  return res;
 };
 
 module.exports = {
