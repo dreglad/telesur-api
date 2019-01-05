@@ -1,11 +1,10 @@
 const { merge } = require('lodash')
-
 const Article = require('./Article')
-const ArticleSecion = require('./ArticleSection')
+const ArticleSection = require('./ArticleSection')
 
 const resolvers = merge(
   Article,
-  ArticleSecion
-)
+  ArticleSection
+);
 
 module.exports = resolvers;
