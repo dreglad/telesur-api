@@ -11,7 +11,7 @@ class ClipsAPI extends RESTDataSource {
     return reducers[resource](data);
   }
 
-  async getOne(resource, id, params = {}) {
+  async getOne(resource, id) {
     if (!id.trim().length) {
       throw new Error(`${resource} ID missing`);
     }
@@ -19,14 +19,14 @@ class ClipsAPI extends RESTDataSource {
     return this.reduce(resource, res);
   }
 
-  async getAll(resource, args, params = {}) {
-    merge(params, {
+  async getAll(resource, args) {
+    const params = {
       limit: args.first,
       offset: args.skip || 0,
       orden: args.orderBy,
       return: args.return,
       counts: args.counts
-    });
+    };
 
     if (resource === 'clip') {
       const relation = (rel, isNull) => typeof isNull !== 'undefined' ? isNull && 'es_nulo' || 'no_es_nulo' : rel;
@@ -45,6 +45,10 @@ class ClipsAPI extends RESTDataSource {
     return res && res.length
       ? res.map(item => this.reduce(resource, item))
       : [];
+  }
+
+  async getCount(resource, args) {
+    return this.getAll(resource, merge(args, { return: 'count' }));
   }
 }
 

@@ -1,14 +1,6 @@
 const { entries, omit } = require('lodash')
 const pluralize = require('pluralize')
-
-const resources = {
-  Clip: 'clip',
-  Serie: 'programa',
-  Genre: 'tipo_clip',
-  Category: 'categoria',
-  Correspondent: 'corresponsal',
-  Topic: 'tema'
-};
+const resources = require('./resources')
 
 const resolvers = entries(resources).reduce((prev, [typeName, restName]) => ({
   ...prev,
@@ -25,7 +17,7 @@ const resolvers = entries(resources).reduce((prev, [typeName, restName]) => ({
     },
     // Relay connection query
     [`${pluralize(typeName.toLowerCase())}Connection`]: async (_, args, { dataSources }) => {
-      const count = await dataSources.clipsAPI.getAll(restName, args, { return: 'count' });
+      const count = await dataSources.clipsAPI.getCount(restName, args);
       return { aggregate: { count } };
     }
   },
