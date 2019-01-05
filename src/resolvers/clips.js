@@ -1,95 +1,59 @@
-const { UserInputError } = require('apollo-server-core')
-const { GraphQLError } = require('graphql')
-const { setCacheHintFromRes } = require('./util')
-const reducers = require('../datasources/clips/reducers')
+const { entries, omit } = require('lodash')
+const pluralize = require('pluralize')
 
-const Query = {
-  clips: buildRestListResolver('clip'),
-  clipsConnection: buildRestConnectionResolver('clip'),
-  clip: buildRestObjectResolver('clip'),
-
-  series: buildRestListResolver('programa'),
-  seriesConnection: buildRestConnectionResolver('programa'),
-  serie: buildRestObjectResolver('programa'),
-
-  genres: buildRestListResolver('tipo_clip'),
-  genresConnection: buildRestConnectionResolver('tipo_clip'),
-  genre: buildRestObjectResolver('tipo_clip'),
-
-  categories: buildRestListResolver('categoria'),
-  categoriesConnection: buildRestConnectionResolver('categoria'),
-  category: buildRestObjectResolver('categoria'),
-
-  correspondents: buildRestListResolver('corresponsal'),
-  correspondentsConnection: buildRestConnectionResolver('corresponsal'),
-  correspondent: buildRestObjectResolver('corresponsal'),
-
-  topics: buildRestListResolver('tema'),
-  topicsConnection: buildRestConnectionResolver('tema'),
-  topic: buildRestObjectResolver('tema')
+const resources = {
+  Clip: 'clip',
+  Serie: 'programa',
+  Genre: 'tipo_clip',
+  Category: 'categoria',
+  Correspondent: 'corresponsal',
+  Topic: 'tema'
 };
 
-const typeResolvers = {
-  Clip: {
-    genre: buildClipRelationResolver('tipo_clip'),
-    serie: buildClipRelationResolver('programa'),
-    category: buildClipRelationResolver('categoria'),
-    correspondent: buildClipRelationResolver('corresponsal'),
-    topic: buildClipRelationResolver('tema')
+const resolvers = entries(resources).reduce((prev, [typeName, restName]) => ({
+  ...prev,
+
+  Query: {
+    ...prev.Query,
+    // Single object
+    [typeName.toLowerCase()]: (_, { id }, { dataSources }) => {
+      return dataSources.clipsAPI.getOne(restName, id);
+    },
+    // List of objects query
+    [pluralize(typeName.toLowerCase())]: (_, args, { dataSources }) => {
+      return dataSources.clipsAPI.getAll(restName, args);
+    },
+    // Relay connection query
+    [`${pluralize(typeName.toLowerCase())}Connection`]: async (_, args, { dataSources }) => {
+      const count = await dataSources.clipsAPI.getAll(restName, args, { return: 'count' });
+      return { aggregate: { count } };
+    }
   },
 
-  Serie: {
-    clips: buildRelatedClipsResolver('serie'),
-    episodes: buildRelatedClipsResolver('serie', { genre: 'programa'}),
-  },
+  // Type resolver
+  [typeName]: {
+    ...(typeName === 'Clip'
+      // relation fields for Clip
+      ? entries(omit(resources, 'Clip'))
+        .reduce((prev, [typeName, restName]) => ({
+          ...prev,
+          [typeName.toLowerCase()]: (clip, _, { dataSources }) => {
+            return clip[restName] && dataSources.clipsAPI.reduce(restName, clip[restName])
+          }
+        }), {})
+      // clips field for non Clip objects
+      : {
+        clips: (_, { id }, context) => {
+          return resolvers.Query.clips(null, { [restName]: id }, context);
+        }
+      }
+    )
+  }
+}), {});
 
-  Genre: {
-    clips: buildRelatedClipsResolver('genre')
-  },
-
-  Category: {
-    clips: buildRelatedClipsResolver('category')
-  },
-
-  Correspondent: {
-    clips: buildRelatedClipsResolver('correspondent')
-  },
-
-  Topic: {
-    clips: buildRelatedClipsResolver('topic')
-  },
-};
-
-function buildClipRelationResolver(relation) {
-  return clip => clip[relation] && reducers[relation](clip[relation])
+// Custom resolvers
+resolvers.Serie.episodes = (_, { id }, context) => {
+  return resolvers.Query.clips(null, { serie: id, genre: 'programa' }, context);
 }
 
-function buildRelatedClipsResolver(relation, params = {}) {
-  return (_, { id }, context) => {
-    return Query.clips(id, { [relation]: id, ...params }, context);
-  };
-}
-
-function buildRestConnectionResolver(resource) {
-  return async (_, args, { dataSources }) => {
-    const count = await dataSources.clipsAPI.getAll(resource, args, { return: 'count '});    
-    return { aggregate: { count } };
-  };
-}
-
-function buildRestListResolver(resource) {
-  return (_, args, { dataSources }) => {
-    return dataSources.clipsAPI.getAll(resource, args);
-  };
-}
-
-function buildRestObjectResolver(resource) {
-  return (_, { id }, { dataSources }) => {
-    return dataSources.clipsAPI.getOne(resource, id);
-  };
-};
-
-module.exports = {
-  Query,
-  ...typeResolvers
-}
+module.exports = resolvers;
