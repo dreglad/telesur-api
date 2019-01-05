@@ -99,6 +99,7 @@ type Serie {
   poster: String
   description: String
   serieType: String
+  clips(skip: Int, first: Int): [Clip!]!
   episodes(skip: Int, first: Int): [Clip!]!
 }
 

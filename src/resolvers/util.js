@@ -4,19 +4,9 @@ const fetch = require('node-fetch')
 const { URL } = require('url')
 const { compact, uniq } = require('lodash')
 
-const toQueryString = (obj = {}) => {
-  let str = [];
-  for (var p in obj)
-    if (obj.hasOwnProperty(p) && !!obj[p]) {
-      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-    }
-  return str.join("&");
-}
-
 const setCacheHintFromRes = (res, cacheControl) => {
   const cacheHeader = parseCacheControl(res.headers['cache-control'])
-  if (cacheHeader)
-  cacheControl && cacheHeader && cacheControl.setCacheHint({
+  cacheControl && cacheControl.setCacheHint({
     maxAge: cacheHeader['max-age'] || 60
   })
 }
@@ -53,6 +43,5 @@ function crawlDocuments(crarwlUrls, selector) {
 module.exports = {
   crawlLinks,
   crawlDocuments,
-  toQueryString,
   setCacheHintFromRes
 };

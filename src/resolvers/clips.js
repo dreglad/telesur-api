@@ -1,129 +1,92 @@
-const fetch = require('node-fetch')
-const { isEmpty } = require('lodash')
 const { UserInputError } = require('apollo-server-core')
 const { GraphQLError } = require('graphql')
-const { toQueryString, setCacheHintFromRes } = require('./util')
-const {
-  mapClip,
-  mapSerie,
-  mapGenre,
-  mapCategory,
-  mapCorrespondent,
-  mapTopic
-} = require('../datasources/clips/mappers')
+const { setCacheHintFromRes } = require('./util')
+const reducers = require('../datasources/clips/reducers')
 
 const Query = {
-  clips: async (_, args, { service }) => {
-    const results = await clipsFetch(service, args);
-    return results.map(mapClip);
-  },
-  clipsConnection: async (_, args, { service }) => {
-    const count = await clipsFetch(service, { ...args, return: 'count' });
-    return { aggregate: { count } };
-  },
-  clip: buildRestObjectResolver('clip', mapClip),
+  clips: buildRestListResolver('clip'),
+  clipsConnection: buildRestConnectionResolver('clip'),
+  clip: buildRestObjectResolver('clip'),
 
-  series: buildRestListResolver('programa', mapSerie),
-  seriesConnection: buildRestConnectionResolver('programa', mapSerie),
-  serie: buildRestObjectResolver('programa', mapSerie),
+  series: buildRestListResolver('programa'),
+  seriesConnection: buildRestConnectionResolver('programa'),
+  serie: buildRestObjectResolver('programa'),
 
-  genres: buildRestListResolver('tipo_clip', mapGenre),
-  genresConnection: buildRestConnectionResolver('tipo_clip', mapGenre),
-  genre: buildRestObjectResolver('tipo_clip', mapGenre),
+  genres: buildRestListResolver('tipo_clip'),
+  genresConnection: buildRestConnectionResolver('tipo_clip'),
+  genre: buildRestObjectResolver('tipo_clip'),
 
-  categories: buildRestListResolver('categoria', mapCategory),
-  categoriesConnection: buildRestConnectionResolver('categoria', mapCategory),
-  category: buildRestObjectResolver('categoria', mapCategory),
+  categories: buildRestListResolver('categoria'),
+  categoriesConnection: buildRestConnectionResolver('categoria'),
+  category: buildRestObjectResolver('categoria'),
 
-  correspondents: buildRestListResolver('corresponsal', mapCorrespondent),
-  correspondentsConnection: buildRestConnectionResolver('corresponsal', mapCorrespondent),
-  correspondent: buildRestObjectResolver('corresponsal', mapCorrespondent),
+  correspondents: buildRestListResolver('corresponsal'),
+  correspondentsConnection: buildRestConnectionResolver('corresponsal'),
+  correspondent: buildRestObjectResolver('corresponsal'),
 
-  topics: buildRestListResolver('tema', mapTopic),
-  topicsConnection: buildRestConnectionResolver('tema', mapTopic),
-  topic: buildRestObjectResolver('tema', mapTopic)
-}
+  topics: buildRestListResolver('tema'),
+  topicsConnection: buildRestConnectionResolver('tema'),
+  topic: buildRestObjectResolver('tema')
+};
 
 const typeResolvers = {
-  Serie: {
-    episodes: ({ id }, args, ctx) => Query.clips(id, { serie: id, genre: 'programa', ...args }, ctx),
+  Clip: {
+    genre: buildClipRelationResolver('tipo_clip'),
+    serie: buildClipRelationResolver('programa'),
+    category: buildClipRelationResolver('categoria'),
+    correspondent: buildClipRelationResolver('corresponsal'),
+    topic: buildClipRelationResolver('tema')
   },
 
-  Clip: {
-    genre: clip => clip.tipo && mapGenre(clip.tipo),
-    serie: clip => clip.programa && mapSerie(clip.programa),
-    category: clip => clip.categoria && mapCategory(clip.categoria),
-    correspondent: clip => clip.corresponsal && mapCorrespondent(clip.corresponsal),
-    topic: clip => clip.tema && mapTopic(clip.tema)
+  Serie: {
+    clips: buildRelatedClipsResolver('serie'),
+    episodes: buildRelatedClipsResolver('serie', { genre: 'programa'}),
   },
 
   Genre: {
-    clips: ({ id }, args, ctx) => Query.clips(id, { genre: id, ...args }, ctx)
+    clips: buildRelatedClipsResolver('genre')
   },
 
   Category: {
-    clips: ({ id }, args, ctx) => Query.clips(id, { category: id, ...args }, ctx)
+    clips: buildRelatedClipsResolver('category')
   },
 
   Correspondent: {
-    clips: ({ id }, args, ctx) => Query.clips(id, { correspondent: id, ...args }, ctx)
+    clips: buildRelatedClipsResolver('correspondent')
   },
 
   Topic: {
-    clips: ({ id }, args, ctx) => Query.clips(id, { topic: id, ...args }, ctx)
+    clips: buildRelatedClipsResolver('topic')
   },
 };
 
-function buildRestConnectionResolver(resource, mapper) {
-  return async (_, { first, skip }, { service }) => {
-    const params = { limit: first || 1000, offset: skip || 0, return: 'count' };
-    const count = await restFetch(service, `/${resource}/`, params);
+function buildClipRelationResolver(relation) {
+  return clip => clip[relation] && reducers[relation](clip[relation])
+}
+
+function buildRelatedClipsResolver(relation, params = {}) {
+  return (_, { id }, context) => {
+    return Query.clips(id, { [relation]: id, ...params }, context);
+  };
+}
+
+function buildRestConnectionResolver(resource) {
+  return async (_, args, { dataSources }) => {
+    const count = await dataSources.clipsAPI.getAll(resource, args, { return: 'count '});    
     return { aggregate: { count } };
   };
 }
 
-function buildRestListResolver(resource, mapper) {
-  return async (_, { first, skip, orderBy }, { service }) => {
-    const params = { limit: first, offset: skip || 0, orden: orderBy };
-    const results = await restFetch(service, `/${resource}/`, params);
-    return results.map(mapper);
+function buildRestListResolver(resource) {
+  return (_, args, { dataSources }) => {
+    return dataSources.clipsAPI.getAll(resource, args);
   };
 }
 
-function buildRestObjectResolver(resource, mapper) {
-  return async (_, { id }, { service }) => {
-    // Validate input argument
-    id.trim().length ||
-      (() => { throw new GraphQLError('Invlaid or empty id provided') })();
-
-    // load data
-    const result = await restFetch(service, `/${resource}/${id}/`);
-    return (result && !isEmpty(result))
-      ? mapper(result)
-      : null
+function buildRestObjectResolver(resource) {
+  return (_, { id }, { dataSources }) => {
+    return dataSources.clipsAPI.getOne(resource, id);
   };
-};
-
-const clipsFetch = (service, args) => {
-  const relation = (rel, isNull) => typeof isNull !== 'undefined' ? isNull && 'es_nulo' || 'no_es_nulo' : rel
-  const { where = {} } = args;
-  return restFetch(service, '/clip/', {
-    limit: args.first,
-    offset: args.skip,
-    return: args.return,
-    counts: args.counts,
-    tipo: where.episodesOfSerie ? 'programa' : where.genre,
-    programa: where.episodesOfSerie || where.serie,
-    country_code: where.country,
-    categoria: relation(where.category, where.categoryIsNull),
-    corresponsal: relation(where.correspondent, where.correspondentIsNull),
-    tema: relation(where.topic, where.topicIsNull)
-  })
-};
-
-const restFetch = ({ videoRestUrl }, path, params) => {
-  return fetch(`${process.env.CACHE_PROXY_URL}${videoRestUrl}${path}/?${toQueryString(params)}`)
-    .then(res => res.json().catch(() => null));
 };
 
 module.exports = {

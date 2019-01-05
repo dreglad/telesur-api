@@ -13,6 +13,7 @@
   },
   "author": "David Regla <dreglad@gmail.com>",
   "dependencies": {
+    "apollo-datasource-rest": "^0.2.1",
     "apollo-engine": "^1.1.2",
     "apollo-server": "^2.3.1",
     "cheerio": "^1.0.0-rc.2",

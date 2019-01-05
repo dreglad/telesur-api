@@ -4,6 +4,7 @@ const { ApolloEngine } = require('apollo-engine')
 const { ApolloServer } = require('apollo-server')
 const { Prisma } = require('./generated/prisma-client')
 const resolvers = require('./resolvers')
+const ClipsAPI = require('./datasources/clips')
 
 const port = parseInt(process.env.PORT, 10) || 4000;
 
@@ -26,6 +27,9 @@ const server = new ApolloServer({
     service: await prisma.service({
       name: req.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
     })
+  }),
+  dataSources: () => ({
+    clipsAPI: new ClipsAPI()
   }),
   tracing: true,
   cacheControl: {
