@@ -7,7 +7,7 @@ class ClipsAPI extends RESTDataSource {
     return `${process.env.CACHE_PROXY_URL}${this.context.service.videoRestUrl}`;
   }
 
-  reduce(resource, data) {
+  reducer(resource, data) {
     return reducers[resource](data);
   }
 
@@ -15,8 +15,8 @@ class ClipsAPI extends RESTDataSource {
     if (!id.trim().length) {
       throw new Error(`${resource} ID missing`);
     }
-    const res = await this.get(`${resource}/${id}/`, params);
-    return this.reduce(resource, res);
+    const res = await this.get(`${resource}/${id}/`);
+    return this.reducer(resource, res);
   }
 
   async getAll(resource, args) {
@@ -43,7 +43,7 @@ class ClipsAPI extends RESTDataSource {
 
     const res = await this.get(`${resource}/`, omitBy(params, isUndefined));
     return res && res.length
-      ? res.map(item => this.reduce(resource, item))
+      ? res.map(obj => this.reducer(resource, obj))
       : [];
   }
 
