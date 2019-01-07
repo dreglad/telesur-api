@@ -17,20 +17,25 @@ const db = new binding.Prisma({
 
 const prisma = new Prisma({ endpoint: prismaEndpoint });
 
+const dataSources = () => ({
+  clipsAPI: new ClipsAPI()
+});
+
+const context = async ({req, res}) => ({
+  db,
+  prisma,
+  service: await prisma.service({
+    name: req.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
+  })
+});
+
+const typeDefs = importSchema('src/schema/schema.graphql');
+
 const server = new ApolloServer({
-  typeDefs: importSchema('src/schema/schema.graphql'),
+  typeDefs,
   resolvers,
-  context: async ({req, res}) => ({
-    db,
-    prisma,
-    token: req.headers['auth-token'],
-    service: await prisma.service({
-      name: req.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
-    })
-  }),
-  dataSources: () => ({
-    clipsAPI: new ClipsAPI()
-  }),
+  context,
+  dataSources,
   tracing: true,
   cacheControl: {
     defaultMaxAge: 60
@@ -54,6 +59,20 @@ const server = new ApolloServer({
   }
 });
 
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+// Start our server if we're not in a test env.
+// if we're in a test env, we'll manually start it in a test
+if (process.env.NODE_ENV !== 'test')
+  server
+    .listen({ port })
+    .then(({ url }) => console.log(`🚀 app running at ${url}`));
+
+// export all the important pieces for integration/e2e tests to use
+module.exports = {
+  dataSources,
+  context,
+  typeDefs,
+  resolvers,
+  ApolloServer,
+  ClipsAPI,
+  server
+};
