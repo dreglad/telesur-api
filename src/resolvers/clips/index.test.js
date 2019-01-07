@@ -13,15 +13,14 @@ const mockContext = {
   service: { id: '<service-id>' },
   dataSources: {
     clipsAPI: {
-      getAll: jest.fn().mockReturnValue(mockValues.getAll).mockName('ClipsAPI.getAll'),
-      getCount: jest.fn().mockReturnValue(mockValues.getCount).mockName('ClipsAPI.getCount'),
-      getOne: jest.fn().mockReturnValue(mockValues.getOne).mockName('ClipsAPI.getOne'),
-      reduce: jest.fn().mockReturnValue(mockValues.reduce).mockName('ClipsAPI.reduce')
+      getAll: jest.fn(() => mockValues.getAll).mockName('ClipsAPI.getAll'),
+      getCount: jest.fn(() => mockValues.getCount).mockName('ClipsAPI.getCount'),
+      getOne: jest.fn(() => mockValues.getOne).mockName('ClipsAPI.getOne'),
     }
   }
 };
 
-const { getAll, getCount, getOne, reduce } = mockContext.dataSources.clipsAPI;
+const { getAll, getCount, getOne } = mockContext.dataSources.clipsAPI;
 
 describe.each(Object.entries(resources))(
   '%s (%s)', (typeName, restName) => {
