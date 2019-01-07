@@ -30,7 +30,7 @@ const resolvers = entries(resources).reduce((prev, [typeName, restName]) => ({
         .reduce((prev, [typeName, restName]) => ({
           ...prev,
           [typeName.toLowerCase()]: (clip, _, { dataSources }) => {
-            return clip[restName] && dataSources.clipsAPI.reduce(restName, clip[restName])
+            return clip[restName] && dataSources.clipsAPI.reducer(restName, clip[restName])
           }
         }), {})
       // clips field for non Clip objects

@@ -29,15 +29,14 @@ class ClipsAPI extends RESTDataSource {
     };
 
     if (resource === 'clip') {
-      const relation = (rel, isNull) => typeof isNull !== 'undefined' ? isNull && 'es_nulo' || 'no_es_nulo' : rel;
       const { where = {} } = args;
       merge(params, {
         tipo: where.episodesOfSerie ? 'programa' : where.genre,
         programa: where.episodesOfSerie || where.serie,
         country_code: where.country,
-        categoria: relation(where.category, where.categoryIsNull),
-        corresponsal: relation(where.correspondent, where.correspondentIsNull),
-        tema: relation(where.topic, where.topicIsNull)
+        categoria: _buildRelationParam(where.category, where.categoryIsNull),
+        corresponsal: _buildRelationParam(where.correspondent, where.correspondentIsNull),
+        tema: _buildRelationParam(where.topic, where.topicIsNull)
       })
     }
 
@@ -50,6 +49,12 @@ class ClipsAPI extends RESTDataSource {
   async getCount(resource, args) {
     return this.getAll(resource, merge(args, { return: 'count' }));
   }
+}
+
+function _buildRelationParam(relation, isNull) {
+  return typeof isNull === 'undefined'
+    ? relation
+    : (isNull ? 'es_nulo' : 'no_es_nulo')
 }
 
 module.exports = ClipsAPI;
