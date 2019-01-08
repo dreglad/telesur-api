@@ -1,5 +1,7 @@
 type Video {
   id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   description: String
   datePublished: DateTime
@@ -15,6 +17,8 @@ type Video {
 
 type Playlist {
   id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   childrenName: String
   description: String
@@ -28,7 +32,8 @@ type Playlist {
 
 type PlaylistItem {
   id: ID! @unique
-  dateAdded: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
   metadata: Json! @default(value: "{}")
   playList: Playlist!
   video: Video!

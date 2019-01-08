@@ -1,9 +1,12 @@
 type Article {
   id: ID! @unique
   url: String! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
   headline: String!
   description: String
   datePublished: DateTime!
+  dateModified: DateTime
   body: String!
   author: String
   tags: [String!]
@@ -14,6 +17,8 @@ type Article {
 
 type ArticleSection {
   id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String! @unique
   articles: [Article!]!
 }

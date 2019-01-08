@@ -51,15 +51,15 @@ mutation {
           name: "Dossier",
           description: "El progrma Dossier"
           items: { create: [
-            { dateAdded: "2018-10-10", video: {connect: {sourceId: "753570" }}}
+            { createdAt: "2018-10-10", video: {connect: {sourceId: "753570" }}}
           ]}
         }
         {
           service: { connect: { name: "teleSUR" }}
           name: "Agenda Abierta",
           items: { create: [
-            { dateAdded: "2018-10-10", video: {connect: {sourceId: "N2Z-S9OlEEI" }}}
-            { dateAdded: "2018-10-11", video: {connect: {sourceId: "sandbox:4Fks23" }}}
+            { createdAt: "2018-10-10", video: {connect: {sourceId: "N2Z-S9OlEEI" }}}
+            { createdAt: "2018-10-11", video: {connect: {sourceId: "sandbox:4Fks23" }}}
           ]}
         }
       ]
@@ -75,24 +75,24 @@ mutation {
           service: { connect: { name: "teleSUR" }}
           name: "Política"
           items: { create: [
-            { dateAdded: "2018-10-10", video: { connect: { sourceId: "N2Z-S9OlEEI" }}}
-            { dateAdded: "2018-10-11", video: {connect: { sourceId: "sandbox:4Fks23" }}}
-            { dateAdded: "2018-10-10", video: { connect: { sourceId: "753570" }}}
+            { createdAt: "2018-10-10", video: { connect: { sourceId: "N2Z-S9OlEEI" }}}
+            { createdAt: "2018-10-11", video: {connect: { sourceId: "sandbox:4Fks23" }}}
+            { createdAt: "2018-10-10", video: { connect: { sourceId: "753570" }}}
           ]}
         }
         {
           service: { connect: { name: "teleSUR" }}
           name: "Economía"
           items: { create: [
-            { dateAdded: "2018-10-10", video: { connect: { sourceId: "sandbox:4Fks23" }}}
-            { dateAdded: "2018-10-10", video: { connect: { sourceId: "N2Z-S9OlEEI" }}}
+            { createdAt: "2018-10-10", video: { connect: { sourceId: "sandbox:4Fks23" }}}
+            { createdAt: "2018-10-10", video: { connect: { sourceId: "N2Z-S9OlEEI" }}}
           ]}
         }
         {
           service: { connect: { name: "teleSUR" }}
           name: "Deportes"
           items: { create: [
-            { dateAdded: "2018-10-10", video: { connect: { sourceId: "sandbox:4Fks23" }}}
+            { createdAt: "2018-10-10", video: { connect: { sourceId: "sandbox:4Fks23" }}}
           ]}
         }
       ]

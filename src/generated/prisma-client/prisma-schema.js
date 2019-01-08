@@ -30,9 +30,12 @@ type AggregateVideo {
 type Article {
   id: ID!
   url: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   headline: String!
   description: String
   datePublished: DateTime!
+  dateModified: DateTime
   body: String!
   author: String
   tags: [String!]!
@@ -56,6 +59,7 @@ input ArticleCreateInput {
   headline: String!
   description: String
   datePublished: DateTime!
+  dateModified: DateTime
   body: String!
   author: String
   tags: ArticleCreatetagsInput
@@ -83,6 +87,7 @@ input ArticleCreateWithoutSectionsInput {
   headline: String!
   description: String
   datePublished: DateTime!
+  dateModified: DateTime
   body: String!
   author: String
   tags: ArticleCreatetagsInput
@@ -95,6 +100,7 @@ input ArticleCreateWithoutServiceInput {
   headline: String!
   description: String
   datePublished: DateTime!
+  dateModified: DateTime
   body: String!
   author: String
   tags: ArticleCreatetagsInput
@@ -112,28 +118,33 @@ enum ArticleOrderByInput {
   id_DESC
   url_ASC
   url_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   headline_ASC
   headline_DESC
   description_ASC
   description_DESC
   datePublished_ASC
   datePublished_DESC
+  dateModified_ASC
+  dateModified_DESC
   body_ASC
   body_DESC
   author_ASC
   author_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type ArticlePreviousValues {
   id: ID!
   url: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   headline: String!
   description: String
   datePublished: DateTime!
+  dateModified: DateTime
   body: String!
   author: String
   tags: [String!]!
@@ -169,6 +180,22 @@ input ArticleScalarWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   headline: String
   headline_not: String
   headline_in: [String!]
@@ -205,6 +232,14 @@ input ArticleScalarWhereInput {
   datePublished_lte: DateTime
   datePublished_gt: DateTime
   datePublished_gte: DateTime
+  dateModified: DateTime
+  dateModified_not: DateTime
+  dateModified_in: [DateTime!]
+  dateModified_not_in: [DateTime!]
+  dateModified_lt: DateTime
+  dateModified_lte: DateTime
+  dateModified_gt: DateTime
+  dateModified_gte: DateTime
   body: String
   body_not: String
   body_in: [String!]
@@ -240,6 +275,8 @@ input ArticleScalarWhereInput {
 
 type ArticleSection {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   articles(where: ArticleWhereInput, orderBy: ArticleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Article!]
 }
@@ -272,16 +309,18 @@ type ArticleSectionEdge {
 enum ArticleSectionOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  name_ASC
+  name_DESC
 }
 
 type ArticleSectionPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
 }
 
@@ -300,6 +339,22 @@ input ArticleSectionScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -396,6 +451,22 @@ input ArticleSectionWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -450,6 +521,7 @@ input ArticleUpdateInput {
   headline: String
   description: String
   datePublished: DateTime
+  dateModified: DateTime
   body: String
   author: String
   tags: ArticleUpdatetagsInput
@@ -463,6 +535,7 @@ input ArticleUpdateManyDataInput {
   headline: String
   description: String
   datePublished: DateTime
+  dateModified: DateTime
   body: String
   author: String
   tags: ArticleUpdatetagsInput
@@ -474,6 +547,7 @@ input ArticleUpdateManyMutationInput {
   headline: String
   description: String
   datePublished: DateTime
+  dateModified: DateTime
   body: String
   author: String
   tags: ArticleUpdatetagsInput
@@ -516,6 +590,7 @@ input ArticleUpdateWithoutSectionsDataInput {
   headline: String
   description: String
   datePublished: DateTime
+  dateModified: DateTime
   body: String
   author: String
   tags: ArticleUpdatetagsInput
@@ -528,6 +603,7 @@ input ArticleUpdateWithoutServiceDataInput {
   headline: String
   description: String
   datePublished: DateTime
+  dateModified: DateTime
   body: String
   author: String
   tags: ArticleUpdatetagsInput
@@ -586,6 +662,22 @@ input ArticleWhereInput {
   url_not_starts_with: String
   url_ends_with: String
   url_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   headline: String
   headline_not: String
   headline_in: [String!]
@@ -622,6 +714,14 @@ input ArticleWhereInput {
   datePublished_lte: DateTime
   datePublished_gt: DateTime
   datePublished_gte: DateTime
+  dateModified: DateTime
+  dateModified_not: DateTime
+  dateModified_in: [DateTime!]
+  dateModified_not_in: [DateTime!]
+  dateModified_lt: DateTime
+  dateModified_lte: DateTime
+  dateModified_gt: DateTime
+  dateModified_gte: DateTime
   body: String
   body_not: String
   body_in: [String!]
@@ -743,6 +843,8 @@ type PageInfo {
 
 type Playlist {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   childrenName: String
   description: String
@@ -843,7 +945,8 @@ type PlaylistEdge {
 
 type PlaylistItem {
   id: ID!
-  dateAdded: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
   metadata: Json!
   playList: Playlist!
   video: Video!
@@ -856,7 +959,6 @@ type PlaylistItemConnection {
 }
 
 input PlaylistItemCreateInput {
-  dateAdded: DateTime
   metadata: Json
   playList: PlaylistCreateOneWithoutItemsInput!
   video: VideoCreateOneWithoutPlayListItemsInput!
@@ -873,13 +975,11 @@ input PlaylistItemCreateManyWithoutVideoInput {
 }
 
 input PlaylistItemCreateWithoutPlayListInput {
-  dateAdded: DateTime
   metadata: Json
   video: VideoCreateOneWithoutPlayListItemsInput!
 }
 
 input PlaylistItemCreateWithoutVideoInput {
-  dateAdded: DateTime
   metadata: Json
   playList: PlaylistCreateOneWithoutItemsInput!
 }
@@ -892,19 +992,18 @@ type PlaylistItemEdge {
 enum PlaylistItemOrderByInput {
   id_ASC
   id_DESC
-  dateAdded_ASC
-  dateAdded_DESC
-  metadata_ASC
-  metadata_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  metadata_ASC
+  metadata_DESC
 }
 
 type PlaylistItemPreviousValues {
   id: ID!
-  dateAdded: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
   metadata: Json!
 }
 
@@ -923,14 +1022,22 @@ input PlaylistItemScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  dateAdded: DateTime
-  dateAdded_not: DateTime
-  dateAdded_in: [DateTime!]
-  dateAdded_not_in: [DateTime!]
-  dateAdded_lt: DateTime
-  dateAdded_lte: DateTime
-  dateAdded_gt: DateTime
-  dateAdded_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   AND: [PlaylistItemScalarWhereInput!]
   OR: [PlaylistItemScalarWhereInput!]
   NOT: [PlaylistItemScalarWhereInput!]
@@ -955,19 +1062,16 @@ input PlaylistItemSubscriptionWhereInput {
 }
 
 input PlaylistItemUpdateInput {
-  dateAdded: DateTime
   metadata: Json
   playList: PlaylistUpdateOneRequiredWithoutItemsInput
   video: VideoUpdateOneRequiredWithoutPlayListItemsInput
 }
 
 input PlaylistItemUpdateManyDataInput {
-  dateAdded: DateTime
   metadata: Json
 }
 
 input PlaylistItemUpdateManyMutationInput {
-  dateAdded: DateTime
   metadata: Json
 }
 
@@ -999,13 +1103,11 @@ input PlaylistItemUpdateManyWithWhereNestedInput {
 }
 
 input PlaylistItemUpdateWithoutPlayListDataInput {
-  dateAdded: DateTime
   metadata: Json
   video: VideoUpdateOneRequiredWithoutPlayListItemsInput
 }
 
 input PlaylistItemUpdateWithoutVideoDataInput {
-  dateAdded: DateTime
   metadata: Json
   playList: PlaylistUpdateOneRequiredWithoutItemsInput
 }
@@ -1047,14 +1149,22 @@ input PlaylistItemWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  dateAdded: DateTime
-  dateAdded_not: DateTime
-  dateAdded_in: [DateTime!]
-  dateAdded_not_in: [DateTime!]
-  dateAdded_lt: DateTime
-  dateAdded_lte: DateTime
-  dateAdded_gt: DateTime
-  dateAdded_gte: DateTime
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   playList: PlaylistWhereInput
   video: VideoWhereInput
   AND: [PlaylistItemWhereInput!]
@@ -1069,6 +1179,10 @@ input PlaylistItemWhereUniqueInput {
 enum PlaylistOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   name_ASC
   name_DESC
   childrenName_ASC
@@ -1077,14 +1191,12 @@ enum PlaylistOrderByInput {
   description_DESC
   metadata_ASC
   metadata_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type PlaylistPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   childrenName: String
   description: String
@@ -1106,6 +1218,22 @@ input PlaylistScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -1331,6 +1459,22 @@ input PlaylistWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -1419,6 +1563,8 @@ type Query {
 type Service {
   id: ID!
   name: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   language: LANGUAGE
   url: String
   liveUrl: String
@@ -1510,6 +1656,10 @@ enum ServiceOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   language_ASC
   language_DESC
   url_ASC
@@ -1520,15 +1670,13 @@ enum ServiceOrderByInput {
   videoUrl_DESC
   videoRestUrl_ASC
   videoRestUrl_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type ServicePreviousValues {
   id: ID!
   name: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   language: LANGUAGE
   url: String
   liveUrl: String
@@ -1565,6 +1713,22 @@ input ServiceScalarWhereInput {
   name_not_starts_with: ID
   name_ends_with: ID
   name_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   language: LANGUAGE
   language_not: LANGUAGE
   language_in: [LANGUAGE!]
@@ -1815,6 +1979,22 @@ input ServiceWhereInput {
   name_not_starts_with: ID
   name_ends_with: ID
   name_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   language: LANGUAGE
   language_not: LANGUAGE
   language_in: [LANGUAGE!]
@@ -1913,6 +2093,8 @@ type Subscription {
 type User {
   id: ID!
   email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String
   services(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Service!]
   playlists(where: PlaylistWhereInput, orderBy: PlaylistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Playlist!]
@@ -1963,17 +2145,19 @@ enum UserOrderByInput {
   id_DESC
   email_ASC
   email_DESC
-  name_ASC
-  name_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  name_ASC
+  name_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String
 }
 
@@ -2006,6 +2190,22 @@ input UserScalarWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2142,6 +2342,22 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2174,6 +2390,8 @@ input UserWhereUniqueInput {
 
 type Video {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   description: String
   datePublished: DateTime
@@ -2255,6 +2473,10 @@ type VideoEdge {
 enum VideoOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   name_ASC
   name_DESC
   description_ASC
@@ -2271,14 +2493,12 @@ enum VideoOrderByInput {
   sourceType_DESC
   metadata_ASC
   metadata_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type VideoPreviousValues {
   id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   description: String
   datePublished: DateTime
@@ -2305,6 +2525,22 @@ input VideoScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -2514,6 +2750,22 @@ input VideoWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]

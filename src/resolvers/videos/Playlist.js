@@ -1,4 +1,3 @@
-
 const Query = {
   playlists (_, args, { db, service }, info) {
     return db.query.playlists(queryArgs({ args, service }), info);
