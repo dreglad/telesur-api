@@ -41,12 +41,17 @@ class ClipsAPI extends RESTDataSource {
     }
 
     const res = await this.get(`${resource}/`, omitBy(params, isUndefined));
-    return res && res.length
-      ? res.map(obj => this.reducer(resource, obj))
-      : [];
+    if (params.return !== 'count') {
+      // Return array of results
+      return res && res.length
+        ? res.map(obj => this.reducer(resource, obj))
+        : [];
+    } else {
+      return res;
+    }
   }
 
-  async getCount(resource, args) {
+  getCount(resource, args) {
     return this.getAll(resource, merge(args, { return: 'count' }));
   }
 }
