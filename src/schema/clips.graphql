@@ -47,7 +47,8 @@ type Query {
 type Clip {
   id: ID!
   title: String!
-  description: String!
+  """Publication status"""
+  published: Boolean!
   """Publication date formatted in ISO 8601"""
   date: String!
   """HTML Embed code"""
