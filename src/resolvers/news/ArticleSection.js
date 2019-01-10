@@ -16,6 +16,7 @@ function queryArgs ({ args, service }) {
     args,
     {
       where: {
+        ...args.where,
         articles_some: { service: { id: service.id } }
       }
     }

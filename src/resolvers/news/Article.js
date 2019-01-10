@@ -25,9 +25,9 @@ async function queryArgs ({ args, service }) {
   const res = merge(
     omit(args, ['foundInUrl', 'foundInUrls', 'where.url_in']),
     {
-      orderBy: 'datePublished_DESC',
-      first: args.first || 20,
+      orderBy: args.orderBy || 'datePublished_DESC',
       where: {
+        ...args.where,
         url_in,
         service: { id: service.id }
       }
