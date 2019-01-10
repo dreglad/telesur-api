@@ -5,6 +5,7 @@ const reducers = {
     tipo_clip: clip.tipo,
     title: clip.titulo,
     description: clip.descripcion,
+    published: clip.publicado || true,
     date: clip.utc_date,
     image: clip.thumbnail_gigante,
     thumbnail: clip.thumbnail_grande,
