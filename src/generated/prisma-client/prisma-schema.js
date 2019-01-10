@@ -36,7 +36,7 @@ type Article {
   description: String
   datePublished: DateTime!
   dateModified: DateTime
-  body: String!
+  body: String
   author: String
   tags: [String!]!
   images: [String!]!
@@ -60,7 +60,7 @@ input ArticleCreateInput {
   description: String
   datePublished: DateTime!
   dateModified: DateTime
-  body: String!
+  body: String
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
@@ -88,7 +88,7 @@ input ArticleCreateWithoutSectionsInput {
   description: String
   datePublished: DateTime!
   dateModified: DateTime
-  body: String!
+  body: String
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
@@ -101,7 +101,7 @@ input ArticleCreateWithoutServiceInput {
   description: String
   datePublished: DateTime!
   dateModified: DateTime
-  body: String!
+  body: String
   author: String
   tags: ArticleCreatetagsInput
   images: ArticleCreateimagesInput
@@ -145,7 +145,7 @@ type ArticlePreviousValues {
   description: String
   datePublished: DateTime!
   dateModified: DateTime
-  body: String!
+  body: String
   author: String
   tags: [String!]!
   images: [String!]!

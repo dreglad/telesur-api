@@ -7,7 +7,7 @@ type Article {
   description: String
   datePublished: DateTime!
   dateModified: DateTime
-  body: String!
+  body: String
   author: String
   tags: [String!]
   images: [String!]
