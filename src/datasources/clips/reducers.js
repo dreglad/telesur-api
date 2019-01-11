@@ -1,7 +1,8 @@
 const reducers = {
   clip: (clip = {}) => ({
     ...clip,
-    id: clip.slug,
+    id: clip.id,
+    slug: clip.slug,
     tipo_clip: clip.tipo,
     title: clip.titulo,
     description: clip.descripcion,
