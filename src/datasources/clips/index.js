@@ -7,6 +7,12 @@ class ClipsAPI extends RESTDataSource {
     return `${process.env.CACHE_PROXY_URL}${this.context.service.videoRestUrl}`;
   }
 
+  willSendRequest(request) {
+    if (this.context.authToken) {
+      request.params.set('autenticado', this.context.authToken);
+    }
+  }
+
   reducer(resource, data) {
     return reducers[resource](data);
   }

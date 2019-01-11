@@ -26,7 +26,8 @@ const context = async ({req, res}) => ({
   prisma,
   service: await prisma.service({
     name: req.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
-  })
+  }),
+  authToken: req.headers['authorization']
 });
 
 const typeDefs = importSchema('src/schema/schema.graphql');
