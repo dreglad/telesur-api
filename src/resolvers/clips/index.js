@@ -8,8 +8,8 @@ const resolvers = entries(resources).reduce((prev, [typeName, restName]) => ({
   Query: {
     ...prev.Query,
     // Single object
-    [typeName.toLowerCase()]: (_, { id }, { dataSources }) => {
-      return dataSources.clipsAPI.getOne(restName, id);
+    [typeName.toLowerCase()]: (_, { where }, { dataSources }) => {
+      return dataSources.clipsAPI.getOne(restName, where.id);
     },
     // List of objects query
     [pluralize(typeName.toLowerCase())]: (_, args, { dataSources }) => {

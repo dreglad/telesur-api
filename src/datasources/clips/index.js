@@ -42,7 +42,8 @@ class ClipsAPI extends RESTDataSource {
         country_code: where.country,
         categoria: _buildRelationParam(where.category, where.categoryIsNull),
         corresponsal: _buildRelationParam(where.correspondent, where.correspondentIsNull),
-        tema: _buildRelationParam(where.topic, where.topicIsNull)
+        tema: _buildRelationParam(where.topic, where.topicIsNull),
+        publicado: this.context.authToken && where.published
       })
     }
 

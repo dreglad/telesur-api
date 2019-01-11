@@ -27,7 +27,7 @@ describe.each(Object.entries(resources))(
     const resolversSpecs = [
       ['single object', {
         path: `Query.${typeName.toLowerCase()}`,
-        args: { id: '<single-object-id>' },
+        args: { where: { id: '<single-object-id>' } },
         mockFn: getOne,
         mockFnArgs: [restName, '<single-object-id>'],
         expectedResult: mockValues.getOne

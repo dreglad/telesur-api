@@ -5,42 +5,42 @@ type Query {
   """Clips connection"""
   clipsConnection(where: ClipWhereInput, skip: Int, first: Int): ClipConnection!
   """Retreive a single clip"""
-  clip(id: ID!): Clip
+  clip(where: ClipWhereUniqueInput!): Clip
 
   """Retrieve a paginated list of series"""
   series(orderBy: SerieOrderByInput, first: Int, skip: Int): [Serie!]
   """Series connection"""
   seriesConnection(orderBy: SerieOrderByInput, skip: Int, first: Int): SerieConnection!
   """Retreive a single series"""
-  serie(id: ID!): Serie
+  serie(where: WhereUniqueIDInput!): Serie
 
   """Retrieve a paginated list of video categories"""
   categories(first: Int, skip: Int): [Category!]
   """Categories connection"""
   categoriesConnection(skip: Int, first: Int): CategoryConnection!
   """Retreive a single video category"""
-  category(id: ID!): Category
+  category(where: WhereUniqueIDInput!): Category
 
   """Retrieve a paginated list of video genres"""
   genres: [Genre!]
   """Genres connection"""
   genresConnection(skip: Int, first: Int): GenreConnection!
   """Retreive a single video genre"""
-  genre(id: ID!): Genre
+  genre(where: WhereUniqueIDInput!): Genre
 
   """Retrieve a paginated list of correspondents"""
   correspondents(country: String, first: Int, skip: Int): [Correspondent!]!
   """Correspondents connection"""
   correspondentsConnection(skip: Int, first: Int): CorrespondentConnection!
   """Retreive a single correspondent"""
-  correspondent(id: ID!): Correspondent
+  correspondent(where: WhereUniqueIDInput!): Correspondent
 
   """Retrieve a paginated list of video topics"""
   topics(first: Int, skip: Int): [Topic!]!
   """Topics connection"""
   topicsConnection(skip: Int, first: Int): TopicConnection!
   """Retreive a single video topic"""
-  topic(id: ID!): Topic
+  topic(where: WhereUniqueIDInput!): Topic
 }
 
 """Video clip"""
@@ -139,7 +139,17 @@ input ClipWhereInput {
   correspondent: ID, correspondentIsNull: Boolean,
   topic: ID,
   topicIsNull: Boolean,
-  country: String
+  country: String,
+  published: Boolean
+}
+
+input WhereUniqueIDInput {
+  id: ID!
+}
+
+input ClipWhereUniqueInput {
+  id: ID
+  slug: ID
 }
 
 type AggregateClip {
