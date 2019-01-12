@@ -22,7 +22,7 @@ query Categorias_Y_Sus_Clips_Recientes {
 query Clips_De_Categoria_Deportes {
   clips(
     first: 5,
-    where: { category: "Deportes" }
+    where: { category: { id: "Deportes" } }
   ) {
     title
     description
@@ -49,7 +49,7 @@ query Programas_Y_Su_Episodio_Reciente {
 
 query Totales {
   numeroTotalDeClips: clipsConnection{ aggregate { count } }
-  numeroTotalDeEntrevistas: clipsConnection(where: { genre: "entrevista" }) { aggregate { count } }
+  numeroTotalDeEntrevistas: clipsConnection(where: { genre: { id: "entrevista" } }) { aggregate { count } }
   numeroTotalDeCorresponsales: correspondentsConnection { aggregate { count } }
   numeroTotalDeProgramas: seriesConnection { aggregate { count } }
 }
