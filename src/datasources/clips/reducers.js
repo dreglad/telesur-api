@@ -1,12 +1,11 @@
 const reducers = {
   clip: (clip = {}) => ({
     ...clip,
-    id: clip.id,
     slug: clip.slug,
     tipo_clip: clip.tipo,
     title: clip.titulo,
     description: clip.descripcion,
-    published: clip.publicado || true,
+    published: typeof clip.publicado === 'boolean' ? clip.publicado : true,
     date: clip.utc_date,
     image: clip.thumbnail_gigante,
     thumbnail: clip.thumbnail_grande,
@@ -22,7 +21,6 @@ const reducers = {
 
   programa: (programa = {}) => ({
     ...programa,
-    id: programa.slug,
     name: programa.nombre,
     description: programa.descripcion,
     poster: programa.imagen_url
@@ -30,7 +28,6 @@ const reducers = {
 
   tipo_clip: (tipo = {}) => ({
     ...tipo,
-    id: tipo.slug,
     name: tipo.nombre,
     plural: tipo.nombre_plural,
     description: tipo.descripcion,
@@ -39,14 +36,12 @@ const reducers = {
 
   categoria: (categoria = {}) => ({
     ...categoria,
-    id: categoria.slug,
     name: categoria.nombre,
     description: categoria.descripcion
   }),
 
   corresponsal: (corresponsal = {}) => ({
     ...corresponsal,
-    id: corresponsal.slug,
     name: corresponsal.nombre,
     description: corresponsal.descripcion,
     twitter: corresponsal.twitter,
@@ -55,7 +50,6 @@ const reducers = {
 
   tema: (tema = {}) => ({
     ...tema,
-    id: tema.slug,
     name: tema.nombre,
     description: tema.descripcion
   })

@@ -1,5 +1,5 @@
 const { RESTDataSource } = require('apollo-datasource-rest')
-const { merge, omitBy, isUndefined } = require('lodash')
+const { merge, omitBy, isUndefined, get } = require('lodash')
 const reducers = require('./reducers')
 
 class ClipsAPI extends RESTDataSource {
@@ -26,25 +26,34 @@ class ClipsAPI extends RESTDataSource {
   }
 
   async getAll(resource, args) {
+    const { where = {} } = args;
+
     const params = {
       limit: args.first,
       offset: args.skip || 0,
       orden: args.orderBy,
       return: args.return,
-      counts: args.counts
+      counts: args.counts,
+      texto: where.search,
     };
 
-    if (resource === 'clip') {
-      const { where = {} } = args;
-      merge(params, {
-        tipo: where.episodesOfSerie ? 'programa' : where.genre,
-        programa: where.episodesOfSerie || where.serie,
-        country_code: where.country,
-        categoria: _buildRelationParam(where.category, where.categoryIsNull),
-        corresponsal: _buildRelationParam(where.correspondent, where.correspondentIsNull),
-        tema: _buildRelationParam(where.topic, where.topicIsNull),
-        publicado: this.context.authToken && where.published
-      })
+    switch (resource) {
+      case 'clip':
+        merge(params, {
+          tipo: where.episodesOfSerie ? 'programa' : get(where, 'genre.id'),
+          programa: get(where, 'episodesOfSerie') || get(where, 'serie.id'),
+          country_code: where.country,
+          categoria: _buildRelationParam(get(where, 'category.id'), where.categoryIsNull),
+          corresponsal: _buildRelationParam(get(where, 'correspondent.id'), get(where, 'correspondent.isNull')),
+          tema: _buildRelationParam(get(where, 'topic.id'), where.topicIsNull),
+          publicado: this.context.authToken && where.published,
+          pais: where.country
+        });
+        break;
+      case 'corresponsal':
+        merge(params, {
+          pais: where.country
+        });
     }
 
     const res = await this.get(`${resource}/`, omitBy(params, isUndefined));

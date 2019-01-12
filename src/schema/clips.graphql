@@ -8,45 +8,47 @@ type Query {
   clip(where: ClipWhereUniqueInput!): Clip
 
   """Retrieve a paginated list of series"""
-  series(orderBy: SerieOrderByInput, first: Int, skip: Int): [Serie!]
+  series(where: WhereInput, orderBy: SerieOrderByInput, first: Int, skip: Int): [Serie!]
   """Series connection"""
-  seriesConnection(orderBy: SerieOrderByInput, skip: Int, first: Int): SerieConnection!
+  seriesConnection(where: WhereInput, orderBy: SerieOrderByInput, skip: Int, first: Int): SerieConnection!
   """Retreive a single series"""
-  serie(where: WhereUniqueIDInput!): Serie
+  serie(where: WhereUniqueInput!): Serie
 
   """Retrieve a paginated list of video categories"""
-  categories(first: Int, skip: Int): [Category!]
+  categories(where: WhereInput, first: Int, skip: Int): [Category!]
   """Categories connection"""
-  categoriesConnection(skip: Int, first: Int): CategoryConnection!
+  categoriesConnection(where: WhereInput, skip: Int, first: Int): CategoryConnection!
   """Retreive a single video category"""
-  category(where: WhereUniqueIDInput!): Category
+  category(where: WhereUniqueInput!): Category
 
   """Retrieve a paginated list of video genres"""
-  genres: [Genre!]
+  genres(where: WhereInput, skip: Int, first: Int): [Genre!]
   """Genres connection"""
-  genresConnection(skip: Int, first: Int): GenreConnection!
+  genresConnection(where: WhereInput, skip: Int, first: Int): GenreConnection!
   """Retreive a single video genre"""
-  genre(where: WhereUniqueIDInput!): Genre
+  genre(where: WhereUniqueInput!): Genre
 
   """Retrieve a paginated list of correspondents"""
-  correspondents(country: String, first: Int, skip: Int): [Correspondent!]!
+  correspondents(where: WhereInput, first: Int, skip: Int): [Correspondent!]!
   """Correspondents connection"""
-  correspondentsConnection(skip: Int, first: Int): CorrespondentConnection!
+  correspondentsConnection(where: WhereInput, skip: Int, first: Int): CorrespondentConnection!
   """Retreive a single correspondent"""
-  correspondent(where: WhereUniqueIDInput!): Correspondent
+  correspondent(where: WhereUniqueInput!): Correspondent
 
   """Retrieve a paginated list of video topics"""
-  topics(first: Int, skip: Int): [Topic!]!
+  topics(where: WhereInput, first: Int, skip: Int): [Topic!]!
   """Topics connection"""
-  topicsConnection(skip: Int, first: Int): TopicConnection!
+  topicsConnection(where: WhereInput, skip: Int, first: Int): TopicConnection!
   """Retreive a single video topic"""
-  topic(where: WhereUniqueIDInput!): Topic
+  topic(where: WhereUniqueInput!): Topic
 }
 
 """Video clip"""
 type Clip {
   id: ID!
-  title: String!
+  slug: String
+  title: String
+  description: String
   """Publication status"""
   published: Boolean!
   """Publication date formatted in ISO 8601"""
@@ -129,27 +131,35 @@ type ClipConnection {
 }
 
 input ClipWhereInput {
-  genre: ID,
+  genre: WhereUniqueInput,
   genreIsNull: Boolean,
-  serie: ID,
+  serie: WhereUniqueInput,
   serieIsNull: Boolean,
-  episodesOfSerie: ID,
-  category: ID,
+  episodesOfSerie: WhereUniqueInput,
+  category: WhereUniqueInput,
   categoryIsNull: Boolean
-  correspondent: ID, correspondentIsNull: Boolean,
-  topic: ID,
+  correspondent: WhereUniqueInput,
+  correspondentIsNull: Boolean,
+  topic: WhereUniqueInput,
   topicIsNull: Boolean,
   country: String,
-  published: Boolean
+  published: Boolean,
+  search: String
 }
 
-input WhereUniqueIDInput {
-  id: ID!
+input WhereInput {
+  search: String
+  withRelatedClip: Boolean,
+  id_in: [ID!]
 }
 
 input ClipWhereUniqueInput {
   id: ID
   slug: ID
+}
+
+input WhereUniqueInput {
+  id: ID!
 }
 
 type AggregateClip {
@@ -168,7 +178,10 @@ type AggregateSerie {
 }
 
 enum SerieOrderByInput {
+  id_ASC
+  id_DESC
   name_ASC
+  name_DESC
   episodePublicationDate_DESC
 }
 
