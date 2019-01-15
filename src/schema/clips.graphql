@@ -66,10 +66,12 @@ type Clip {
   """When available, a WebVTT file containing a timed thumbnail map usefull for thumbnail previews on video player progress bar"""
   thumbnails: String
   """Correpsonding uploaded YouTube ID, if available"""
-  youtube: String
+  youtubeId: String
+  uploadYoutube: Boolean!
   width: Int
   height: Int
   aspectRatio: Float
+  tags: [String!]
   genre: Genre
   serie: Serie
   category: Category
@@ -127,7 +129,6 @@ type Topic {
 """Clip filtering criteria"""
 input ClipWhereInput {
   genre: WhereUniqueInput
-  genreIsNull: Boolean
   category: WhereUniqueInput
   categoryIsNull: Boolean
   correspondent: WhereUniqueInput
@@ -140,6 +141,7 @@ input ClipWhereInput {
   country: String
   published: Boolean
   search: String
+  id_in: [ID]
 }
 
 """Generic Filtering criteria"""
@@ -157,7 +159,7 @@ input ClipWhereUniqueInput {
 
 """Generic retrieval criteria"""
 input WhereUniqueInput {
-  id: ID!
+  id: ID
 }
 
 """Generic Relay Connection"""

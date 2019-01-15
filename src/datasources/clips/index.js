@@ -1,5 +1,5 @@
 const { RESTDataSource } = require('apollo-datasource-rest')
-const { merge, omitBy, isUndefined, get } = require('lodash')
+const { merge, omitBy, isNil, get } = require('lodash')
 const reducers = require('./reducers')
 
 class ClipsAPI extends RESTDataSource {
@@ -35,18 +35,18 @@ class ClipsAPI extends RESTDataSource {
       return: args.return,
       counts: args.counts,
       texto: where.search,
+      id: where.id_in
     };
 
     switch (resource) {
       case 'clip':
         merge(params, {
-          tipo: where.episodesOfSerie ? 'programa' : get(where, 'genre.id'),
-          programa: get(where, 'episodesOfSerie') || get(where, 'serie.id'),
-          country_code: where.country,
+          tipo: get(where, 'episodesOfSerie.id') ? 'programa' : get(where, 'genre.id'),
+          programa: _buildRelationParam(get(where, 'episodesOfSerie.id') || get(where, 'serie.id'), where.serieIsNull),
           categoria: _buildRelationParam(get(where, 'category.id'), where.categoryIsNull),
-          corresponsal: _buildRelationParam(get(where, 'correspondent.id'), get(where, 'correspondent.isNull')),
+          corresponsal: _buildRelationParam(get(where, 'correspondent.id'), where.correspondantIsNull),
           tema: _buildRelationParam(get(where, 'topic.id'), where.topicIsNull),
-          publicado: this.context.authToken && where.published,
+          publicado: where.published,
           pais: where.country
         });
         break;
@@ -56,7 +56,7 @@ class ClipsAPI extends RESTDataSource {
         });
     }
 
-    const res = await this.get(`${resource}/`, omitBy(params, isUndefined));
+    const res = await this.get(`${resource}/`, omitBy(params, isNil));
     if (params.return !== 'count') {
       // Return array of results
       return res && res.length
@@ -73,9 +73,9 @@ class ClipsAPI extends RESTDataSource {
 }
 
 function _buildRelationParam(relation, isNull) {
-  return typeof isNull === 'undefined'
-    ? relation
-    : (isNull ? 'es_nulo' : 'no_es_nulo')
+  return typeof isNull === 'boolean'
+    ? (isNull ? 'es_nulo' : 'no_es_nulo')
+    : relation
 }
 
 module.exports = ClipsAPI;

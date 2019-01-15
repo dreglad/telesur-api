@@ -1,7 +1,7 @@
 const resources = {
   Clip: 'clip',
   Serie: 'programa',
-  Genre: 'tipo_clip',
+  Genre: 'tipo',
   Category: 'categoria',
   Correspondent: 'corresponsal',
   Topic: 'tema'
