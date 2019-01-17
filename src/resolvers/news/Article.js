@@ -10,9 +10,13 @@ const Query = {
     return db.query.articlesConnection(await queryArgs({ args, service }), info);
   },
 
-  article (_, args, { db, service }, info) {
-    if (db.exists.Article(queryArgs({ args, service }))) {
-      return db.query.article(args, info);
+  async article (_, { where }, { db, service }, info) {
+    const exists = await db.exists.Article({
+      ...where,
+      service: { id: service.id }
+    });
+    if (exists) {
+      return db.query.article({ where }, info);
     }
   }
 };
