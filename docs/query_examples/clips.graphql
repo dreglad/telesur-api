@@ -33,8 +33,19 @@ query Clips_De_Categoria_Deportes {
   }
 }
 
-# Lista de programas y su último episodio
-query Programas_Y_Su_Episodio_Reciente {
+
+# Una categoria y sus clips relacionados
+query Categoria_Deportes {
+  category(where: { id: "deportes" }) {
+    name
+    clips(first: 10) {
+      title
+    }
+  }
+}
+
+# Lista de programas y sus últimos dos episodios
+query Programas_Y_Sus_Episodios_Recientes {
   series(first: 5, skip: 10) {
     name
     description

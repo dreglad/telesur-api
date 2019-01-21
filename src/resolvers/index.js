@@ -1,6 +1,5 @@
 const { merge, flatten } = require('lodash')
 const { parse } = require('url')
-const { GraphQLError } = require('graphql')
 const { UserInputError } = require('apollo-server-core')
 const { forwardTo } = require('prisma-binding')
 const { crawlDocuments } = require('./util')
@@ -8,7 +7,7 @@ const videoResolvers = require('./videos')
 const clipResolvers = require('./clips')
 const newsResolvers = require('./news')
 
-const resolvers = {
+const serviceResolvers = {
   Query: {
     services (_, args, { db }, info) {
       return db.query.services(args, info)
@@ -16,20 +15,17 @@ const resolvers = {
 
     servicesConnection: forwardTo('db'),
 
-    service (_, __, { service }) {
-      return service;
-    },
+    service: forwardTo('db'),
 
-    currentService (_, __, { service }) {
-      return service;
-    },
+    currentService: (_, __, { service }) => service,
 
     async queryPublicDocument (_, { url, selector}, { db, service }, info) {
       // Validaate input arguments
-      parse(url).hostname ||
-        (() => { throw new GraphQLError('Invalid or missing URL') })();
-      selector.trim().length ||
-        (() => { throw new GraphQLError('Missing DOM selector') })();
+      if (!parse(url).hostname) {
+        throw new UserInputError('Invalid URL', { url });
+      } else if (!selector.trim().length) {
+        throw new UserInputError('Invalid DOM selector', { selector });
+      }
 
       const nodes = await crawlDocuments([url], selector);
       return flatten(nodes);
@@ -37,8 +33,8 @@ const resolvers = {
   }
 }
 
-module.exports = merge(
-  resolvers,
+module.exports = merge({},
+  serviceResolvers,
   clipResolvers,
   videoResolvers,
   newsResolvers

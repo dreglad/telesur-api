@@ -12,15 +12,12 @@ const Query = {
 };
 
 function queryArgs ({ args, service }) {
-  return merge(
-    args,
-    {
-      where: {
-        ...args.where,
-        articles_some: { service: { id: service.id } }
-      }
+  return merge({}, args, {
+    where: {
+      ...args.where,
+      articles_some: { service: { id: service.id } }
     }
-  );
+  });
 };
 
 module.exports = {

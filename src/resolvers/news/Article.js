@@ -21,24 +21,21 @@ const Query = {
   }
 };
 
-async function queryArgs ({ args, service }) {
+async function queryArgs ({ args, service: { id } }) {
   const askedUrls = compact(concat(args.foundInUrl, args.foundInUrls));
   const url_in = askedUrls.length
     ? compact(flatten(await crawlLinks(askedUrls)))
     : get(args, 'where.url_in', undefined);
-  const res = merge(
-    omit(args, ['foundInUrl', 'foundInUrls', 'where.url_in']),
+  return merge({}, omit(args, ['foundInUrl', 'foundInUrls', 'where.url_in']),
     {
       orderBy: args.orderBy || 'datePublished_DESC',
       where: {
         ...args.where,
         url_in,
-        service: { id: service.id }
+        service: { id }
       }
     }
   );
-
-  return res;
 };
 
 module.exports = {

@@ -16,9 +16,13 @@ const reducers = {
     hls: clip.hls_url,
     mp4: clip.archivo_url,
     tags: (clip.tags || '').split(',').map(tag => tag.trim()),
+    hashtags: (clip.hashtags || '').split(',').map(tag => tag.trim()),
     duration: clip.duracion,
     youtubeId: clip.youtube_id,
     uploadYoutube: clip.publicado_yt || false,
+    country: clip.pais && clip.pais.codigo,
+    city: clip.ciudad,
+    highlighted: clip.seleccionado
   }),
 
   programa: (programa = {}) => ({
