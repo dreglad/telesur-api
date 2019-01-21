@@ -29,9 +29,9 @@ type Query {
   genre(where: WhereUniqueInput!): Genre
 
   """Retrieve a paginated list of correspondents"""
-  correspondents(where: WhereInput, first: Int, skip: Int): [Correspondent!]!
+  correspondents(where: CorrespondentWhereInput, first: Int, skip: Int): [Correspondent!]!
   """Correspondents connection"""
-  correspondentsConnection(where: WhereInput, skip: Int, first: Int): Connection!
+  correspondentsConnection(where: CorrespondentWhereInput, skip: Int, first: Int): Connection!
   """Retreive a single correspondent"""
   correspondent(where: WhereUniqueInput!): Correspondent
 
@@ -143,6 +143,7 @@ input ClipWhereInput {
   serieIsNull: Boolean
   episodesOfSerie: WhereUniqueInput
   country: String
+  country_in: [String!]
   published: Boolean
   search: String
   id_in: [ID]
@@ -153,6 +154,14 @@ input WhereInput {
   search: String
   withRelatedClip: Boolean
   id_in: [ID!]
+}
+
+input CorrespondentWhereInput {
+  search: String
+  withRelatedClip: Boolean
+  id_in: [ID!]
+  country: String
+  country_in: [String!]
 }
 
 """Clip retrieval criteria"""

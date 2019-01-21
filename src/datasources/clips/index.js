@@ -47,12 +47,12 @@ class ClipsAPI extends RESTDataSource {
           corresponsal: _buildRelationParam(get(where, 'correspondent.id'), where.correspondantIsNull),
           tema: _buildRelationParam(get(where, 'topic.id'), where.topicIsNull),
           publicado: where.published,
-          pais: where.country
+          country_code: where.country || where.country_in
         });
         break;
       case 'corresponsal':
         merge(params, {
-          pais: where.country
+          country_code: where.country || where.country_in
         });
     }
 
