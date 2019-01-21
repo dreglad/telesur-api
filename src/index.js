@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const { importSchema } = require('graphql-import')
 const binding = require('prisma-binding')
 const { ApolloEngine } = require('apollo-engine')
@@ -21,14 +22,23 @@ const dataSources = () => ({
   clipsAPI: new ClipsAPI()
 });
 
-const context = async ({req, res}) => ({
-  db,
-  prisma,
-  service: await prisma.service({
+const context = async ({ req, res }) => {
+  const idToken = (req.headers['authorization'] || '').replace('Bearer ', '');
+  const service = await prisma.service({
     name: req.headers['x-service-name'] || process.env.DEFAULT_SERVICE_NAME
-  }),
-  authToken: req.headers['authorization']
-});
+  })
+
+  return new Promise((resolve, reject) => {
+    jwt.verify(idToken, process.env.JWT_PUBLIC_KEY, (error, user) => {
+      resolve({
+        db,
+        prisma,
+        user,
+        service
+      });
+    });
+  })
+};
 
 const typeDefs = importSchema('src/schema/schema.graphql');
 
@@ -57,6 +67,11 @@ const server = new ApolloServer({
         };
       }
     },
+  },
+  formatError: error => {
+    // Don't send stacktrace to clients
+    delete error.extensions.exception.stacktrace;
+    return error;
   }
 });
 
