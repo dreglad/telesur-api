@@ -8,8 +8,8 @@ class ClipsAPI extends RESTDataSource {
   }
 
   willSendRequest(request) {
-    if (this.context.authToken) {
-      request.params.set('autenticado', this.context.authToken);
+    if (this.context.idToken) {
+      request.params.set('autenticado', this.context.idToken);
     }
   }
 

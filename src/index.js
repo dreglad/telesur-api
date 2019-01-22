@@ -34,6 +34,7 @@ const context = async ({ req, res }) => {
         db,
         prisma,
         user,
+        idToken,
         service
       });
     });
