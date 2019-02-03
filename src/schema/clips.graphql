@@ -43,8 +43,12 @@ type Query {
   topic(where: WhereUniqueInput!): Topic
 }
 
+type Mutation {
+  updateClip(data: ClipUpdateInput!, where: ClipWhereUniqueInput!): Clip
+}
+
 """Video clip"""
-type Clip @cacheControl(maxAge: 120) {
+type Clip {
   id: ID!
   slug: String
   title: String
@@ -83,9 +87,10 @@ type Clip @cacheControl(maxAge: 120) {
   topic: Topic
 }
 
-"""Video genre"""
-type Genre @cacheControl(maxAge: 3600) {
+"""Clip genre"""
+type Genre {
   id: ID!
+  slug: ID!
   """Singular name"""
   name: String!
   """Plural name"""
@@ -96,14 +101,14 @@ type Genre @cacheControl(maxAge: 3600) {
 }
 
 """Video clip category"""
-type Category @cacheControl(maxAge: 3600) {
+type Category {
   id: ID!
   name: String!
   clips(where: ClipWhereInput, skip: Int, first: Int): [Clip!]!
 }
 
 """Show or Serie"""
-type Serie @cacheControl(maxAge: 3600) {
+type Serie {
   id: ID!
   name: String
   poster: String
@@ -114,7 +119,7 @@ type Serie @cacheControl(maxAge: 3600) {
 }
 
 """Correspondent"""
-type Correspondent @cacheControl(maxAge: 3600) {
+type Correspondent {
   id: ID!
   name: String!
   twitter: String
@@ -123,7 +128,7 @@ type Correspondent @cacheControl(maxAge: 3600) {
 }
 
 """Topic"""
-type Topic @cacheControl(maxAge: 3600) {
+type Topic {
   id: ID!
   name: String!
   description: String
@@ -132,31 +137,42 @@ type Topic @cacheControl(maxAge: 3600) {
 
 """Clip filtering criteria"""
 input ClipWhereInput {
-  genre: WhereUniqueInput
-  category: WhereUniqueInput
+  search: String
+  id_in: [ID!]
+  genre: WhereInput
+  genre_in: [ID!]
+  category: WhereInput
+  category_in: [ID!]
+  category_null: Boolean
   categoryIsNull: Boolean
-  correspondent: WhereUniqueInput
+  correspondent: WhereInput
+  correspondent_in: [ID!]
+  correspondent_null: Boolean
   correspondentIsNull: Boolean
-  topic: WhereUniqueInput
+  topic: WhereInput
+  topic_in: [ID!]
+  topic_null: Boolean
   topicIsNull: Boolean
-  serie: WhereUniqueInput
+  serie: WhereInput
+  serie_in: [ID!]
+  serie_null: Boolean
   serieIsNull: Boolean
-  episodesOfSerie: WhereUniqueInput
+  episodesOfSerie: WhereInput
   country: String
   country_in: [String!]
   published: Boolean
-  search: String
-  id_in: [ID]
 }
 
 """Generic Filtering criteria"""
 input WhereInput {
+  id: ID
   search: String
   withRelatedClip: Boolean
   id_in: [ID!]
 }
 
 input CorrespondentWhereInput {
+  id: ID
   search: String
   withRelatedClip: Boolean
   id_in: [ID!]

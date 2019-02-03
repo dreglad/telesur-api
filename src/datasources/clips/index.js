@@ -27,7 +27,7 @@ class ClipsAPI extends RESTDataSource {
 
   async getAll(resource, args) {
     const { where = {} } = args;
-
+    const id = where.id || (where.id_in !== [] ? where.id_in : undefined);
     const params = {
       limit: args.first,
       offset: args.skip || 0,
@@ -35,17 +35,17 @@ class ClipsAPI extends RESTDataSource {
       return: args.return,
       counts: args.counts,
       texto: where.search,
-      id: where.id_in
+      id: Array.isArray(id) && id.length == 0 ? undefined : id
     };
 
     switch (resource) {
       case 'clip':
         merge(params, {
-          tipo: get(where, 'episodesOfSerie.id') ? 'programa' : get(where, 'genre.id'),
-          programa: _buildRelationParam(get(where, 'episodesOfSerie.id') || get(where, 'serie.id'), where.serieIsNull),
-          categoria: _buildRelationParam(get(where, 'category.id'), where.categoryIsNull),
-          corresponsal: _buildRelationParam(get(where, 'correspondent.id'), where.correspondantIsNull),
-          tema: _buildRelationParam(get(where, 'topic.id'), where.topicIsNull),
+          tipo: get(where, 'episodesOfSerie.id') ? 'programa' : get(where, 'genre.id') || get(where, 'genre.id_in') || where.genre_in,
+          programa: _buildRelationParam(get(where, 'episodesOfSerie.id') || get(where, 'serie.id') || get(where, 'serie.id_in'), where.serie_null),
+          categoria: _buildRelationParam(get(where, 'category.id'), where.category_null) || get(where, 'category.id_in') || where.category_in,
+          corresponsal: _buildRelationParam(get(where, 'correspondent.id'), where.correspondent_null) ||  get(where, 'correspondent.id_in') || where.correspondent_in,
+          tema: _buildRelationParam(get(where, 'topic.id') || get(where, 'topic.id_in') || where.topic_id, where.topic_null),
           publicado: where.published,
           country_code: where.country || where.country_in
         });
@@ -75,7 +75,7 @@ class ClipsAPI extends RESTDataSource {
 function _buildRelationParam(relation, isNull) {
   return typeof isNull === 'boolean'
     ? (isNull ? 'es_nulo' : 'no_es_nulo')
-    : relation
+    : relation !== [] ? relation : undefined
 }
 
 module.exports = ClipsAPI;

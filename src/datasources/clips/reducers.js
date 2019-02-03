@@ -15,7 +15,7 @@ const reducers = {
     url: clip.navegador_url,
     hls: clip.hls_url,
     mp4: clip.archivo_url,
-    tags: (clip.tags || '').split(',').map(tag => tag.trim()),
+    tags: clip.original_tags || [],
     hashtags: (clip.hashtags || '').split(',').map(tag => tag.trim()),
     duration: clip.duracion,
     youtubeId: clip.youtube_id,
