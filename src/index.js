@@ -7,7 +7,7 @@ const { Prisma } = require('./generated/prisma-client')
 const resolvers = require('./resolvers')
 const ClipsAPI = require('./datasources/clips')
 
-const port = parseInt(process.env.PORT, 10) || 4000;
+const port = parseInt(process.env.PORT, 10) || 5000;
 
 const prismaEndpoint = process.env.PRISMA_ENDPOINT || 'http://127.0.0.1:4466';
 
