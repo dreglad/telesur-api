@@ -5,6 +5,14 @@ var typeDefs = require("./prisma-schema").typeDefs;
 
 var models = [
   {
+    name: "Service",
+    embedded: false
+  },
+  {
+    name: "User",
+    embedded: false
+  },
+  {
     name: "Article",
     embedded: false
   },
@@ -13,7 +21,7 @@ var models = [
     embedded: false
   },
   {
-    name: "LANGUAGE",
+    name: "Video",
     embedded: false
   },
   {
@@ -25,19 +33,11 @@ var models = [
     embedded: false
   },
   {
+    name: "LANGUAGE",
+    embedded: false
+  },
+  {
     name: "SOURCE_TYPE",
-    embedded: false
-  },
-  {
-    name: "Service",
-    embedded: false
-  },
-  {
-    name: "User",
-    embedded: false
-  },
-  {
-    name: "Video",
     embedded: false
   }
 ];
