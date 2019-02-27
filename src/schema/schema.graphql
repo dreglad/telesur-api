@@ -10,8 +10,3 @@ type Query {
   """Query any public reachable XML/HTML document and return an array with text nodes extracted from the specified selector"""
   queryPublicDocument(url: String!, selector: String!): [String]
 }
-
-directive @cacheControl(
-  maxAge: Int,
-  scope: CacheControlScope
-) on OBJECT | FIELD_DEFINITION
