@@ -72,6 +72,8 @@ type Clip {
   """Correpsonding uploaded YouTube ID, if available"""
   youtubeId: String
   uploadYoutube: Boolean!
+  """Preferred URL for sharing via Whatsapp"""
+  whatsappUrl: String
   width: Int
   height: Int
   aspectRatio: Float

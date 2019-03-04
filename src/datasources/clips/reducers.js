@@ -18,11 +18,12 @@ const reducers = {
     tags: clip.original_tags || [],
     hashtags: (clip.hashtags || '').split(',').map(tag => tag.trim()),
     duration: clip.duracion,
-    youtubeId: clip.youtube_id,
+    youtubeId: clip.youtube,
     uploadYoutube: clip.publicado_yt || false,
     country: clip.pais && clip.pais.codigo,
     city: clip.ciudad,
-    highlighted: clip.seleccionado
+    highlighted: clip.seleccionado,
+    whatsappUrl: clip.youtube ? `https://youtube.com/watch?v=${clip.youtube}` : clip.navegador_url
   }),
 
   programa: (programa = {}) => ({
