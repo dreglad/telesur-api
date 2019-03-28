@@ -13,6 +13,10 @@ var models = [
     embedded: false
   },
   {
+    name: "LANGUAGE",
+    embedded: false
+  },
+  {
     name: "Article",
     embedded: false
   },
@@ -30,10 +34,6 @@ var models = [
   },
   {
     name: "PlaylistItem",
-    embedded: false
-  },
-  {
-    name: "LANGUAGE",
     embedded: false
   },
   {

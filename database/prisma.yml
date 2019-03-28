@@ -8,7 +8,7 @@ generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client/
   - generator: graphql-schema
-    output: ../src/generated/graphql-schema/
+    output: ../src/generated/graphql-schema/prisma.graphql
 
 seed:
   import: ./seed.graphql
