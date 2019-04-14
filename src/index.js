@@ -11,7 +11,7 @@ const ClipsAPI = require('./datasources/clips');
 const defaultServiceName = process.env.DEFAULT_SERVICE_NAME || 'default';
 const jwtPublicKey = process.env.JWT_PUBLIC_KEY;
 const engineApiKey = process.env.ENGINE_API_KEY;
-const probeUserAgent = process.env.PROBE_USER_AGENT || 'kube-probe';
+const probeUserAgent = process.env.PROBE_USER_AGENT;
 const port = parseInt(process.env.PORT, 10) || 5000;
 
 // Prisma
