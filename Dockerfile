@@ -1,16 +1,16 @@
-FROM node:11-slim
+FROM node:11
 
 LABEL maintainer="David Regla <dreglad@gmail.com>"
 
+ENV PORT=5000
+
 WORKDIR /app
 
-COPY package.json ./
-COPY yarn.lock ./
+COPY package.json yarn.lock ./
 RUN yarn install --production
 
-RUN touch ./.env
 COPY src ./src
 
-EXPOSE 5000
+EXPOSE ${PORT}
 
-CMD [ "yarn", "start" ]
+CMD yarn start
