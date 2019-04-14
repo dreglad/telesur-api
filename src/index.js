@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const morgan = require('morgan');
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { Prisma } = require('./generated/prisma-client');
@@ -95,6 +96,8 @@ const server = new ApolloServer({
 });
 
 const app = express();
+
+app.use(morgan('combined'));
 
 // Health probe
 if (probeUserAgent) {
