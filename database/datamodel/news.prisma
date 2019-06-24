@@ -1,24 +1,24 @@
 type Article {
-  id: ID! @unique
+  id: ID! @id
   url: String! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   headline: String!
   description: String
   datePublished: DateTime!
   dateModified: DateTime
   body: String
   author: String
-  tags: [String!]
-  images: [String!]
+  tags: [String!] @scalarList(strategy: RELATION)
+  images: [String!] @scalarList(strategy: RELATION)
   sections: [ArticleSection!]!
   service: Service!
 }
 
 type ArticleSection {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   name: String! @unique
   articles: [Article!]!
 }

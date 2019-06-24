@@ -1,8 +1,8 @@
 type Service {
-  id: ID! @unique
+  id: ID! @id
   name: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   language: LANGUAGE
   url: String
   liveUrl: String
@@ -14,10 +14,10 @@ type Service {
 }
 
 type User {
-  id: ID! @unique
+  id: ID! @id
   email: String! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   name: String
   services: [Service!]!
   playlists: [Playlist!]!

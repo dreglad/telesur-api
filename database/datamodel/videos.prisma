@@ -1,24 +1,24 @@
 type Video {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   name: String!
   description: String
   datePublished: DateTime
   dateFirstPublished: DateTime
-  paid: Boolean! @default(value: "false")
+  paid: Boolean! @default(value: false)
   sourceId: String! @unique
   sourceType: SOURCE_TYPE!
-  tags: [String!]
+  tags: [String!] @scalarList(strategy: RELATION)
   metadata: Json! @default(value: "{}")
   playListItems: [PlaylistItem!]!
   service: Service!
 }
 
 type Playlist {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   name: String!
   childrenName: String
   description: String
@@ -31,9 +31,9 @@ type Playlist {
 }
 
 type PlaylistItem {
-  id: ID! @unique
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   metadata: Json! @default(value: "{}")
   playList: Playlist!
   video: Video!
