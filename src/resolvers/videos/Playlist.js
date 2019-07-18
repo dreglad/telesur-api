@@ -1,3 +1,5 @@
+const { merge } = require('lodash');
+
 const Query = {
   playlists (_, args, { db, service }, info) {
     return db.query.playlists(queryArgs({ args, service }), info);
@@ -19,8 +21,8 @@ function queryArgs({ args, service }) {
     args,
     {
       where: where({ where: args.where, service }),
-      orderBy: 'datePublished_DESC',
-      first: process.env.DEFAULT_PAGE_SIZE || 20
+      // orderBy: 'datePublished_DESC',
+      first: parseInt(process.env.DEFAULT_PAGE_SIZE || 20)
     }
   );
 }
