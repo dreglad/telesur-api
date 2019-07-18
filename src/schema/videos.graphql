@@ -1,4 +1,4 @@
-# import Query.videos, Query.video, Query.videosConnection, Query.playlist, Query.playlists, Query.playlistsConnection from "../generated/graphql-schema/prisma.graphql"
+# import Query.videos, Query.video, Query.videosConnection, Query.playlist, Query.playlists, Query.playlistsConnection, Mutation.createPlaylist from "../generated/graphql-schema/prisma.graphql"
 
 type Query {
   """Total number of articles matching certain query"""
