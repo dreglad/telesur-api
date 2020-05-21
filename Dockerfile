@@ -6,10 +6,11 @@ ENV PORT=5000
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
-RUN yarn install --production
+COPY package.json ./
+RUN yarn install
 
 COPY src ./src
+COPY database ./database
 
 EXPOSE ${PORT}
 
