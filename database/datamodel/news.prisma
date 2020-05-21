@@ -1,5 +1,5 @@
 type Article {
-  id: ID! @id
+  id: ID! @unique
   url: String! @unique
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -16,7 +16,7 @@ type Article {
 }
 
 type ArticleSection {
-  id: ID! @id
+  id: ID! @unique
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
   name: String! @unique

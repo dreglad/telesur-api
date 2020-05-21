@@ -54,7 +54,6 @@ input ArticleCreateimagesInput {
 }
 
 input ArticleCreateInput {
-  id: ID
   url: String!
   headline: String!
   description: String
@@ -83,7 +82,6 @@ input ArticleCreatetagsInput {
 }
 
 input ArticleCreateWithoutSectionsInput {
-  id: ID
   url: String!
   headline: String!
   description: String
@@ -97,7 +95,6 @@ input ArticleCreateWithoutSectionsInput {
 }
 
 input ArticleCreateWithoutServiceInput {
-  id: ID
   url: String!
   headline: String!
   description: String
@@ -290,7 +287,6 @@ type ArticleSectionConnection {
 }
 
 input ArticleSectionCreateInput {
-  id: ID
   name: String!
   articles: ArticleCreateManyWithoutSectionsInput
 }
@@ -301,7 +297,6 @@ input ArticleSectionCreateManyWithoutArticlesInput {
 }
 
 input ArticleSectionCreateWithoutArticlesInput {
-  id: ID
   name: String!
 }
 
@@ -870,7 +865,6 @@ type PlaylistConnection {
 }
 
 input PlaylistCreateInput {
-  id: ID
   name: String!
   childrenName: String
   description: String
@@ -903,7 +897,6 @@ input PlaylistCreateOneWithoutItemsInput {
 }
 
 input PlaylistCreateWithoutChildrenInput {
-  id: ID
   name: String!
   childrenName: String
   description: String
@@ -915,7 +908,6 @@ input PlaylistCreateWithoutChildrenInput {
 }
 
 input PlaylistCreateWithoutItemsInput {
-  id: ID
   name: String!
   childrenName: String
   description: String
@@ -927,7 +919,6 @@ input PlaylistCreateWithoutItemsInput {
 }
 
 input PlaylistCreateWithoutParentInput {
-  id: ID
   name: String!
   childrenName: String
   description: String
@@ -939,7 +930,6 @@ input PlaylistCreateWithoutParentInput {
 }
 
 input PlaylistCreateWithoutUserInput {
-  id: ID
   name: String!
   childrenName: String
   description: String
@@ -971,7 +961,6 @@ type PlaylistItemConnection {
 }
 
 input PlaylistItemCreateInput {
-  id: ID
   metadata: Json
   playList: PlaylistCreateOneWithoutItemsInput!
   video: VideoCreateOneWithoutPlayListItemsInput!
@@ -988,13 +977,11 @@ input PlaylistItemCreateManyWithoutVideoInput {
 }
 
 input PlaylistItemCreateWithoutPlayListInput {
-  id: ID
   metadata: Json
   video: VideoCreateOneWithoutPlayListItemsInput!
 }
 
 input PlaylistItemCreateWithoutVideoInput {
-  id: ID
   metadata: Json
   playList: PlaylistCreateOneWithoutItemsInput!
 }
@@ -1601,7 +1588,6 @@ type ServiceConnection {
 }
 
 input ServiceCreateInput {
-  id: ID
   name: ID!
   language: LANGUAGE
   url: String
@@ -1634,7 +1620,6 @@ input ServiceCreateOneWithoutVideosInput {
 }
 
 input ServiceCreateWithoutArticlesInput {
-  id: ID
   name: ID!
   language: LANGUAGE
   url: String
@@ -1646,7 +1631,6 @@ input ServiceCreateWithoutArticlesInput {
 }
 
 input ServiceCreateWithoutUsersInput {
-  id: ID
   name: ID!
   language: LANGUAGE
   url: String
@@ -1658,7 +1642,6 @@ input ServiceCreateWithoutUsersInput {
 }
 
 input ServiceCreateWithoutVideosInput {
-  id: ID
   name: ID!
   language: LANGUAGE
   url: String
@@ -2131,7 +2114,6 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  id: ID
   email: String!
   name: String
   services: ServiceCreateManyWithoutUsersInput
@@ -2149,14 +2131,12 @@ input UserCreateOneWithoutPlaylistsInput {
 }
 
 input UserCreateWithoutPlaylistsInput {
-  id: ID
   email: String!
   name: String
   services: ServiceCreateManyWithoutUsersInput
 }
 
 input UserCreateWithoutServicesInput {
-  id: ID
   email: String!
   name: String
   playlists: PlaylistCreateManyWithoutUserInput
@@ -2440,7 +2420,6 @@ type VideoConnection {
 }
 
 input VideoCreateInput {
-  id: ID
   name: String!
   description: String
   datePublished: DateTime
@@ -2469,7 +2448,6 @@ input VideoCreatetagsInput {
 }
 
 input VideoCreateWithoutPlayListItemsInput {
-  id: ID
   name: String!
   description: String
   datePublished: DateTime
@@ -2483,7 +2461,6 @@ input VideoCreateWithoutPlayListItemsInput {
 }
 
 input VideoCreateWithoutServiceInput {
-  id: ID
   name: String!
   description: String
   datePublished: DateTime

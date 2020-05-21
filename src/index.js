@@ -67,24 +67,6 @@ const server = new ApolloServer({
   cacheControl: {
     defaultMaxAge: 60
   },
-  engine: {
-    apiKey: engineApiKey,
-    generateClientInfo: ({ request }) => {
-      // Set client info
-      const headers = request.http & request.http.headers;
-      if (headers) {
-        return {
-          clientName: headers['apollo-client-name'],
-          clientVersion: headers['apollo-client-version']
-        };
-      } else {
-        return {
-          clientName: 'Unknown Client',
-          clientVersion: 'Unversioned'
-        };
-      }
-    }
-  },
   formatError: error => {
     if (process.env.NODE_ENV === 'production') {
       // Don't send stacktrace to clients
